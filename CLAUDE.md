@@ -86,9 +86,32 @@ Las 12 teorías cubren los 11 temas de las fichas así:
 
 !!! warning "No existe la clase 1"
     `fuentes/Teorías/` va de la **clase 02 a la 09**. No hay `01 Arq clase1`.
-    Para `von-neumann-y-pila` la única fuente de cátedra es el anexo de la
-    clase 01, que son 5 filminas (212 palabras). Es poco: verificar cobertura
-    antes de dar el tema por cerrado y marcar TODO lo que falte.
+    Para `von-neumann-y-pila` la única fuente de cátedra específica es el anexo de
+    la clase 01, que son 5 filminas (212 palabras) y sólo cubre **máquinas de N
+    direcciones**. **Resuelto en la Tarea 3** apoyándose en:
+
+    - `Prácticas/Practica 4 - Resolución - AC2025.pdf` — *"Pila, Subrutina y
+      Convención"*, para el ejemplo del curso.
+    - Resúmenes de alumnos (`Resumen Arquitectura (2).pdf`, Guaymas, oct2022) para
+      pila / subrutinas / pasaje de parámetros, **marcados como tales en cada
+      sección**.
+
+    Es el tema más flojo del sitio: **verificar contra Stallings caps. 3, 10 y 11**.
+
+### Prácticas → temas
+
+| Práctica | Tema al que alimenta |
+|---|---|
+| `Practica 2 - E_S - Resolución - AC25.pdf` | `entrada-salida` — PIO (PA/PB/CA/CB), protocolo Centronics (busy/strobe/data), consulta de estado |
+| `Practica 3 - Interrupciones por Hardware - Resolución - AC25.pdf` | `interrupciones` — registros del PIC con ejemplos, tabla de IMR, CLI/STI, EOI, la regla del ×4 para el vector |
+| `Practica 4 - Resolución - AC2025.pdf` | `von-neumann-y-pila` y `risc-cisc` — convención de registros MIPS, `jal`/`jr`, anidamiento, PUSH/POP a mano, pasaje por registros/referencia/pila |
+
+!!! note "Las prácticas usan VonSim y WinMIPS64; las teorías, MSX88"
+    Las teorías (clase 2 y su anexo) están escritas sobre **MSX88**; las prácticas
+    resueltas AC24/AC25 usan **VonSim** y **WinMIPS64**. Las direcciones de los
+    registros del PIC coinciden. **No es una contradicción**: es el mismo modelo de
+    máquina con distinta herramienta. Ya está anotado en la ficha de
+    `entrada-salida`.
 
 ## Trampas ya verificadas en las fuentes
 
@@ -108,8 +131,35 @@ No volver a investigar esto, ya está confirmado con `sha256sum` y análisis de 
   `osd`), así que **no se OCReó**: queda para transcripción manual. Decisión
   tomada explícitamente para no meter texto dudoso en enunciados que tienen que
   ser textuales.
-- **`nanoMIPS` no aparece en ninguna fuente** (0 hits en 20 PDFs + 4 docx). Hay
-  material de WinMIPS64/MIPS64, no de nanoMIPS.
+- ~~**`nanoMIPS` no aparece en ninguna fuente**~~ — **CORREGIDO en la Tarea 3.**
+  Ese chequeo se hizo **antes de que se subieran las teorías**. El **nanoMIPS es el
+  procesador de referencia de la clase 4 entera** (`04 Arq clase4 Segmentación de
+  cauce.pdf`, fil. 4–26 y 45–54) y reaparece en la clase 5. **El diagrama del cauce
+  de 5 etapas con riesgos sí tiene fuente.** El `6 anexo clase 06 sobre_winmips.pdf`
+  es material del **MIPS64/WinMIPS64**, que es distinto pero compatible: mismas 5
+  etapas, con los nombres IF/ID/EX/MEM/WB en lugar de F/D/X/M/W.
+
+- **`09 Arq clase9` se contradice sobre dónde cae el cluster.** Fil. 6, 17 y 26 lo
+  clasifican como **MIMD de memoria distribuida** (separado de NUMA, que es memoria
+  compartida), pero fil. 33 pone *"Ej: Cluster"* como ejemplo de **NUMA** y fil. 31
+  llama NUMA al SGI Origin dentro del apartado de clusters. **Prevalece fil. 6/17/26**;
+  ya está documentado con un `!!! warning` en la ficha de `paralelismo`.
+
+- **Erratas de las propias filminas ya detectadas.** `09 Arq clase9` fil. 14 dice
+  *"no cumplen los requisitos para ser exactamente tipo **SIMD**"* hablando de MISD.
+  Marcado con `[sic]` en la ficha.
+
+- **Temas nombrados pero no desarrollados en las fuentes de cátedra** (quedaron con
+  TODO en las fichas):
+    - **SCSI** — aparece sólo en los esquemas de jerarquía de buses (`7 anexo clase
+      07`, fil. 14 y 38), sin ninguna filmina que lo explique.
+    - **Temporización asíncrona de bus** — fil. 22 es **sólo el cronograma**
+      (MSYN/SSYN), sin texto descriptivo, a diferencia de la síncrona (fil. 20).
+    - **Intel Core i7** — fil. 41 es una imagen sin texto ni cálculo de anchos de
+      banda, a diferencia del resto de los chipsets.
+    - **Ejemplo numérico de DMA** — la clase 3 desarrolla el ejemplo
+      impresora/disco sólo para comparar espera vs. interrupción; **no lo extiende
+      al DMA**.
 
 ---
 
@@ -164,8 +214,11 @@ orden, aunque alguna quede vacía con TODO:
   Pendiente: `site_url` en `mkdocs.yml` está vacío, completar con la URL real.
 - **Tarea 2 — Banco de finales.** Hecha. 44 preguntas canónicas, 86 variantes,
   12 simulacros.
-- **Tarea 3 — Fichas por tema.** *Pendiente.* Las 11 páginas existen como
-  esqueleto con las 7 secciones vacías marcadas TODO.
+- **Tarea 3 — Fichas por tema.** Hecha. Las 11 páginas escritas desde las teorías,
+  ~39.500 palabras. Quedan **4 TODO**, todos por ausencia real en las fuentes
+  (SCSI, temporización asíncrona, Core i7, ejemplo numérico de DMA).
+  **La sección "Diagrama" de cada ficha está vacía a propósito**, con un comentario
+  HTML que dice qué diagrama va y de qué filminas sale: se completa en la Tarea 4.
 - **Tarea 4 — Diagramas PlantUML.** *Pendiente.* `docs/diagramas/` está vacío.
 - **Tarea 5 — CLAUDE.md.** Hecha (este archivo).
 
@@ -174,12 +227,31 @@ orden, aunque alguna quede vacía con TODO:
 Basarse en los diagramas **que aparecen en las teorías**. Si en la teoría no hay
 diagrama de algo, no inventarlo: dejarlo como TODO.
 
-- ciclo de instrucción con fase de interrupción
-- PIC 8259
-- estructura interna del módulo de E/S
-- comparación de las tres técnicas de gestión de E/S
-- jerarquía de memoria
-- las tres correspondencias de caché
-- cauce de 5 etapas del nanoMIPS con riesgos ← **sin fuente**, ver trampas
-- ejecución superescalar
-- taxonomía de Flynn con SMP/NUMA/cluster
+Los 9 pedidos, con la filmina de la que sale cada uno (relevado en la Tarea 3; cada
+ficha tiene el mismo dato en un comentario HTML dentro de su sección "Diagrama"):
+
+| Diagrama | Fuente | Ficha destino |
+|---|---|---|
+| ciclo de instrucción con fase de interrupción | `02 Arq clase2`, fil. 22–23, 25 | `interrupciones` |
+| PIC 8259 | `02 Arq clase2`, fil. 33, 35, 43 | `interrupciones` |
+| estructura interna del módulo de E/S | `03 Arq clase3`, fil. 12 | `entrada-salida` |
+| comparación de las tres técnicas de gestión de E/S | `03 Arq clase3`, fil. 24–28, 44 | `entrada-salida`, `dma` |
+| jerarquía de memoria | `07 Arq clase7`, fil. 8, 11 | `memoria-cache` |
+| las tres correspondencias de caché | `07 Arq clase7`, fil. 43, 44–45, 48–49, 52–53 | `memoria-cache` |
+| **cauce de 5 etapas del nanoMIPS con riesgos** | `04 Arq clase4`, fil. 46, 49, 52, 54, 59, 61, 64–66 (+ `05 Arq clase5`, fil. 14, 16, 23, 26 para forwarding) — **sí tiene fuente**, ver trampas | `segmentacion`, `soluciones-segmentacion` |
+| ejecución superescalar | `08 Arq clase8`, fil. 44 (+ fil. 9, 10, 12, 18 para la comparación segmentada/supersegmentada/superescalar) | `superescalares` |
+| taxonomía de Flynn con SMP/NUMA/cluster | `09 Arq clase9`, fil. 6 (+ fil. 7, 9, 12, 15, 16 para los esquemas funcionales) | `paralelismo` |
+
+Extras que las fichas dejaron señalados y valdría la pena dibujar:
+
+- interconexión mediante un bus / bus tradicional / bus de altas prestaciones —
+  `7 anexo clase 07`, fil. 11, 14, 38 → `buses`
+- modelo de von Neumann de 3 subsistemas — `03 Arq clase3`, fil. 3 →
+  `von-neumann-y-pila`
+- evolución de las máquinas de N direcciones — `1 anexo clase 01`, fil. 1–5 →
+  `von-neumann-y-pila`
+- ventana de registros y su buffer circular — `06 Arq clase6`, fil. 28, 32, 34, 36
+  → `risc-cisc`
+
+**No dibujar la estructura de la pila (SP / base / límite):** sólo está descrita en
+texto en resúmenes de alumnos, no hay diagrama de cátedra.
