@@ -104,7 +104,19 @@ nav:
   - Finales:
       - finales/index.md
       - Frecuencia de temas: finales/frecuencia.md
-      - Banco por tema: finales/por-tema.md
       - Simulacros: finales/simulacros.md
+      - Banco por tema:
+          - finales/por-tema.md
+          - Interrupciones: finales/temas/interrupciones.md
+          - Entrada/Salida: finales/temas/entrada-salida.md
+          - DMA: finales/temas/dma.md
+          - Memoria caché: finales/temas/memoria-cache.md
+          - Segmentación de cauce: finales/temas/segmentacion.md
+          - Soluciones a la segmentación: finales/temas/soluciones-segmentacion.md
+          - RISC vs CISC: finales/temas/risc-cisc.md
+          - Superescalares: finales/temas/superescalares.md
+          - Paralelismo: finales/temas/paralelismo.md
+          - Buses: finales/temas/buses.md
+          - Von Neumann y pila: finales/temas/von-neumann-y-pila.md
   - Diagramas: diagramas/index.md
   - TODOs: todos.md

@@ -1,0 +1,1675 @@
+# =============================================================================
+# BANCO DE PREGUNTAS DE FINALES — Arquitectura de Computadoras (UNLP)
+# =============================================================================
+# Extracción textual de los archivos de finales en ./fuentes/Finales/.
+# Los enunciados se transcriben tal como figuran en la fuente, incluyendo
+# erratas de tipeo del original (se marcan con [sic] sólo cuando podrían
+# confundir al leer).
+#
+# Este archivo es la fuente de verdad: las páginas de docs/finales/ se
+# generan desde acá con scripts/gen_banco.py. No editar el markdown a mano.
+# =============================================================================
+
+meta:
+  materia: Arquitectura de Computadoras
+  facultad: UNLP
+  descripcion: >-
+    Preguntas extraídas de finales viejos, agrupadas por tema. Cada pregunta
+    canónica agrupa sus variantes de redacción, que en las fuentes aparecen
+    casi textuales entre distintas fechas.
+
+  # --- Notas sobre las fuentes, verificadas con sha256 y análisis de texto ---
+  notas_fuentes:
+    - archivo: "Finales/Arquitectura_finales_parte1.pdf"
+      nota: >-
+        Byte a byte idéntico a "Finales/SF - AC Final - 40.pdf"
+        (sha256 19927200f28e…). Se cita una sola vez.
+    - archivo: "Finales/Finales arq Alfonso _resueltos.docx"
+      nota: >-
+        Contenido prácticamente idéntico a
+        "Finales/Preguntas del Final Arquitectura Hasta 2014.pdf"
+        (coeficiente de Jaccard 0,991 sobre el vocabulario). Se cita la
+        versión PDF, que es la que conserva el formato de las fechas.
+    - archivo: "Finales/2015 - AC Final - 01.pdf"
+      nota: >-
+        PDF de una sola página que contiene únicamente una imagen escaneada
+        (CCITT, 1656x2339, sin capa de texto). No se pudo extraer el
+        enunciado. PENDIENTE DE TRANSCRIPCIÓN MANUAL.
+      estado: no_extraido
+    - archivo: "Finales/Finales 2010.docx"
+      nota: >-
+        Pese al nombre, no contiene finales completos: es un único desarrollo
+        respondido sobre buses, con 6 imágenes embebidas provenientes del
+        Anexo de la clase 07.
+
+  # Las fuentes que traen respuesta desarrollada, en orden de confiabilidad
+  # declarada por el propio autor del apunte.
+  fuentes_con_respuesta:
+    - "Finales/Preguntas del Final Arquitectura Hasta 2014.pdf"
+    - "Finales/Karim - Preguntas de Finales.pdf"
+    - "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+    - "Finales/Finales 2010.docx"
+
+temas:
+  interrupciones: Interrupciones
+  entrada-salida: Entrada/Salida
+  dma: DMA — Acceso Directo a Memoria
+  memoria-cache: Memoria caché
+  segmentacion: Segmentación de cauce
+  soluciones-segmentacion: Soluciones a los riesgos de segmentación
+  risc-cisc: RISC vs CISC
+  superescalares: Procesadores superescalares
+  paralelismo: Procesamiento paralelo
+  buses: Buses
+  von-neumann-y-pila: Von Neumann y pila
+
+# =============================================================================
+# PREGUNTAS
+# =============================================================================
+preguntas:
+
+  # ------------------------------- INTERRUPCIONES -------------------------------
+  - id: INT-01
+    tema: interrupciones
+    enunciado: >-
+      Describa el mecanismo de interrupción. Explique características y
+      tratamiento de interrupciones múltiples.
+    fechas: []
+    archivo_origen: "Finales/Arquitectura_finales_parte1.pdf"
+    tiene_respuesta: false
+    variantes:
+      - enunciado: >-
+          Mecanismo de interrupción. Fuentes de interrupción y tratamiento de
+          interrupciones múltiples.
+        fechas: ["2014-02-26"]
+        archivo_origen: "Finales/2014 - AC Final - 28.pdf"
+        tiene_respuesta: false
+      - enunciado: >-
+          Describir el mecanismo de interrupción. Mencionar cuales son las
+          fuentes de interrupción (tipos de interrupción). Describir el
+          tratamiento de múltiples interrupciones.
+        fechas: ["26-02-2014", "27-02-2013"]
+        archivo_origen: "Finales/Preguntas del Final Arquitectura Hasta 2014.pdf"
+        tiene_respuesta: true
+      - enunciado: >-
+          Explique el mecanismo de interrupción. Describa las distintas fuentes
+          de interrupción que conozca y el tratamiento a realizar cuando hay
+          múltiples interrupciones.
+        fechas: ["2014-08-06"]
+        archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+        tiene_respuesta: true
+      - enunciado: >-
+          a) Explique el mecanismo de interrupción.
+          b) Describa el tratamiento a realizar cuando hay múltiples fuentes de
+          interrupciones.
+        fechas: ["05/07/2023"]
+        archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+        tiene_respuesta: true
+      - enunciado: "Interrupciones. a- Explique el mecanismo de interrupción."
+        fechas: ["23/9/2023", "23/10/2023"]
+        archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+        tiene_respuesta: true
+      - enunciado: "Describir el tratamiento de múltiples interrupciones."
+        fechas: ["26-02-2014", "27-02-2013"]
+        archivo_origen: "Finales/Preguntas del Final Arquitectura Hasta 2014.pdf"
+        tiene_respuesta: true
+
+  - id: INT-02
+    tema: interrupciones
+    enunciado: >-
+      Esquematice y describa la estructura interna de un controlador
+      programable de interrupciones.
+    fechas: ["2024"]
+    archivo_origen: "Finales/Final 2024.docx"
+    tiene_respuesta: false
+    variantes:
+      - enunciado: >-
+          Esquematice y describa la estructura interna de un Controlador
+          Programable de Interrupciones.
+        fechas: []
+        archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+        tiene_respuesta: true
+      - enunciado: "Describa las características del controlador de interrupciones PIC."
+        fechas: ["26-03-2014", "20-03-2013", "25-03-2010"]
+        archivo_origen: "Finales/Preguntas del Final Arquitectura Hasta 2014.pdf"
+        tiene_respuesta: true
+      - enunciado: >-
+          Explique el mecanismo de interrupción. Describa las características y
+          el funcionamiento de un PIC.
+        fechas: ["Septiembre 2013", "25-03-2010"]
+        archivo_origen: "Finales/Preguntas del Final Arquitectura Hasta 2014.pdf"
+        tiene_respuesta: true
+      - enunciado: >-
+          ¿Cómo es la estructura de un módulo de E/S? Describa las
+          características del controlador de interrupciones PIC.
+        fechas: ["Marzo 2013 #26"]
+        archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+        tiene_respuesta: true
+        tambien_en: [entrada-salida]
+      - enunciado: >-
+          Finalidad de las interrupciones. Para qué se utiliza un controlador de
+          interrupciones.
+        fechas: ["Diciembre 2014 #03"]
+        archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+        tiene_respuesta: true
+      - enunciado: >-
+          ¿Qué es una interrupción? Describa cómo funcionan. ¿Cómo se utiliza un
+          controlador de interrupción?
+        fechas: ["Noviembre 2014"]
+        archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+        tiene_respuesta: true
+      - enunciado: >-
+          ¿Qué es una interrupción? ¿Cuál es la función de un controlador de
+          interrupciones?
+        fechas: []
+        archivo_origen: "Finales/Arquitectura_finales_parte1.pdf"
+        tiene_respuesta: false
+      - enunciado: >-
+          Describa cómo se realiza el reconocimiento de interrupciones
+          vectorizadas mediante el PIC.
+        fechas: ["23/9/2023", "23/10/2023"]
+        archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+        tiene_respuesta: true
+
+  - id: INT-03
+    tema: interrupciones
+    enunciado: >-
+      ¿A qué método de atención lo conocemos como de "interrupciones
+      vectorizadas"?
+    fechas: ["10/2022"]
+    archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+    tiene_respuesta: true
+    variantes:
+      - enunciado: >-
+          ¿Cómo es el funcionamiento del método de atención de interrupciones
+          que conocemos como "interrupciones vectorizadas"?
+        fechas: ["06/2023"]
+        archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+        tiene_respuesta: true
+
+  - id: INT-04
+    tema: interrupciones
+    enunciado: >-
+      ¿Cuándo, por qué, para qué y cómo se utiliza una de las denominadas
+      interrupciones por software?
+    fechas: ["10/2022"]
+    archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+    tiene_respuesta: true
+    variantes:
+      - enunciado: >-
+          ¿Cuándo y cómo se utiliza alguna de las denominadas interrupciones por
+          Software?
+        fechas: ["06/2023"]
+        archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+        tiene_respuesta: false
+
+  - id: INT-05
+    tema: interrupciones
+    enunciado: >-
+      ¿Cuáles son las diferencias en la terminación de una subrutina y un gestor
+      de interrupción?
+    fechas: []
+    archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+    tiene_respuesta: true
+    tambien_en: [von-neumann-y-pila]
+
+  # ------------------------------- ENTRADA/SALIDA -------------------------------
+  - id: ES-01
+    tema: entrada-salida
+    enunciado: "¿Cómo es la estructura de un módulo de E/S?"
+    fechas:
+      ["26-03-2014", "26-02-2014", "1ra feb 2014", "20-03-2013", "27-02-2013",
+       "1ra mar 2012", "2da mar 2012", "25-03-2010"]
+    archivo_origen: "Finales/Preguntas del Final Arquitectura Hasta 2014.pdf"
+    tiene_respuesta: true
+    variantes:
+      - enunciado: "Esquematice y describa la estructura interna de un módulo de E/S."
+        fechas: ["10/2022", "06/2023"]
+        archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+        tiene_respuesta: true
+      - enunciado: >-
+          Estructura interna del módulo de E/S. Características funcionales de
+          DMA.
+        fechas: ["2014-02-26", "Febrero 2014 #26"]
+        archivo_origen: "Finales/2014 - AC Final - 28.pdf"
+        tiene_respuesta: false
+        tambien_en: [dma]
+      - enunciado: >-
+          Cómo es la estructura de un modulo de E/S. Describa las posibles
+          tecnicas que pueden utilizarse para realizar las operaciones de E/S.
+        fechas: ["2014-02-01"]
+        archivo_origen: "Finales/2014 - AC Final - 26.pdf"
+        tiene_respuesta: false
+      - enunciado: "E/S. a- ¿Cómo es la estructura de un módulo de E/S?"
+        fechas: ["23/9/2023", "23/10/2023"]
+        archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+        tiene_respuesta: false
+      - enunciado: >-
+          ¿Cómo es la estructura de un modulo de E/S? Describa las posibles
+          técnicas que puede utilizar una CPU para realizar operaciones E/S.
+        fechas: ["Octubre 2014 #22", "Febrero 2014", "Marzo 2012 1ro"]
+        archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+        tiene_respuesta: true
+      - enunciado: >-
+          ¿Cómo funciona un módulo de E/S? Describa las características
+          fundamentales de un DMA.
+        fechas: ["Abril 2015"]
+        archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+        tiene_respuesta: true
+        tambien_en: [dma]
+      - enunciado: >-
+          Describir la estructura de un módulo de E/S. ¿Qué es DMA y cómo
+          funciona?
+        fechas: ["Diciembre 2014 #03", "Febrero 2013 #27"]
+        archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+        tiene_respuesta: true
+        tambien_en: [dma]
+      - enunciado: >-
+          ¿Cómo es la estructura interna de un módulo de E/S? Describa las
+          características funcionales del acceso directo a memoria - DMA.
+        fechas: ["Agosto 2014 #06"]
+        archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+        tiene_respuesta: true
+        tambien_en: [dma]
+      - enunciado: >-
+          Estructura de un modulo E/S. Describa el funcionamiento de un
+          controlador DMA (las etapas de transferencia).
+        fechas: ["Marzo 2012 2da fecha"]
+        archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+        tiene_respuesta: true
+        tambien_en: [dma]
+
+  - id: ES-02
+    tema: entrada-salida
+    enunciado: >-
+      Describa las posibles técnicas que pueden utilizarse para realizar las
+      operaciones de E/S.
+    fechas: ["1ra feb 2014", "1ra mar 2012", "25-03-2010"]
+    archivo_origen: "Finales/Preguntas del Final Arquitectura Hasta 2014.pdf"
+    tiene_respuesta: parcial
+    nota: >-
+      En la fuente la respuesta figura sólo como "DMA, E/S programada, e
+      interrupciones. CONSULTAR" — el propio apunte la deja sin desarrollar.
+
+  - id: ES-03
+    tema: entrada-salida
+    enunciado: >-
+      Describa el funcionamiento de la gestión de E/S programada con espera de
+      respuesta.
+    fechas: ["2024"]
+    archivo_origen: "Finales/Final 2024.docx"
+    tiene_respuesta: false
+    variantes:
+      - enunciado: >-
+          Describa cómo funciona la gestión de E/S programada con espera de
+          respuesta.
+        fechas: ["06/2023"]
+        archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+        tiene_respuesta: true
+
+  - id: ES-04
+    tema: entrada-salida
+    enunciado: "Describa los posibles modos de ubicación de los módulos de E/S."
+    fechas: ["10/2022"]
+    archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+    tiene_respuesta: true
+
+  # ------------------------------------ DMA ------------------------------------
+  - id: DMA-01
+    tema: dma
+    enunciado: >-
+      Describa las características funcionales del Acceso Directo a Memoria
+      (DMA).
+    fechas: []
+    archivo_origen: "Finales/Arquitectura_finales_parte1.pdf"
+    tiene_respuesta: false
+    variantes:
+      - enunciado: "Características funcionales de DMA."
+        fechas: ["26-02-2014", "27-02-2013", "septiembre 2013", "2da mar 2012"]
+        archivo_origen: "Finales/Preguntas del Final Arquitectura Hasta 2014.pdf"
+        tiene_respuesta: true
+      - enunciado: >-
+          E/S. a- Describa las características funcionales del acceso directo a
+          memoria (DMA).
+        fechas: ["04/2023"]
+        archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+        tiene_respuesta: true
+      - enunciado: >-
+          Describa las características funcionales del acceso directo a memoria
+          - DMA.
+        fechas: ["23/9/2023", "23/10/2023"]
+        archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+        tiene_respuesta: false
+      - enunciado: "Describa las características fundamentales de un DMA."
+        fechas: ["septiembre 2013"]
+        archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+        tiene_respuesta: true
+
+  - id: DMA-02
+    tema: dma
+    enunciado: >-
+      ¿La coherencia de datos de un sistema jerárquico de memoria se ve afectado
+      por el uso de DMA?
+    fechas: ["06/2023"]
+    archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+    tiene_respuesta: true
+    tambien_en: [memoria-cache]
+    variantes:
+      - enunciado: >-
+          La coherencia de datos de un sistema jerárquico se ve afectada por el
+          uso de DMA?
+        fechas: ["2024"]
+        archivo_origen: "Finales/Final 2024.docx"
+        tiene_respuesta: false
+
+  # --------------------------------- MEMORIA CACHÉ ---------------------------------
+  - id: CAC-01
+    tema: memoria-cache
+    enunciado: >-
+      ¿Cuáles son los elementos a tener en cuenta para el diseño de una memoria
+      caché?
+    fechas: ["2024", "06/2023"]
+    archivo_origen: "Finales/Final 2024.docx"
+    tiene_respuesta: true
+    variantes:
+      - enunciado: >-
+          Describa los elementos a tener en cuenta en el diseño de una memoria
+          caché. Analice ventajas y desventajas de poseer varios niveles de
+          caché.
+        fechas:
+          ["26-03-2014", "20-03-2013", "1ra feb 2014", "2da mar 2012",
+           "2013/03/26", "2012/03 2do"]
+        archivo_origen: "Finales/Preguntas del Final Arquitectura Hasta 2014.pdf"
+        tiene_respuesta: true
+      - enunciado: >-
+          Analice brevemente todos los elementos a tener en cuenta para el
+          diseño de una memoria Cache.
+        fechas: ["23/9/2023", "23/10/2023"]
+        archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+        tiene_respuesta: false
+
+  - id: CAC-02
+    tema: memoria-cache
+    enunciado: >-
+      Describa las funciones de correspondencia entre Memoria Principal y Cache.
+    fechas: ["10/2022", "05/07/2023"]
+    archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+    tiene_respuesta: true
+    variantes:
+      - enunciado: >-
+          Funciones de correspondencia entre memoria y memoria cache. Políticas
+          de escritura desde el punto de vista de la coherencia de datos.
+        fechas: ["2014-02-26"]
+        archivo_origen: "Finales/2014 - AC Final - 28.pdf"
+        tiene_respuesta: false
+      - enunciado: >-
+          Describa las funciones de correspondencia entre memoria principal y
+          cache. Analice las politicas de escritura desde el punto de vista de
+          la coherencia de datos.
+        fechas: ["Agosto 2014 #06", "Febrero 2014 #26", "Septiembre 2013"]
+        archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+        tiene_respuesta: true
+      - enunciado: >-
+          Mencionar los tipos de correspondencia de la memoria caché. Describir
+          las políticas de escritura (en acierto y en fallo).
+        fechas: ["Febrero 2013 #27"]
+        archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+        tiene_respuesta: true
+      - enunciado: >-
+          Memoria Caché. Describa el mapeo asociativo por conjuntos. Analice las
+          políticas de escritura desde el punto de vista de la coherencia de
+          datos.
+        fechas: []
+        archivo_origen: "Finales/Arquitectura_finales_parte1.pdf"
+        tiene_respuesta: false
+      - enunciado: >-
+          Compare las correspondencias entre la MP y la caché. ¿Cómo se
+          determina, en cada caso, la hilera/fila de ubicación de un bloque de
+          palabras provenientes de la MP? Ejemplifique.
+        fechas: ["04/2023"]
+        archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+        tiene_respuesta: true
+      - enunciado: >-
+          Describa las funciones que se utilizan en la política de ubicación de
+          bloques en memoria caché. Analice las políticas de escritura de datos
+          desde el punto de vista de la coherencia de los mismos en la jerarquía.
+        fechas: ["Septiembre 2014"]
+        archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+        tiene_respuesta: true
+      - enunciado: >-
+          Describa las técnicas de ubicación de bloques y las politicas de
+          escritura en Cache.
+        fechas: ["Octubre 2014 #22", "Marzo 2012 1ro"]
+        archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+        tiene_respuesta: true
+      - enunciado: >-
+          Describa algoritmos de ubicacion y politica de escritura en caché.
+        fechas: ["1ra mar 2012"]
+        archivo_origen: "Finales/Preguntas del Final Arquitectura Hasta 2014.pdf"
+        tiene_respuesta: false
+        nota: "En la fuente el enunciado figura sin respuesta desarrollada."
+
+  - id: CAC-03
+    tema: memoria-cache
+    enunciado: >-
+      Describa las técnicas de reemplazo de bloque, correspondencia y políticas
+      de escritura en memoria cache.
+    fechas: ["2014-02-01", "Febrero 2014"]
+    archivo_origen: "Finales/2014 - AC Final - 26.pdf"
+    tiene_respuesta: true
+    variantes:
+      - enunciado: "Caché: mencione algoritmos de reemplazo y políticas de escritura."
+        fechas: ["Diciembre 2014 #03"]
+        archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+        tiene_respuesta: true
+      - enunciado: >-
+          Describa los algoritmos de reemplazo de Bloque y políticas de escritura
+          en la cache.
+        fechas: []
+        archivo_origen: "Finales/Arquitectura_finales_parte1.pdf"
+        tiene_respuesta: false
+      - enunciado: >-
+          Describa los diferentes algoritmos de reemplazo de bloques de una
+          caché. Analice las políticas de escritura desde el punto de vista de
+          la coherencia de datos.
+        fechas: ["Septiembre 2013"]
+        archivo_origen: "Finales/Preguntas del Final Arquitectura Hasta 2014.pdf"
+        tiene_respuesta: false
+        nota: "En la fuente el enunciado figura sin respuesta desarrollada."
+
+  - id: CAC-04
+    tema: memoria-cache
+    enunciado: >-
+      Analice las políticas de escritura desde el punto de vista de la coherencia
+      de datos.
+    fechas: ["10/2022", "05/07/2023"]
+    archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+    tiene_respuesta: true
+    variantes:
+      - enunciado: >-
+          Cache: Políticas de escritura desde el punto de vista de la coherencia
+          de datos.
+        fechas: ["26-02-2014"]
+        archivo_origen: "Finales/Preguntas del Final Arquitectura Hasta 2014.pdf"
+        tiene_respuesta: true
+      - enunciado: "Caché. Describir las políticas de escritura (en acierto y en fallo)."
+        fechas: ["27-02-2013"]
+        archivo_origen: "Finales/Preguntas del Final Arquitectura Hasta 2014.pdf"
+        tiene_respuesta: true
+
+  - id: CAC-05
+    tema: memoria-cache
+    enunciado: "Justifique el uso de dos niveles de caché."
+    fechas: ["Abril 2015"]
+    archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+    tiene_respuesta: true
+
+  - id: CAC-06
+    tema: memoria-cache
+    enunciado: >-
+      ¿Por qué funciona una jerarquía de memoria? Describa las políticas de
+      ubicación y de reemplazo de bloques en memoria caché.
+    fechas: ["Noviembre 2014"]
+    archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+    tiene_respuesta: true
+    variantes:
+      - enunciado: >-
+          Memoria. a- ¿Por qué funciona un sistema de memoria basado en
+          jerarquía?
+        fechas: ["23/9/2023", "23/10/2023"]
+        archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+        tiene_respuesta: true
+
+  - id: CAC-07
+    tema: memoria-cache
+    enunciado: >-
+      Memoria caché. Si se pretende mejorar el tiempo de acceso medio a memoria
+      cache, ¿sobre qué parámetros será necesario trabajar y qué propone como
+      medida para hacerlo?
+    fechas: ["04/2023"]
+    archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+    tiene_respuesta: true
+
+  # ------------------------------- SEGMENTACIÓN -------------------------------
+  - id: SEG-01
+    tema: segmentacion
+    enunciado: "¿Qué es la segmentación del cauce de instrucción?"
+    fechas:
+      ["26-03-2014", "26-02-2014", "Septiembre 2013", "27-02-2013",
+       "1ra feb 2014", "1ra mar 2012", "2da mar 2012", "25-03-2010"]
+    archivo_origen: "Finales/Preguntas del Final Arquitectura Hasta 2014.pdf"
+    tiene_respuesta: true
+    variantes:
+      - enunciado: >-
+          ¿Qué es segmentación de cauce? ¿Qué ventajas proporciona su
+          implementación?
+        fechas: []
+        archivo_origen: "Finales/Arquitectura_finales_parte1.pdf"
+        tiene_respuesta: false
+      - enunciado: >-
+          ¿Qué entiende por segmentación de cauce? ¿Qué ventajas proporciona su
+          implementación?
+        fechas: ["Agosto 2014 #06", "Septiembre 2013", "05/07/2023"]
+        archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+        tiene_respuesta: true
+      - enunciado: "Segmentación del cauce. a- Definición. b- Rendimiento."
+        fechas: ["04/2023"]
+        archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+        tiene_respuesta: true
+      - enunciado: >-
+          Instrucciones. a- ¿Qué es la segmentación del cauce de instrucciones?
+          b- ¿Cuánto mejora el rendimiento? c- ¿Qué es un riesgo WAR en un cauce
+          segmentado?
+        fechas: ["23/9/2023", "23/10/2023"]
+        archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+        tiene_respuesta: false
+      - enunciado: >-
+          Segmentación de cauce: ¿Qué ventajas proporciona su implementación?
+        fechas: ["septiembre 2013"]
+        archivo_origen: "Finales/Preguntas del Final Arquitectura Hasta 2014.pdf"
+        tiene_respuesta: true
+
+  - id: SEG-02
+    tema: segmentacion
+    enunciado: >-
+      Segmentación de cauce: ¿Cuánto mejora el rendimiento? Describa las
+      dependencias de los datos que puedan afectar un cauce segmentado.
+    fechas: ["20-03-2013", "27-02-2013", "2da mar 2012", "25-03-2010"]
+    archivo_origen: "Finales/Preguntas del Final Arquitectura Hasta 2014.pdf"
+    tiene_respuesta: true
+    variantes:
+      - enunciado: >-
+          ¿Qué es la segmentación del cauce de instrucción? ¿Cuánto mejora el
+          rendimiento? Describa las dependencias de los datos que puedan afectar
+          un cauce segmentado.
+        fechas: ["Marzo 2013 #26", "Febrero 2013 #27"]
+        archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+        tiene_respuesta: true
+
+  - id: SEG-03
+    tema: segmentacion
+    enunciado: "Qué es la segmentación de cauce. Tres motivos de retardo de cauce."
+    fechas: ["2014-02-26", "Febrero 2014 #26"]
+    archivo_origen: "Finales/2014 - AC Final - 28.pdf"
+    tiene_respuesta: true
+    variantes:
+      - enunciado: "Tres motivos de retardo de cauce en segmentación de cauce."
+        fechas: ["26-02-2014"]
+        archivo_origen: "Finales/Preguntas del Final Arquitectura Hasta 2014.pdf"
+        tiene_respuesta: true
+      - enunciado: >-
+          Describa tres (3) diferentes causas o motivos que pueden retardar un
+          cauce de instrucciones segmentado.
+        fechas: ["Agosto 2014 #06"]
+        archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+        tiene_respuesta: true
+      - enunciado: >-
+          a) Describa tres diferentes causas que pueden retardar un cauce de
+          instrucciones segmentado. b) ¿Qué retardo produce cada una?
+        fechas: ["05/07/2023"]
+        archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+        tiene_respuesta: true
+
+  - id: SEG-04
+    tema: segmentacion
+    enunciado: >-
+      ¿Qué es la segmentación de cauce? Describa tipos de dependencias que
+      afectan el funcionamiento de los cauces.
+    fechas: []
+    archivo_origen: "Finales/Arquitectura_finales_parte1.pdf"
+    tiene_respuesta: false
+    variantes:
+      - enunciado: >-
+          ¿Qué es la segmentación del cauce? Describa tipos de dependencias que
+          afectan el funcionamiento de los causes y las posibles soluciones para
+          evitarlos.
+        fechas: ["Marzo 2012 1ro"]
+        archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+        tiene_respuesta: true
+      - enunciado: >-
+          Segmentacion de cauce. Describir atascos por dependencia de datos y su
+          solucion.
+        fechas: ["Marzo 2012 2do"]
+        archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+        tiene_respuesta: true
+
+  # -------------------------- SOLUCIONES A LA SEGMENTACIÓN --------------------------
+  - id: SOL-01
+    tema: soluciones-segmentacion
+    enunciado: >-
+      Segmentación de cauce: describa los métodos y técnicas utilizadas para
+      disminuir o evitar las paradas que afectaran al funcionamiento de los
+      cauces.
+    fechas: ["1ra feb 2014"]
+    archivo_origen: "Finales/Preguntas del Final Arquitectura Hasta 2014.pdf"
+    tiene_respuesta: true
+    variantes:
+      - enunciado: >-
+          Que es la segmentacion de cauce. Describa los metodos y tecnicas
+          utilizadas para disminuir o evitar las paradas que afectaran al
+          funcionamiento de los cauces.
+        fechas: ["2014-02-01"]
+        archivo_origen: "Finales/2014 - AC Final - 26.pdf"
+        tiene_respuesta: false
+      - enunciado: >-
+          ¿Qué es la segmentación del cauce de instrucciones? Describa los
+          métodos y técnicas para disminuir o evitar las paradas (stalls) que
+          afectan el funcionamiento de los cauces.
+        fechas: ["Octubre 2014 #22", "Febrero 2014"]
+        archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+        tiene_respuesta: true
+
+  - id: SOL-02
+    tema: soluciones-segmentacion
+    enunciado: >-
+      ¿Qué es la segmentación de cauce? Explique los atascos producidos por
+      saltos.
+    fechas: ["Abril 2015"]
+    archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+    tiene_respuesta: true
+    variantes:
+      - enunciado: >-
+          En un cauce segmentado, con secuencia de instrucciones independientes
+          ¿Qué consecuencias trae el paso de una instrucción de salto? Analice
+          los casos de salto incondicional y condicional. Mencione que posibles
+          soluciones se pueden aplicar para evitar o disminuir las consecuencias.
+        fechas: ["Septiembre 2014"]
+        archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+        tiene_respuesta: true
+      - enunciado: >-
+          ¿Qué es la segmentación de cauce? Describir técnicas para el
+          tratamiento de saltos condicionales.
+        fechas: ["Diciembre 2014 #03"]
+        archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+        tiene_respuesta: true
+      - enunciado: >-
+          ¿Qué ventajas nos brinda un cauce segmentado? Describa las diferentes
+          formas que pueden mejorar el funcionamiento de un cauce cuando ejecuta
+          instrucciones de transferencia de control.
+        fechas: ["Noviembre 2014"]
+        archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+        tiene_respuesta: true
+      - enunciado: >-
+          ¿Qué es la segmentación de cauce de instrucciones? ¿Cuanto mejora el
+          rendimiento? Describa al menos 2 técnicas para disminuir la influencia
+          de los saltos de un cauce segmentado.
+        fechas: []
+        archivo_origen: "Finales/Arquitectura_finales_parte1.pdf"
+        tiene_respuesta: false
+      - enunciado: >-
+          Describa el problema y posibles soluciones ante riesgos por
+          transferencia de control del programa.
+        fechas: ["04/2023"]
+        archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+        tiene_respuesta: true
+
+  # ---------------------------------- RISC / CISC ----------------------------------
+  - id: RISC-01
+    tema: risc-cisc
+    enunciado: >-
+      Describa las características que diferencian a los procesadores RISC
+      respecto de los CISC.
+    fechas:
+      ["1ra mar 2012", "Diciembre 2014 #03", "Octubre 2014 #22", "Marzo 2012 1ro"]
+    archivo_origen: "Finales/Preguntas del Final Arquitectura Hasta 2014.pdf"
+    tiene_respuesta: true
+    variantes:
+      - enunciado: >-
+          Describa las características que diferencian los procesadores RISC
+          respectos a los CISC.
+        fechas: []
+        archivo_origen: "Finales/Arquitectura_finales_parte1.pdf"
+        tiene_respuesta: false
+
+  - id: RISC-02
+    tema: risc-cisc
+    enunciado: >-
+      Describa tres características qué usted considere las más importantes de
+      las arquitecturas RISC.
+    fechas: []
+    archivo_origen: "Finales/Arquitectura_finales_parte1.pdf"
+    tiene_respuesta: false
+
+  - id: RISC-03
+    tema: risc-cisc
+    enunciado: >-
+      Describa cómo se debe implementar la estructura de pila en un procesador de
+      tipo RISC cuyos registros son genéricos (basarse en MIPS) ¿Cómo se deberá
+      trabajar el anidamiento de procesos / funciones?
+    fechas: ["2014/09"]
+    archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+    tiene_respuesta: false
+    tambien_en: [von-neumann-y-pila]
+    nota: >-
+      Figura en la lista de "Notas" al inicio del apunte de Karim, sin respuesta
+      desarrollada en el cuerpo.
+
+  # -------------------------------- SUPERESCALARES --------------------------------
+  - id: SUP-01
+    tema: superescalares
+    enunciado: "¿Qué características posee un procesador superescalar?"
+    fechas: ["26-03-2014", "27-02-2013", "2da mar 2012"]
+    archivo_origen: "Finales/Preguntas del Final Arquitectura Hasta 2014.pdf"
+    tiene_respuesta: true
+    variantes:
+      - enunciado: "¿Qué son los procesadores superescalares?"
+        fechas: []
+        archivo_origen: "Finales/Arquitectura_finales_parte1.pdf"
+        tiene_respuesta: false
+      - enunciado: "¿Qué características tienen los procesadores superescalares?"
+        fechas: ["10/2022"]
+        archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+        tiene_respuesta: true
+      - enunciado: >-
+          Procesadores superescalares. a- ¿Cuáles son las características
+          distintivas?
+        fechas: ["04/2023"]
+        archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+        tiene_respuesta: false
+      - enunciado: >-
+          ¿Qué características tiene la implementación de un procesador
+          superescalar?
+        fechas: ["23/9/2023", "23/10/2023"]
+        archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+        tiene_respuesta: false
+
+  - id: SUP-02
+    tema: superescalares
+    enunciado: "¿De qué depende el paralelismo de una máquina superescalar?"
+    fechas: ["2024", "06/2023", "05/07/2023"]
+    archivo_origen: "Finales/Final 2024.docx"
+    tiene_respuesta: true
+    tambien_en: [paralelismo]
+
+  - id: SUP-03
+    tema: superescalares
+    enunciado: >-
+      ¿Cuál es el objetivo de usar la técnica de Renombre de Registros en un
+      procesador superescalar?
+    fechas: ["06/2023"]
+    archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+    tiene_respuesta: true
+    variantes:
+      - enunciado: "¿Cuál es el objetivo de la técnica de renombre de registros?"
+        fechas: ["2024"]
+        archivo_origen: "Finales/Final 2024.docx"
+        tiene_respuesta: false
+
+  - id: SUP-04
+    tema: superescalares
+    enunciado: >-
+      ¿Qué características definen un procesador como superescalar? Describa las
+      políticas de emisión de instrucciones en un cauce segmentado.
+    fechas:
+      ["Septiembre 2014", "Marzo 2013 #26", "Febrero 2013 #27", "Marzo 2012 2do"]
+    archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+    tiene_respuesta: true
+    variantes:
+      - enunciado: >-
+          b- Compare las políticas de emisión de instrucciones. c- Elija una
+          alternativa de emisión/finalización y justifique.
+        fechas: ["04/2023"]
+        archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+        tiene_respuesta: true
+
+  - id: SUP-05
+    tema: superescalares
+    enunciado: >-
+      ¿Qué características posee un procesador supersegmentado frente a un
+      superescalar?
+    fechas: ["20-03-2013"]
+    archivo_origen: "Finales/Preguntas del Final Arquitectura Hasta 2014.pdf"
+    tiene_respuesta: true
+
+  - id: SUP-06
+    tema: superescalares
+    enunciado: "Describa las limitaciones existentes al paralelismo al nivel de instrucciones."
+    fechas: []
+    archivo_origen: "Finales/Preguntas del Final Arquitectura Hasta 2014.pdf"
+    tiene_respuesta: true
+    tambien_en: [paralelismo]
+    variantes:
+      - enunciado: >-
+          Describa las causas que pueden retardar el funcionamiento de los mismos
+          [de los procesadores superescalares].
+        fechas: ["10/2022"]
+        archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+        tiene_respuesta: true
+
+  # -------------------------------- PARALELISMO --------------------------------
+  - id: PAR-01
+    tema: paralelismo
+    enunciado: >-
+      Que son los MIMD de la taxonomía de flynn. Describa las variantes que
+      conozca.
+    fechas: ["2024"]
+    archivo_origen: "Finales/Final 2024.docx"
+    tiene_respuesta: false
+    variantes:
+      - enunciado: "¿Qué son los MIMD de la taxonomía de Flynn?"
+        fechas: ["10/2022", "06/2023"]
+        archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+        tiene_respuesta: true
+      - enunciado: >-
+          ¿Cuáles son las arquitecturas que pueden encontrarse en la
+          configuración MIMD de la taxonomía de Flynn?
+        fechas: ["Septiembre 2014"]
+        archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+        tiene_respuesta: true
+
+  - id: PAR-02
+    tema: paralelismo
+    enunciado: >-
+      Procesamiento paralelo. a- Describa las 4 variantes de arquitectura de la
+      Taxonomía de Flynn.
+    fechas: ["04/2023"]
+    archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+    tiene_respuesta: true
+
+  - id: PAR-03
+    tema: paralelismo
+    enunciado: >-
+      Describa las características que diferencian los SMP respecto a los
+      clusters.
+    fechas: ["1ra feb 2014"]
+    archivo_origen: "Finales/Preguntas del Final Arquitectura Hasta 2014.pdf"
+    tiene_respuesta: true
+    variantes:
+      - enunciado: >-
+          Describa las caracteristicas que diferencian los SMTP respecto a los
+          clusters.
+        fechas: ["2014-02-01", "2014/02"]
+        archivo_origen: "Finales/2014 - AC Final - 26.pdf"
+        tiene_respuesta: false
+        nota: >-
+          "SMTP" es una errata del original por "SMP" (multiprocesadores
+          simétricos). Aparece así en dos fuentes distintas.
+      - enunciado: "b- Compare los sistemas SMP y clusters."
+        fechas: ["04/2023"]
+        archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+        tiene_respuesta: true
+
+  - id: PAR-04
+    tema: paralelismo
+    enunciado: "Características de los clusters."
+    fechas: ["2014-02-26", "26-02-2014", "septiembre 2013"]
+    archivo_origen: "Finales/2014 - AC Final - 28.pdf"
+    tiene_respuesta: true
+    variantes:
+      - enunciado: "¿Qué características describen un cluster de computadoras?"
+        fechas: ["Agosto 2014 #06", "Febrero 2014 #26", "Septiembre de 2013"]
+        archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+        tiene_respuesta: true
+      - enunciado: "Funcionamiento de un cluster."
+        fechas: ["Abril 2015"]
+        archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+        tiene_respuesta: true
+
+  - id: PAR-05
+    tema: paralelismo
+    enunciado: "¿Qué características posee un multiprocesador simétrico (SMP)?"
+    fechas: ["Noviembre 2014"]
+    archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+    tiene_respuesta: true
+
+  - id: PAR-06
+    tema: paralelismo
+    enunciado: "Paralelismo. a- ¿Qué es y de qué depende el paralelismo de una máquina?"
+    fechas: ["23/9/2023", "23/10/2023"]
+    archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+    tiene_respuesta: false
+
+  # ------------------------------------ BUSES ------------------------------------
+  - id: BUS-01
+    tema: buses
+    enunciado: "¿Qué elementos característicos definen un bus?"
+    fechas: ["2024", "10/2022", "06/2023"]
+    archivo_origen: "Finales/Final 2024.docx"
+    tiene_respuesta: true
+    variantes:
+      - enunciado: "¿Qué elementos característicos describen un bus?"
+        fechas: ["05/07/2023"]
+        archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+        tiene_respuesta: false
+
+  - id: BUS-02
+    tema: buses
+    enunciado: "Que es un Bus, tipos de buses, temporizacion y metodos de arbitraje."
+    fechas: ["2014-02-01", "1ra feb 2014", "1ra mar 2012", "Febrero 2014"]
+    archivo_origen: "Finales/2014 - AC Final - 26.pdf"
+    tiene_respuesta: true
+    variantes:
+      - enunciado: >-
+          ¿Qué es un bus? describa los diferentes tipos de modos de arbitraje y
+          sincronizacion. Mencione las principales diferencias entre un bus PCI y
+          SCSI.
+        fechas: []
+        archivo_origen: "Finales/Arquitectura_finales_parte1.pdf"
+        tiene_respuesta: false
+      - enunciado: >-
+          Buses: Describa los tipos, arbitraje y técnicas de sincronización.
+          Mencione diferencias entre bus PCI y bus SCSI.
+        fechas: ["1ra mar 2012", "25-03-2010"]
+        archivo_origen: "Finales/Preguntas del Final Arquitectura Hasta 2014.pdf"
+        tiene_respuesta: false
+        nota: "En la fuente el enunciado figura sin respuesta desarrollada."
+      - enunciado: >-
+          ¿Qué es un Bus? Describa los diferentes tipos, métodos de arbitraje y
+          técnicas de sincronización. Mencione las principales diferencias entre
+          PCI y SCSI.
+        fechas: ["Octubre 2014 #22", "Marzo 2012 1ro"]
+        archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+        tiene_respuesta: true
+      - enunciado: "¿Qué es un bus? Desarrolle los mecanismos de arbitraje y temporizado."
+        fechas: ["2010"]
+        archivo_origen: "Finales/Finales 2010.docx"
+        tiene_respuesta: true
+
+  # -------------------------- VON NEUMANN Y PILA --------------------------
+  - id: VN-01
+    tema: von-neumann-y-pila
+    enunciado: >-
+      Que elementos componen una máquina con arquitectura Von Neumann? Describir
+      la función de cada uno.
+    fechas: ["2024"]
+    archivo_origen: "Finales/Final 2024.docx"
+    tiene_respuesta: false
+
+  - id: VN-02
+    tema: von-neumann-y-pila
+    enunciado: >-
+      Explique los métodos de pasaje de argumentos a procedimientos o funciones.
+      Describa el comportamiento con anidamiento de múltiples
+      procedimiento/funciones.
+    fechas:
+      ["26-03-2014", "20-03-2013", "2da mar 2012", "Marzo 2013 #26",
+       "Marzo 2012 2da fecha"]
+    archivo_origen: "Finales/Preguntas del Final Arquitectura Hasta 2014.pdf"
+    tiene_respuesta: true
+    variantes:
+      - enunciado: >-
+          Explique los métodos de pasaje de argumentos a procedimientos o
+          funciones. Describa el funcionamiento y uso de la pila.
+        fechas: ["Noviembre 2014"]
+        archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+        tiene_respuesta: true
+      - enunciado: >-
+          ¿Qué métodos para pasaje de argumentos podemos utilizar en una
+          computadora?
+        fechas: []
+        archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+        tiene_respuesta: true
+
+  - id: VN-03
+    tema: von-neumann-y-pila
+    enunciado: >-
+      ¿Qué es una pila? Describir el comportamiento con anidamiento de múltiples
+      procedimientos/funciones utilizando pila.
+    fechas: ["Abril 2015"]
+    archivo_origen: "Finales/Karim - Preguntas de Finales.pdf"
+    tiene_respuesta: true
+
+# =============================================================================
+# SIMULACROS — finales completos, reconstruidos tal como se tomaron
+# =============================================================================
+simulacros:
+
+  - nombre: "Final 2024"
+    fecha: "2024"
+    archivo_origen: "Finales/Final 2024.docx"
+    completo: true
+    nota: >-
+      Estructura de 5 puntos con subincisos a) y b), igual al formato actual.
+      El punto 5 figura en la fuente sólo con el inciso a).
+    puntos:
+      - numero: 1
+        incisos:
+          - letra: a
+            tema: von-neumann-y-pila
+            enunciado: >-
+              Que elementos componen una máquina con arquitectura Von Neumann?
+              Describir la función de cada uno
+          - letra: b
+            tema: buses
+            enunciado: "Que elementos característicos definen un bus?"
+      - numero: 2
+        incisos:
+          - letra: a
+            tema: interrupciones
+            enunciado: >-
+              Esquematice y describa la estructura interna de un controlador
+              programable de interrupciones
+          - letra: b
+            tema: entrada-salida
+            enunciado: >-
+              Describa el funcionamiento de la gestión de E/S programada con
+              espera de respuesta
+      - numero: 3
+        incisos:
+          - letra: a
+            tema: memoria-cache
+            enunciado: >-
+              Cuáles son los elementos a tener en cuenta para el diseño de una
+              memoria caché?
+          - letra: b
+            tema: dma
+            enunciado: >-
+              La coherencia de datos de un sistema jerárquico se ve afectada por
+              el uso de DMA?
+      - numero: 4
+        incisos:
+          - letra: a
+            tema: superescalares
+            enunciado: "De que depende el paralelismo de una máquina superescalar?"
+          - letra: b
+            tema: superescalares
+            enunciado: "Cuál es el objetivo de la técnica de renombre de registros?"
+      - numero: 5
+        incisos:
+          - letra: a
+            tema: paralelismo
+            enunciado: >-
+              Que son los MIMD de la taxonomía de flynn. Describa las variantes
+              que conozca
+
+  - nombre: "Final 10/2022"
+    fecha: "2022-10"
+    archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+    completo: true
+    con_respuestas: true
+    puntos:
+      - numero: 1
+        incisos:
+          - letra: a
+            tema: interrupciones
+            enunciado: >-
+              ¿A que método de atención lo conocemos como de "interrupciones
+              vectorizadas"?
+          - letra: b
+            tema: interrupciones
+            enunciado: >-
+              ¿Cuándo, por qué, para qué y cómo se utiliza una de las
+              denominadas interrupciones por software?
+      - numero: 2
+        incisos:
+          - letra: a
+            tema: entrada-salida
+            enunciado: "Esquematice y describa la estructura interna de un módulo de E/S."
+          - letra: b
+            tema: entrada-salida
+            enunciado: "Describa los posibles modos de ubicación de los módulos de E/S."
+      - numero: 3
+        incisos:
+          - letra: a
+            tema: memoria-cache
+            enunciado: >-
+              Describa las funciones de correspondencia entre Memoria Principal y
+              Cache.
+          - letra: b
+            tema: memoria-cache
+            enunciado: >-
+              Analice las políticas de escritura desde el punto de vista de la
+              coherencia de datos.
+      - numero: 4
+        incisos:
+          - letra: a
+            tema: superescalares
+            enunciado: "¿Qué características tienen los procesadores superescalares?"
+          - letra: b
+            tema: superescalares
+            enunciado: "Describa las causas que pueden retardar el funcionamiento de los mismos."
+      - numero: 5
+        incisos:
+          - letra: a
+            tema: buses
+            enunciado: "¿Qué elementos característicos definen un bus?"
+          - letra: b
+            tema: paralelismo
+            enunciado: "¿Qué son los MIMD de la taxonomía de Flynn?"
+
+  - nombre: "Final 04/2023"
+    fecha: "2023-04"
+    archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+    completo: true
+    con_respuestas: true
+    nota: "Este final usa subincisos a/b/c en varios puntos, no sólo a/b."
+    puntos:
+      - numero: 1
+        titulo: "E/S"
+        incisos:
+          - letra: a
+            tema: dma
+            enunciado: >-
+              Describa las características funcionales del acceso directo a
+              memoria (DMA).
+      - numero: 2
+        titulo: "Segmentación del cauce"
+        incisos:
+          - letra: a
+            tema: segmentacion
+            enunciado: "Definición."
+          - letra: b
+            tema: segmentacion
+            enunciado: "Rendimiento."
+          - letra: c
+            tema: soluciones-segmentacion
+            enunciado: >-
+              Describa el problema y posibles soluciones ante riesgos por
+              transferencia de control del programa.
+      - numero: 3
+        titulo: "Memoria caché"
+        incisos:
+          - letra: a
+            tema: memoria-cache
+            enunciado: >-
+              Si se pretende mejorar el tiempo de acceso medio a memoria cache.
+              ¿Sobre qué parámetros será necesario trabajar y propone como medida
+              para hacerlo?
+          - letra: b
+            tema: memoria-cache
+            enunciado: >-
+              Compare las correspondencias entra la MP y la caché. ¿Cómo se
+              determina, en cada caso, la hilera/fila de ubicación de un bloque
+              de palabras provenientes de la MP? Ejemplifique.
+      - numero: 4
+        titulo: "Procesadores superescalares"
+        incisos:
+          - letra: a
+            tema: superescalares
+            enunciado: "¿Cuáles son las características distintivas?"
+          - letra: b
+            tema: superescalares
+            enunciado: "Compare las políticas de emisión de instrucciones."
+          - letra: c
+            tema: superescalares
+            enunciado: "Elija una alternativa de emisión/finalización y justifique."
+      - numero: 5
+        titulo: "Procesamiento paralelo"
+        incisos:
+          - letra: a
+            tema: paralelismo
+            enunciado: "Describa las 4 variantes de arquitectura de la Taxonomía de Flynn."
+          - letra: b
+            tema: paralelismo
+            enunciado: "Compare los sistemas MP y clusters."
+
+  - nombre: "Final 06/2023"
+    fecha: "2023-06"
+    archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+    completo: true
+    con_respuestas: parcial
+    nota: >-
+      En la fuente este final aparece sin desarrollar; el autor remite a las
+      respuestas de los finales 10/2022 y XX/XX/XXXX.
+    puntos:
+      - numero: 1
+        incisos:
+          - letra: a
+            tema: interrupciones
+            enunciado: >-
+              ¿Cómo es el funcionamiento del método de atención de interrupciones
+              que conocemos como "interrupciones vectorizadas"?
+          - letra: b
+            tema: interrupciones
+            enunciado: >-
+              ¿Cuándo y cómo se utiliza alguna de las denominadas interrupciones
+              por Software?
+      - numero: 2
+        incisos:
+          - letra: a
+            tema: entrada-salida
+            enunciado: "Esquematice y describa la estructura interna de un módulo de E/S."
+          - letra: b
+            tema: entrada-salida
+            enunciado: >-
+              Describa cómo funciona la gestión de E/S programada con espera de
+              respuesta.
+      - numero: 3
+        incisos:
+          - letra: a
+            tema: memoria-cache
+            enunciado: >-
+              ¿Cuáles son los elementos a tener en cuenta para el diseño de una
+              memoria cache?
+          - letra: b
+            tema: dma
+            enunciado: >-
+              ¿La coherencia de datos de un sistema jerárquico de memoria se ve
+              afectado por el uso de DMA?
+      - numero: 4
+        incisos:
+          - letra: a
+            tema: superescalares
+            enunciado: "¿De qué depende el paralelismo de una maquina superescalar?"
+          - letra: b
+            tema: superescalares
+            enunciado: >-
+              ¿Cuál es el objetivo de usar renombre de registros de un procesador
+              superescalar?
+      - numero: 5
+        incisos:
+          - letra: a
+            tema: buses
+            enunciado: "¿Qué elementos característicos definen un bus?"
+          - letra: b
+            tema: paralelismo
+            enunciado: "¿Qué son los MIMD de la Taxonomía de Flynn?"
+
+  - nombre: "Final 05/07/2023"
+    fecha: "2023-07-05"
+    archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+    completo: true
+    con_respuestas: parcial
+    puntos:
+      - numero: 1
+        incisos:
+          - letra: a
+            tema: interrupciones
+            enunciado: "Explique el mecanismo de interrupción."
+          - letra: b
+            tema: interrupciones
+            enunciado: >-
+              Describa el tratamiento a realizar cuando hay múltiples fuentes de
+              interrupciones.
+      - numero: 2
+        incisos:
+          - letra: a
+            tema: memoria-cache
+            enunciado: >-
+              Describa las funciones de correspondencia entre memoria principal y
+              caché.
+          - letra: b
+            tema: memoria-cache
+            enunciado: >-
+              Analice las políticas de escritura desde el punto de vista de la
+              coherencia de datos.
+      - numero: 3
+        incisos:
+          - letra: a
+            tema: segmentacion
+            enunciado: "¿Qué entiende por segmentación de cauce?"
+          - letra: b
+            tema: segmentacion
+            enunciado: "¿Qué ventajas proporciona su implementación?"
+      - numero: 4
+        incisos:
+          - letra: a
+            tema: segmentacion
+            enunciado: >-
+              Describa tres diferentes causas que pueden retardar un cauce de
+              instrucciones segmentado.
+          - letra: b
+            tema: segmentacion
+            enunciado: "¿Qué retardo produce cada una?"
+      - numero: 5
+        incisos:
+          - letra: a
+            tema: buses
+            enunciado: "¿Qué elementos característicos describen un bus?"
+          - letra: b
+            tema: superescalares
+            enunciado: "¿De qué depende el paralelismo de una máquina superescalar?"
+
+  - nombre: "Final 23/9/2023 y 23/10/2023"
+    fecha: "2023-09-23"
+    archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+    completo: true
+    con_respuestas: parcial
+    nota: "La fuente indica que el mismo enunciado se tomó en dos fechas."
+    puntos:
+      - numero: 1
+        titulo: "Interrupciones"
+        incisos:
+          - letra: a
+            tema: interrupciones
+            enunciado: "Explique el mecanismo de interrupción."
+          - letra: b
+            tema: interrupciones
+            enunciado: >-
+              Describa cómo se realiza el reconocimiento de interrupciones
+              vectorizadas mediante el PIC.
+      - numero: 2
+        titulo: "E/S"
+        incisos:
+          - letra: a
+            tema: entrada-salida
+            enunciado: "¿Cómo es la estructura de un módulo de E/S?"
+          - letra: b
+            tema: dma
+            enunciado: >-
+              Describa las características funcionales del acceso directo a
+              memoria - DMA.
+      - numero: 3
+        titulo: "Memoria"
+        incisos:
+          - letra: a
+            tema: memoria-cache
+            enunciado: "¿Por qué funciona un sistema de memoria basado en jerarquía?"
+          - letra: b
+            tema: memoria-cache
+            enunciado: >-
+              Analice brevemente todos los elementos a tener en cuenta para el
+              diseño de una memoria Cache.
+      - numero: 4
+        titulo: "Instrucciones"
+        incisos:
+          - letra: a
+            tema: segmentacion
+            enunciado: "¿Qué es la segmentación del cauce de instrucciones?"
+          - letra: b
+            tema: segmentacion
+            enunciado: "¿Cuánto mejora el rendimiento?"
+          - letra: c
+            tema: segmentacion
+            enunciado: "¿Qué es un riesgo WAR en un cauce segmentado?"
+      - numero: 5
+        titulo: "Paralelismo"
+        incisos:
+          - letra: a
+            tema: paralelismo
+            enunciado: "¿Qué es y de qué depende el paralelismo de una máquina?"
+          - letra: b
+            tema: superescalares
+            enunciado: >-
+              ¿Qué características tiene la implementación de un procesador
+              superescalar?
+
+  - nombre: "Final sin fecha (formato a/b)"
+    fecha: null
+    archivo_origen: "Finales/Preguntas FINALES con Respuestas.docx.pdf"
+    completo: true
+    con_respuestas: true
+    nota: >-
+      En la fuente aparece titulado literalmente "Final XX/XX/XXXX": el autor no
+      registró la fecha.
+    puntos:
+      - numero: 1
+        incisos:
+          - letra: a
+            tema: von-neumann-y-pila
+            enunciado: >-
+              ¿Qué métodos para pasaje de argumentos podemos utilizar en una
+              computadora?
+          - letra: b
+            tema: interrupciones
+            enunciado: >-
+              ¿Cuáles son las diferencias en la terminación de una subrutina y un
+              gestor de interrupción?
+      - numero: 2
+        incisos:
+          - letra: a
+            tema: interrupciones
+            enunciado: >-
+              Esquematice y describa la estructura interna de un Controlador
+              Programable de Interrupciones.
+          - letra: b
+            tema: entrada-salida
+            enunciado: >-
+              Describa cómo funciona la gestión de E/S programada con espera de
+              respuesta.
+      - numero: 3
+        incisos:
+          - letra: a
+            tema: memoria-cache
+            enunciado: >-
+              ¿Cuáles son los elementos a tener en cuenta para el diseño de una
+              memoria Cache?
+          - letra: b
+            tema: dma
+            enunciado: >-
+              ¿La coherencia de datos de un sistema jerárquico de memoria se ve
+              afectado por el uso de DMA?
+      - numero: 4
+        incisos:
+          - letra: a
+            tema: superescalares
+            enunciado: "¿De qué depende el paralelismo de una máquina superescalar?"
+          - letra: b
+            tema: superescalares
+            enunciado: >-
+              ¿Cuál es el objetivo de usar la técnica de Renombre de Registros en
+              un procesador superescalar?
+      - numero: 5
+        incisos:
+          - letra: a
+            tema: buses
+            enunciado: "¿Qué elementos característicos definen un bus?"
+          - letra: b
+            tema: paralelismo
+            enunciado: "¿Qué son los MIMD de la tanoxomía [sic] de Flynn?"
+
+  - nombre: "Final 2014 — 1ra fecha de febrero"
+    fecha: "2014-02-01"
+    archivo_origen: "Finales/2014 - AC Final - 26.pdf"
+    completo: true
+    nota: >-
+      Formato antiguo: 5 puntos sin subincisos a)/b). El PDF conserva la ruta
+      original del archivo txt del que fue impreso.
+    puntos:
+      - numero: 1
+        incisos:
+          - letra: null
+            tema: buses
+            enunciado: "Que es un Bus, tipos de buses, temporizacion y metodos de arbitraje"
+      - numero: 2
+        incisos:
+          - letra: null
+            tema: entrada-salida
+            enunciado: >-
+              Como es la estructura de un modulo de E/S. Describa las posibles
+              tecnicas que pueden utilizarse para realizar las operaciones de E/S
+      - numero: 3
+        incisos:
+          - letra: null
+            tema: memoria-cache
+            enunciado: >-
+              Describa las tecnicas de reemplazo de bloque, correspondencia y
+              politicas de escritura en memoria cache.
+      - numero: 4
+        incisos:
+          - letra: null
+            tema: soluciones-segmentacion
+            enunciado: >-
+              Que es la segmentacion de cauce. Describa los metodos y tecnicas
+              utilizadas para disminuir o evitar las paradas que afectaran al
+              funcionamiento de los cauces.
+      - numero: 5
+        incisos:
+          - letra: null
+            tema: paralelismo
+            enunciado: >-
+              Describa las caracteristicas que diferencian los SMTP respecto a
+              los clusters
+
+  - nombre: "Final 2014 — 2da fecha de febrero"
+    fecha: "2014-02-26"
+    archivo_origen: "Finales/2014 - AC Final - 28.pdf"
+    completo: true
+    nota: "Formato antiguo: 5 puntos sin subincisos a)/b)."
+    puntos:
+      - numero: 1
+        incisos:
+          - letra: null
+            tema: interrupciones
+            enunciado: >-
+              Mecanismo de interrupción. Fuentes de interrupción y tratamiento de
+              interrupciones múltiples.
+      - numero: 2
+        incisos:
+          - letra: null
+            tema: entrada-salida
+            enunciado: >-
+              Estructura interna del módulo de E/S. Características funcionales
+              de DMA.
+      - numero: 3
+        incisos:
+          - letra: null
+            tema: memoria-cache
+            enunciado: >-
+              Funciones de correspondencia entre memoria y memoria cache.
+              Políticas de escritura desde el punto de vista de la coherencia de
+              datos.
+      - numero: 4
+        incisos:
+          - letra: null
+            tema: segmentacion
+            enunciado: "Qué es la segmentación de cauce. Tres motivos de retardo de cauce."
+      - numero: 5
+        incisos:
+          - letra: null
+            tema: paralelismo
+            enunciado: "Características de los clusters."
+
+  - nombre: "Final (sin fecha) — serie A"
+    fecha: null
+    archivo_origen: "Finales/Arquitectura_finales_parte1.pdf"
+    completo: true
+    nota: >-
+      Primero de los tres finales que contiene el archivo. Tiene 6 puntos, no 5.
+    puntos:
+      - numero: 1
+        incisos:
+          - letra: null
+            tema: interrupciones
+            enunciado: >-
+              Describa el mecanismo de interrupción. Explique características y
+              tratamiento de interrupciones múltiples.
+      - numero: 2
+        incisos:
+          - letra: null
+            tema: segmentacion
+            enunciado: >-
+              ¿Qué es segmentación de cauce?¿Qué ventajas proporciona su
+              implementación?
+      - numero: 3
+        incisos:
+          - letra: null
+            tema: dma
+            enunciado: >-
+              Describa las características funcionales del Acceso Directo a
+              Memoria (DMA).
+      - numero: 4
+        incisos:
+          - letra: null
+            tema: memoria-cache
+            enunciado: >-
+              Memoria Caché. Describa el mapeo asociativo por conjuntos. Analice
+              las políticas de escritura desde el punto de vista de la coherencia
+              de datos.
+      - numero: 5
+        incisos:
+          - letra: null
+            tema: risc-cisc
+            enunciado: >-
+              Describa tres características qué usted considere las más
+              importantes de las arquitecturas RISC.
+      - numero: 6
+        incisos:
+          - letra: null
+            tema: superescalares
+            enunciado: "¿Qué son los procesadores superescalares?"
+
+  - nombre: "Final (sin fecha) — serie B"
+    fecha: null
+    archivo_origen: "Finales/Arquitectura_finales_parte1.pdf"
+    completo: true
+    nota: "Segundo de los tres finales que contiene el archivo."
+    puntos:
+      - numero: 1
+        incisos:
+          - letra: null
+            tema: von-neumann-y-pila
+            enunciado: >-
+              Explique los métodos de pasaje de argumentos a procedimientos o
+              funciones. Describa el comportamiento con anidamiento de múltiples
+              procedimiento/funciones.
+      - numero: 2
+        incisos:
+          - letra: null
+            tema: entrada-salida
+            enunciado: >-
+              ¿Cómo es la estructura de un módulo de E/S? Describa las
+              características funcionales del Acceso Directo a Memoria (DMA).
+      - numero: 3
+        incisos:
+          - letra: null
+            tema: memoria-cache
+            enunciado: >-
+              Describa los elementos a tener en cuenta en el diseño de una
+              memoria caché. Analice ventajas y desventajas de poseer varios
+              niveles de caché.
+      - numero: 4
+        incisos:
+          - letra: null
+            tema: soluciones-segmentacion
+            enunciado: >-
+              ¿Qué es la segmentación de cauce de instrucciones?¿Cuanto mejora el
+              rendimiento? Describa al menos 2 técnicas para disminuir la
+              influencia de los saltos de un cauce segmentado.
+      - numero: 5
+        incisos:
+          - letra: null
+            tema: superescalares
+            enunciado: "¿Qué características posee un procesador superescalar?"
+
+  - nombre: "Final (sin fecha) — serie C"
+    fecha: null
+    archivo_origen: "Finales/Arquitectura_finales_parte1.pdf"
+    completo: true
+    nota: "Tercero de los tres finales que contiene el archivo. Tiene 6 puntos."
+    puntos:
+      - numero: 1
+        incisos:
+          - letra: null
+            tema: buses
+            enunciado: >-
+              ¿Que es un bus? describa los diferentes tipos de modos de arbitraje
+              y sincronizacion. Mencione las principales diferencias entre un bus
+              PCI y SCSI.
+      - numero: 2
+        incisos:
+          - letra: null
+            tema: interrupciones
+            enunciado: >-
+              ¿Qué es una interrupción? ¿Cual es la función de un controlador de
+              interrupciones?
+      - numero: 3
+        incisos:
+          - letra: null
+            tema: entrada-salida
+            enunciado: >-
+              ¿Como es la estructura de un modulo de E/S? Describa las posibles
+              técnicas que puede utilizar una CPU para realizar operaciones E/S.
+      - numero: 4
+        incisos:
+          - letra: null
+            tema: memoria-cache
+            enunciado: >-
+              Describa los algoritmos de reemplazo de Bloque y políticas de
+              escritura en la cache.
+      - numero: 5
+        incisos:
+          - letra: null
+            tema: segmentacion
+            enunciado: >-
+              ¿Qué es la segmentación de cause? Describa tipos de dependencias
+              que afectan el funcionamiento de los cauces.
+      - numero: 6
+        incisos:
+          - letra: null
+            tema: risc-cisc
+            enunciado: >-
+              Describa las características que diferencian los procesadores RISC
+              respectos a los CISC.
+
+  # --- Finales conocidos pero NO transcriptos ---
+  - nombre: "Final 2015 — 01"
+    fecha: "2015"
+    archivo_origen: "Finales/2015 - AC Final - 01.pdf"
+    completo: false
+    estado: no_extraido
+    nota: >-
+      TODO: falta en fuentes extraíbles. El PDF contiene únicamente una imagen
+      escaneada sin capa de texto (CCITT 1656x2339). Requiere transcripción
+      manual desde el PDF original.
+    puntos: []
