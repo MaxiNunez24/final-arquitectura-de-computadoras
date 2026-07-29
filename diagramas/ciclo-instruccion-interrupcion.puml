@@ -1,0 +1,55 @@
+@startuml
+' ---------------------------------------------------------------------------
+' Ciclo de instrucción con la fase de gestión de interrupciones.
+' Fuente: Teorías/02 Arq clase2 Interrupciones.pdf, fil. 22-23 y 26-27.
+' ---------------------------------------------------------------------------
+!include _estilo.iuml
+
+title Ciclo de instrucción con fase de\ngestión de interrupciones
+
+start
+
+partition "Fase de captación" {
+  :Captar la siguiente instrucción;
+}
+
+partition "Fase de ejecución" {
+  :Ejecutar la instrucción;
+}
+
+partition "Fase de gestión de interrupciones" {
+  if (¿Flag de interrupción activo?) then (No)
+    #E8F5E9:Seguir con el ciclo normal;
+  else (Sí)
+    #FFF8E1:Salvar el estado del proceso
+    en la **pila del sistema**
+    (al menos PC y PSW);
+    note right
+      2 estrategias de guardado:
+      • sólo próxima instrucción
+        + registro crítico
+      • todos los registros
+    end note
+
+    #FFF8E1:Buscar el vector en el
+    **área de vectores de interrupción**
+    y cargarlo en el PC;
+
+    #FFF8E1:Ejecutar el servicio
+    de la interrupción;
+
+    #FFF8E1:**RTI** — desapilar
+    exactamente lo apilado;
+    note right
+      Recupera como mínimo
+      PC y PSW: retoma la tarea
+      en el punto en que
+      fue interrumpida
+    end note
+  endif
+}
+
+:PARADA o siguiente instrucción;
+stop
+
+@enduml

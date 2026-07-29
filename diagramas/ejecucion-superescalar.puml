@@ -1,0 +1,72 @@
+@startuml
+' ---------------------------------------------------------------------------
+' Modelo de ejecución superescalar (Fetch → Commit) y comparación con
+' la ejecución segmentada y la supersegmentada.
+' Fuente: Teorías/08 Arq clase8 Procesadores Superescalares.pdf,
+'         fil. 9-12, 18, 44-47.
+' ---------------------------------------------------------------------------
+!include _estilo.iuml
+
+title Ejecución superescalar
+
+rectangle "**Programa estático**" as PROG #FFF8E1
+
+rectangle "**MODELO DE EJECUCIÓN SUPERESCALAR**" as MODELO {
+  rectangle "**Fetch · Decode**\nCaptación de instrucciones y **predicción de saltos**.\nSe decodifican para la **detección temprana de dependencias**" as F
+  rectangle "**Dispatch** — envío de instrucciones\nLas instrucciones, **todavía ordenadas**, se envían a la\n**ventana de ejecución**, donde se las **redistribuye en\nfunción de las dependencias verdaderas**" as DI #C5CAE9
+  rectangle "**Ventana de ejecución**\nNo es una etapa del cauce: es un **buffer** que retiene\nla información necesaria para emitir" as VE #FFF8E1
+  rectangle "**Issue · Execute** — emisión y ejecución\nSe ejecutan en un orden basado en **la disponibilidad de\nunidades de ejecución** y en las **dependencias verdaderas**" as EX #C5CAE9
+  rectangle "**Commit** — reordenación y entrega\n① **Reordenar** el almacenamiento según el programa original\n② **Eliminar las ejecuciones inservibles** (predicción de salto\n   fallida o ejecución especulativa)\n③ **Mejorar la respuesta a las interrupciones**" as CM
+}
+
+rectangle "Los resultados quedan **almacenados temporalmente**\nhasta que se graban los **válidos** en los registros reales" as RES #FFF8E1
+
+PROG -down-> F
+F -down-> DI
+DI -down-> VE
+VE -down-> EX
+EX -down-> CM
+CM -down-> RES
+
+rectangle "**LAS 3 FORMAS DE EXPLOTAR LA SEGMENTACIÓN**" as COMP #E8F5E9 {
+  rectangle "**Máquina base (segmentada)**\n1 instrucción por ciclo · **IPC = 1** como techo" as C1
+  rectangle "**Supersegmentada**\nCada segmento se **subdivide en partes más pequeñas**.\nGrado 2 = 1 instrucción nueva por **semiciclo**.\nEquivale a **usar una frecuencia de reloj mayor**.\nParalelismo **temporal** · limitada por la **tecnología**" as C2 #C8E6C9
+  rectangle "**Superescalar**\n**Varias instrucciones por ciclo**: grado 2 = 2 por ciclo.\nRequiere **duplicar partes de la CPU/ALU**.\nParalelismo **temporal y espacial**" as C3 #C8E6C9
+}
+
+RES -down-> C1
+C1 -down-> C2
+C2 -down-> C3
+
+note right of MODELO
+  **Renombrado de registros**
+  Al permitir emisión y/o finalización
+  desordenada aparecen **WAW y WAR**.
+  Es un **conflicto de almacenamiento**:
+  varias instrucciones compiten por el
+  mismo registro.
+
+  Se resuelve **duplicando el recurso**:
+  los registros del programa son
+  **lógicos**; el procesador asigna un
+  **registro físico nuevo en cada
+  escritura**.
+
+  → **Se eliminan WAW y WAR; queda
+  sólo la dependencia verdadera RAW**
+end note
+
+note right of COMP
+  **IPL** — paralelismo del **programa**:
+  instrucciones que pueden ejecutarse
+  en paralelo (si son independientes)
+
+  **MPL** — paralelismo de la **máquina**:
+  capacidad de aprovechar el IPL.
+  Depende de las instrucciones captadas
+  por ciclo, el número de unidades
+  funcionales y los mecanismos para
+  localizar instrucciones independientes
+end note
+
+@enduml

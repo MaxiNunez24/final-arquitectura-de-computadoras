@@ -1,0 +1,75 @@
+@startuml
+' ---------------------------------------------------------------------------
+' Interconexión mediante un bus, arquitectura tradicional y de altas
+' prestaciones.
+' Fuente: Teorías/7 anexo clase 07 sobre_buses.pdf, fil. 11, 13, 14, 38.
+' ---------------------------------------------------------------------------
+!include _estilo.iuml
+
+title Buses: interconexión y jerarquía
+
+rectangle "**INTERCONEXIÓN MEDIANTE UN ÚNICO BUS**" as UNICO #E8EAF6 {
+  rectangle "**CPU**" as CPU
+  rectangle "**Memoria**" as MEM
+  rectangle "**E/S**" as ES
+  rectangle "**Líneas de control**\n**Líneas de dirección**\n**Líneas de datos**" as LIN #FFF8E1
+  CPU -down-> LIN
+  MEM -down-> LIN
+  ES -down-> LIN
+}
+
+rectangle "**Problema del bus único**\nConectar **gran número de dispositivos produce retardos de\npropagación**. Si el control del bus pasa de un dispositivo a otro,\n**puede afectar sensiblemente a las prestaciones**\n\n→ La mayoría de los sistemas usan **varios buses: jerarquía de buses**" as PROB #FFEBEE
+
+rectangle "**ARQUITECTURA DE BUS TRADICIONAL**" as TRAD #E8F5E9 {
+  rectangle "**Bus local**\nProcesador · Caché · Controlador local de E/S" as T1 #C8E6C9
+  rectangle "**Bus del sistema**\nMemoria principal" as T2 #C8E6C9
+  rectangle "**Bus de expansión**  *(vía interfaz con el bus de expansión)*\nRed · SCSI · Módem · Serie" as T3 #C8E6C9
+  T1 -down-> T2
+  T2 -down-> T3
+}
+
+rectangle "**ARQUITECTURA CON BUS DE ALTAS PRESTACIONES**" as ALTA #E8F5E9 {
+  rectangle "**Bus local**\nProcesador · Caché/adaptador" as A1 #C8E6C9
+  rectangle "**Bus del sistema**\nMemoria principal" as A2 #C8E6C9
+  rectangle "**Bus de alta velocidad**\nSCSI · FireWire · Gráficos · Vídeo · LAN" as A3 #A5D6A7
+  rectangle "**Bus de expansión**  *(vía interfaz con el bus de expansión)*\nFAX · Módem · Serie" as A4 #C8E6C9
+  A1 -down-> A2
+  A2 -down-> A3
+  A3 -down-> A4
+}
+
+LIN -down-> PROB
+PROB -down-> T1
+T3 -down-> A1
+
+note right of UNICO
+  **Los 3 buses**
+
+  **Datos** — a este nivel no hay
+  diferencia entre datos e
+  instrucciones. **El ancho (8, 16,
+  32, 64 bits) es factor clave de
+  las prestaciones**
+
+  **Dirección** — identifica fuente o
+  destino. **Su ancho determina la
+  máxima capacidad de memoria**
+  (MSX88: 16 bits → 64 K lugares)
+
+  **Control** — señales de control y
+  temporización: lectura/escritura
+  en memoria, petición de
+  interrupción, señales de reloj
+end note
+
+note right of ALTA
+  **Ancho de banda de un bus**
+  = frecuencia × ancho en bits
+    × datos por ciclo de reloj
+
+  Ej. Pentium IV 3,6 GHz:
+  FSB = 200 MHz × 64 bits × 4
+  = **6400 MB/s**
+end note
+
+@enduml

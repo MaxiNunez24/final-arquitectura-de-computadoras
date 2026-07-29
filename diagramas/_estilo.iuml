@@ -1,0 +1,63 @@
+' ---------------------------------------------------------------------------
+' Estilo común a todos los diagramas del sitio.
+'
+' Mobile-first: el sitio se lee desde el celular, así que los diagramas se
+' arman angostos y altos (nunca anchos y bajos). Tipografía grande porque el
+' SVG se escala a 100% del ancho de la columna y en pantalla chica un texto
+' de 11pt queda ilegible.
+'
+' Se incluye con:  !include _estilo.iuml
+' El renderizador ignora los .iuml (scripts/render_puml.sh sólo toma *.puml).
+' ---------------------------------------------------------------------------
+
+skinparam backgroundColor transparent
+skinparam shadowing false
+skinparam defaultFontName "Inter, Helvetica, Arial, sans-serif"
+skinparam defaultFontSize 15
+skinparam roundCorner 6
+skinparam nodesep 12
+skinparam ranksep 22
+
+skinparam ArrowColor #37474F
+skinparam ArrowFontSize 13
+skinparam ArrowFontColor #37474F
+
+skinparam rectangle {
+  BackgroundColor #ECEFF1
+  BorderColor #546E7A
+  FontColor #1A237E
+  FontSize 15
+}
+
+skinparam node {
+  BackgroundColor #E8EAF6
+  BorderColor #3F51B5
+  FontColor #1A237E
+}
+
+skinparam database {
+  BackgroundColor #E8EAF6
+  BorderColor #3F51B5
+  FontColor #1A237E
+}
+
+skinparam note {
+  BackgroundColor #FFF8E1
+  BorderColor #FFB300
+  FontColor #4E342E
+  FontSize 13
+}
+
+skinparam activity {
+  BackgroundColor #E8EAF6
+  BorderColor #3F51B5
+  FontColor #1A237E
+  DiamondBackgroundColor #FFF8E1
+  DiamondBorderColor #FFB300
+  DiamondFontColor #4E342E
+}
+
+skinparam partition {
+  BorderColor #546E7A
+  FontColor #37474F
+}

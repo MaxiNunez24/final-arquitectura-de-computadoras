@@ -1,0 +1,2765 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Sitio de estudio para el final de Arquitectura de Computadoras (UNLP)">
+      
+      
+        <meta name="author" content="Maxi">
+      
+      
+      
+        <link rel="prev" href="../risc-cisc/">
+      
+      
+        <link rel="next" href="../paralelismo/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.4">
+    
+    
+      
+        <title>Superescalares - Arquitectura de Computadoras — Final</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.8608ea7d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/mobile.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#procesadores-superescalares" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Arquitectura de Computadoras — Final" class="md-header__button md-logo" aria-label="Arquitectura de Computadoras — Final" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Arquitectura de Computadoras — Final
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Superescalares
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Compartir" aria-label="Compartir" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+    
+  
+  Inicio
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+    
+  
+  Temas
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../finales/" class="md-tabs__link">
+          
+  
+    
+  
+  Finales
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../diagramas/" class="md-tabs__link">
+        
+  
+    
+  
+  Diagramas
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../todos/" class="md-tabs__link">
+        
+  
+    
+  
+  TODOs
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Arquitectura de Computadoras — Final" class="md-nav__button md-logo" aria-label="Arquitectura de Computadoras — Final" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Arquitectura de Computadoras — Final
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Inicio
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Temas
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Temas
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interrupciones/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Interrupciones
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../entrada-salida/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Entrada/Salida
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dma/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DMA
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../memoria-cache/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Memoria caché
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../segmentacion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Segmentación de cauce
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../soluciones-segmentacion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Soluciones a la segmentación
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../risc-cisc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RISC vs CISC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Superescalares
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Superescalares
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#definicion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Definición
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#desarrollo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Desarrollo
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Desarrollo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#evolucion-de-la-segmentacion-por-generaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      Evolución de la segmentación por generaciones
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#limitaciones-de-los-procesadores-segmentados" class="md-nav__link">
+    <span class="md-ellipsis">
+      Limitaciones de los procesadores segmentados
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#procesadores-supersegmentados" class="md-nav__link">
+    <span class="md-ellipsis">
+      Procesadores supersegmentados
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#procesadores-superescalares_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Procesadores superescalares
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paralelismo-ipl-y-mpl" class="md-nav__link">
+    <span class="md-ellipsis">
+      Paralelismo: IPL y MPL
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tratamiento-de-las-instrucciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tratamiento de las instrucciones
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#politicas-de-emision" class="md-nav__link">
+    <span class="md-ellipsis">
+      Políticas de emisión
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#renombrado-de-registros" class="md-nav__link">
+    <span class="md-ellipsis">
+      Renombrado de registros
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#el-modelo-de-ejecucion-superescalar" class="md-nav__link">
+    <span class="md-ellipsis">
+      El modelo de ejecución superescalar
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interrupciones-en-procesadores-superescalares" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interrupciones en procesadores superescalares
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diagrama" class="md-nav__link">
+    <span class="md-ellipsis">
+      Diagrama
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Diagrama">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modelo-de-ejecucion-superescalar" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modelo de ejecución superescalar
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ventajas-y-desventajas-o-comparaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ventajas y desventajas o comparaciones
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ventajas y desventajas o comparaciones">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#segmentada-vs-supersegmentada-vs-superescalar" class="md-nav__link">
+    <span class="md-ellipsis">
+      Segmentada vs. supersegmentada vs. superescalar
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#las-3-politicas-de-emision" class="md-nav__link">
+    <span class="md-ellipsis">
+      Las 3 políticas de emisión
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#con-y-sin-renombrado-de-registros" class="md-nav__link">
+    <span class="md-ellipsis">
+      Con y sin renombrado de registros
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#excepciones-precisas-vs-imprecisas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Excepciones precisas vs. imprecisas
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejemplo-del-curso" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo del curso
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ejemplo del curso">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#la-secuencia-de-6-instrucciones-y-las-3-politicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      La secuencia de 6 instrucciones y las 3 políticas
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#los-3-riesgos-con-finalizacion-desordenada" class="md-nav__link">
+    <span class="md-ellipsis">
+      Los 3 riesgos con finalización desordenada
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#esquema-de-un-procesador-superescalar-concreto" class="md-nav__link">
+    <span class="md-ellipsis">
+      Esquema de un procesador superescalar concreto
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#preguntas-de-final-sobre-este-tema" class="md-nav__link">
+    <span class="md-ellipsis">
+      Preguntas de final sobre este tema
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fuentes-citadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fuentes citadas
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../paralelismo/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Paralelismo
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../buses/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Buses
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../von-neumann-y-pila/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Von Neumann y pila
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../finales/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Finales
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Finales
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finales/frecuencia/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Frecuencia de temas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finales/simulacros/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Simulacros
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Banco por tema
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            Banco por tema
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finales/por-tema/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Por tema
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finales/temas/interrupciones/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Interrupciones
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finales/temas/entrada-salida/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Entrada/Salida
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finales/temas/dma/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DMA
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finales/temas/memoria-cache/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Memoria caché
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finales/temas/segmentacion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Segmentación de cauce
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finales/temas/soluciones-segmentacion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Soluciones a la segmentación
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finales/temas/risc-cisc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RISC vs CISC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finales/temas/superescalares/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Superescalares
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finales/temas/paralelismo/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Paralelismo
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finales/temas/buses/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Buses
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finales/temas/von-neumann-y-pila/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Von Neumann y pila
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../diagramas/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Diagramas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../todos/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TODOs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#definicion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Definición
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#desarrollo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Desarrollo
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Desarrollo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#evolucion-de-la-segmentacion-por-generaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      Evolución de la segmentación por generaciones
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#limitaciones-de-los-procesadores-segmentados" class="md-nav__link">
+    <span class="md-ellipsis">
+      Limitaciones de los procesadores segmentados
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#procesadores-supersegmentados" class="md-nav__link">
+    <span class="md-ellipsis">
+      Procesadores supersegmentados
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#procesadores-superescalares_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Procesadores superescalares
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#paralelismo-ipl-y-mpl" class="md-nav__link">
+    <span class="md-ellipsis">
+      Paralelismo: IPL y MPL
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tratamiento-de-las-instrucciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tratamiento de las instrucciones
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#politicas-de-emision" class="md-nav__link">
+    <span class="md-ellipsis">
+      Políticas de emisión
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#renombrado-de-registros" class="md-nav__link">
+    <span class="md-ellipsis">
+      Renombrado de registros
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#el-modelo-de-ejecucion-superescalar" class="md-nav__link">
+    <span class="md-ellipsis">
+      El modelo de ejecución superescalar
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interrupciones-en-procesadores-superescalares" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interrupciones en procesadores superescalares
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diagrama" class="md-nav__link">
+    <span class="md-ellipsis">
+      Diagrama
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Diagrama">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#modelo-de-ejecucion-superescalar" class="md-nav__link">
+    <span class="md-ellipsis">
+      Modelo de ejecución superescalar
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ventajas-y-desventajas-o-comparaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ventajas y desventajas o comparaciones
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ventajas y desventajas o comparaciones">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#segmentada-vs-supersegmentada-vs-superescalar" class="md-nav__link">
+    <span class="md-ellipsis">
+      Segmentada vs. supersegmentada vs. superescalar
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#las-3-politicas-de-emision" class="md-nav__link">
+    <span class="md-ellipsis">
+      Las 3 políticas de emisión
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#con-y-sin-renombrado-de-registros" class="md-nav__link">
+    <span class="md-ellipsis">
+      Con y sin renombrado de registros
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#excepciones-precisas-vs-imprecisas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Excepciones precisas vs. imprecisas
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejemplo-del-curso" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo del curso
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ejemplo del curso">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#la-secuencia-de-6-instrucciones-y-las-3-politicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      La secuencia de 6 instrucciones y las 3 políticas
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#los-3-riesgos-con-finalizacion-desordenada" class="md-nav__link">
+    <span class="md-ellipsis">
+      Los 3 riesgos con finalización desordenada
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#esquema-de-un-procesador-superescalar-concreto" class="md-nav__link">
+    <span class="md-ellipsis">
+      Esquema de un procesador superescalar concreto
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#preguntas-de-final-sobre-este-tema" class="md-nav__link">
+    <span class="md-ellipsis">
+      Preguntas de final sobre este tema
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fuentes-citadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fuentes citadas
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="procesadores-superescalares">Procesadores superescalares<a class="headerlink" href="#procesadores-superescalares" title="Permanent link">&para;</a></h1>
+<h2 id="definicion">Definición<a class="headerlink" href="#definicion" title="Permanent link">&para;</a></h2>
+<p><strong>En la ejecución superescalar de instrucciones, en cada ciclo se inician más de 1
+instrucción.</strong> Por ejemplo, un procesador superescalar <strong>de grado 2 inicia 2
+nuevas instrucciones en cada ciclo de reloj</strong>.</p>
+<p><strong>La aproximación superescalar se basa en poder ejecutar varias instrucciones en
+diferentes cauces de manera independiente y concurrente.</strong></p>
+<p>Un procesador superescalar dispone, básicamente, de <strong>múltiples unidades
+funcionales, cada una implementada como un cauce segmentado</strong>, que admite la
+ejecución paralela de varias instrucciones.</p>
+<p>Ejemplos de procesadores superescalares: <strong>MC68040, i80486, MC88110, i80860,
+PA-RISC, Sparc, R6000</strong>.</p>
+<p class="fuentes">Fuente: <code>Teorías/08 Arq clase8 Procesadores Superescalares.pdf</code>, fil. 12–13, 16.</p>
+
+<h2 id="desarrollo">Desarrollo<a class="headerlink" href="#desarrollo" title="Permanent link">&para;</a></h2>
+<h3 id="evolucion-de-la-segmentacion-por-generaciones">Evolución de la segmentación por generaciones<a class="headerlink" href="#evolucion-de-la-segmentacion-por-generaciones" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Generación</th>
+<th>Modelo de ejecución</th>
+<th>Características</th>
+<th>Ejemplos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1.ª</strong></td>
+<td><strong>Secuencial</strong></td>
+<td>Proceso de ejecución <strong>completamente secuencial</strong>. <strong>No empezaba una nueva instrucción hasta que se completaba la corriente</strong></td>
+<td>i4004, i8008/80, MC6800, MCS6502, Z80, F8</td>
+</tr>
+<tr>
+<td><strong>2.ª</strong></td>
+<td><strong>Segmentada</strong></td>
+<td>Se empezó a <strong>segmentar el cauce</strong>, aunque en forma <strong>limitada y en muy pocas etapas</strong>. <strong>Nuevas instrucciones podían iniciarse mientras otras estaban en proceso</strong></td>
+<td>MC68000, i8086/286, Z8000</td>
+</tr>
+<tr>
+<td><strong>3.ª</strong></td>
+<td><strong>Segmentada aumentada</strong></td>
+<td>La segmentación <strong>se profundizó</strong>, aumentando significativamente <strong>la cantidad de etapas</strong> (F, D, EA, E, M, WB)</td>
+<td>MC68020, i80386, R2000/3000</td>
+</tr>
+</tbody>
+</table>
+<h3 id="limitaciones-de-los-procesadores-segmentados">Limitaciones de los procesadores segmentados<a class="headerlink" href="#limitaciones-de-los-procesadores-segmentados" title="Permanent link">&para;</a></h3>
+<p>En general, un procesador de <strong>k etapas</strong> tiene una <strong>productividad teórica máxima
+igual a k</strong>. Pero esa productividad tiene varias limitaciones:</p>
+<ul>
+<li><strong>La máxima capacidad teórica es 1 instrucción por ciclo (IPC = 1):</strong> sólo puede
+  completar 1 instrucción por ciclo de reloj.</li>
+<li><strong>Hay 1 solo pipeline</strong> para los diferentes tipos (de datos).</li>
+<li><strong>Los atascos en el cauce producen burbujas innecesarias</strong> que reducen la
+  productividad.</li>
+</ul>
+<p><strong>Rendimiento de un procesador escalar segmentado.</strong> Depende de:</p>
+<ul>
+<li><strong>IPC:</strong> número de instrucciones por ciclo.</li>
+<li><strong>f:</strong> frecuencia del reloj (T = 1/f).</li>
+<li><strong>k:</strong> cantidad de etapas del cauce.</li>
+</ul>
+<blockquote>
+<p><strong>CPU time = N.º instr. × IPC × T</strong>, donde T = tiempo de ciclo</p>
+</blockquote>
+<p><strong>Para estos procesadores, en el mejor de los casos IPC = 1, y sólo se puede
+mejorar este tiempo si se aumenta f.</strong></p>
+<p><strong>Las limitaciones se originan en 2 aspectos:</strong></p>
+<ol>
+<li><strong>El IPC es igual a 1, en el mejor de los casos.</strong></li>
+<li><strong>Los posibles conflictos que pueden producir atascos en el cauce</strong>, debidos a:<ul>
+<li><strong>Dependencias de datos:</strong> verdadera, de salida y antidependencia.</li>
+<li><strong>Penalizaciones en saltos.</strong></li>
+<li><strong>Conflictos por uso de recursos.</strong></li>
+</ul>
+</li>
+</ol>
+<p><strong>Existen 2 técnicas para aumentar la performance usando segmentación:</strong>
+supersegmentación y superescalaridad.</p>
+<h3 id="procesadores-supersegmentados">Procesadores supersegmentados<a class="headerlink" href="#procesadores-supersegmentados" title="Permanent link">&para;</a></h3>
+<p><strong>En la ejecución supersegmentada de instrucciones cada ciclo se divide en
+fracciones más chicas, en las que se inician nuevas instrucciones.</strong> Por ejemplo,
+un procesador <strong>supersegmentado de grado 2 acepta una nueva instrucción en cada
+semiciclo de reloj</strong>.</p>
+<ul>
+<li>La ejecución supersegmentada consiste en <strong>subdividir cada segmento en partes
+  más pequeñas</strong>.</li>
+<li><strong>Como muchas operaciones no necesitan todo un ciclo de reloj</strong>, se puede hacer
+  más de una tarea en ese ciclo subdividiéndolo en subintervalos, <strong>lo que es
+  equivalente a usar una mayor frecuencia de reloj</strong> (menor ciclo de reloj).</li>
+<li><strong>El tiempo para las instrucciones individuales no varía</strong>, pero <strong>aumenta el
+  grado del paralelismo de la máquina temporal</strong>.</li>
+<li><strong>El pipeline se hace más profundo, pero está limitado por la tecnología</strong> —es
+  decir, por la frecuencia máxima—.</li>
+</ul>
+<h3 id="procesadores-superescalares_1">Procesadores superescalares<a class="headerlink" href="#procesadores-superescalares_1" title="Permanent link">&para;</a></h3>
+<p><strong>Se pueden llevar a cabo (completar) 2 o más instancias de cada etapa de una
+instrucción simultáneamente.</strong> Para poder iniciar/ejecutar 2 o más instrucciones
+simultáneamente <strong>se requiere la duplicación de algunas o todas las partes de la
+CPU/ALU</strong>, por ejemplo:</p>
+<ul>
+<li><strong>Captación de múltiples instrucciones</strong> al mismo tiempo.</li>
+<li><strong>Ejecución (sumas y multiplicaciones) simultánea.</strong></li>
+<li><strong>Ejecución de carga/almacenamiento mientras se lleva a cabo una operación en la
+  ALU.</strong></li>
+</ul>
+<p><strong>El grado de paralelismo y, por tanto, la aceleración de la máquina aumentan, ya
+que se ejecutan más instrucciones en paralelo.</strong></p>
+<p><strong>La aproximación superescalar presenta paralelismo de máquina de 2 tipos:
+temporal y espacial.</strong> Por ejemplo, una máquina supersegmentada de <strong>profundidad 5
+y ancho 4</strong> tendría capacidad de ejecutar <strong>hasta 20 instrucciones
+simultáneamente</strong>.</p>
+<p><strong>Los conflictos en procesadores superescalares son los mismos que en procesadores
+segmentados:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Ejemplo</th>
+<th>Conflicto</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>I0 Add r1, r2</code> / <code>I1 Mov r3, r1</code></td>
+<td><strong>Dependencia de datos</strong> — I1 usa un dato calculado por I0</td>
+</tr>
+<tr>
+<td><code>I0 Add r1, r2</code> / <code>I1 Jmp etiqueta</code></td>
+<td><strong>Penalización por instrucciones de salto</strong></td>
+</tr>
+<tr>
+<td><code>I0 Add r1, r2</code> / <code>I1 Add r4, r3</code></td>
+<td><strong>Conflicto en un recurso</strong> — I0 e I1 usan la misma unidad funcional</td>
+</tr>
+</tbody>
+</table>
+<h3 id="paralelismo-ipl-y-mpl">Paralelismo: IPL y MPL<a class="headerlink" href="#paralelismo-ipl-y-mpl" title="Permanent link">&para;</a></h3>
+<p><strong>El paralelismo es la capacidad para ejecutar varias tareas en el mismo intervalo
+de tiempo (en "paralelo"). Hay 2 tipos:</strong></p>
+<ul>
+<li><strong>Paralelismo a nivel de instrucciones:</strong> se refiere a <strong>las posibilidades que
+  tiene un programa</strong> para ejecutar instrucciones en paralelo.</li>
+<li><strong>Paralelismo a nivel de máquina:</strong> es <strong>la capacidad que tiene una máquina</strong>
+  para encontrar y ejecutar tareas en paralelo.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>IPL</strong> — paralelismo a nivel de programa</th>
+<th><strong>MPL</strong> — paralelismo a nivel de máquina</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Qué mide</strong></td>
+<td>El <strong>grado de paralelismo de un programa</strong>: la cantidad, <strong>en promedio</strong>, de instrucciones que pueden ejecutarse en paralelo</td>
+<td>El <strong>grado de paralelismo de una máquina</strong>: su capacidad para <strong>aprovechar el paralelismo de un programa</strong></td>
+</tr>
+<tr>
+<td><strong>De qué depende</strong></td>
+<td>Que las instrucciones <strong>sean independientes</strong></td>
+<td><strong>Número de instrucciones captadas por ciclo</strong> · <strong>número de unidades funcionales</strong> · <strong>mecanismos para localizar y ejecutar instrucciones independientes</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="tratamiento-de-las-instrucciones">Tratamiento de las instrucciones<a class="headerlink" href="#tratamiento-de-las-instrucciones" title="Permanent link">&para;</a></h3>
+<p>En los procesadores superescalares <strong>el objetivo fundamental es localizar
+instrucciones que puedan ser introducidas al pipeline y ejecutadas</strong>. En este
+proceso de detección es necesario distinguir:</p>
+<ul>
+<li><strong>El orden en que se captan</strong> las instrucciones.</li>
+<li><strong>El orden en que se ejecutan</strong> las instrucciones.</li>
+<li><strong>El orden en que las instrucciones actualizan los registros y las posiciones de
+  memoria.</strong></li>
+</ul>
+<blockquote>
+<p><strong>Cuanto más sofisticado es el procesador, menos restricciones impone a estos
+ordenamientos. Incluso puede alterar cualquier ordenamiento respecto del
+estrictamente secuencial. La única condición es que el resultado debe ser
+correcto.</strong></p>
+</blockquote>
+<h3 id="politicas-de-emision">Políticas de emisión<a class="headerlink" href="#politicas-de-emision" title="Permanent link">&para;</a></h3>
+<p><strong>Las políticas de emisión de instrucciones son los protocolos usados para el
+envío de las instrucciones a las unidades funcionales</strong>, es decir, definen la
+forma en que <strong>se captan, ejecutan y finalizan</strong> (escriben los resultados) las
+instrucciones.</p>
+<p><strong>En función del orden en que se captan, ejecutan y terminan, existen 3
+políticas:</strong></p>
+<ol>
+<li><strong>Emisión y finalización ordenada</strong></li>
+<li><strong>Emisión ordenada y finalización desordenada</strong></li>
+<li><strong>Emisión y finalización desordenada</strong></li>
+</ol>
+<h4 id="emision-y-finalizacion-ordenada">Emisión y finalización ordenada<a class="headerlink" href="#emision-y-finalizacion-ordenada" title="Permanent link">&para;</a></h4>
+<p><strong>Las instrucciones se emiten exactamente como están en el programa</strong> —como si
+fuera "secuencial"— <strong>y se escriben los resultados en el mismo orden</strong>.</p>
+<ul>
+<li>Las instrucciones <strong>se captan y decodifican de a 2</strong>.</li>
+<li>I5 e I6 <strong>deben esperar hasta que se desocupen ambos decodificadores</strong> D1 y D2.</li>
+<li>Dado que el orden de escritura debe ser el mismo en que se captan, <strong>I2 no puede
+  ser escrita hasta que I1 no se haya completado</strong> y esté lista para guardarse.</li>
+<li><strong>I4 tiene que esperar que I3 libere E3.</strong> Ídem I5 e I6.</li>
+<li><strong>I5 tiene que esperar que se ejecute I4.</strong></li>
+</ul>
+<blockquote>
+<p><strong>Se requieren 8 ciclos para ejecutar las 6 instrucciones.</strong></p>
+</blockquote>
+<h4 id="emision-ordenada-y-finalizacion-desordenada">Emisión ordenada y finalización desordenada<a class="headerlink" href="#emision-ordenada-y-finalizacion-desordenada" title="Permanent link">&para;</a></h4>
+<p><strong>Las instrucciones se emiten exactamente como están en el programa, pero los
+resultados se escriben en "cualquier orden".</strong></p>
+<ul>
+<li>Las instrucciones <strong>se captan y decodifican de a 2</strong>; por eso I5 e I6 deben
+  esperar a que se desocupen ambos decodificadores.</li>
+<li>Dado que el orden de escritura <strong>puede ser distinto</strong> del de captación, <strong>I2
+  puede ser escrita antes que I1</strong> se haya completado.</li>
+<li>Al permitir la finalización desordenada, <strong>I3 puede ser ejecutada
+  anticipadamente, ganándose 1 ciclo</strong>.</li>
+</ul>
+<blockquote>
+<p><strong>Ahora se requieren 7 ciclos para ejecutar las 6 instrucciones.</strong></p>
+</blockquote>
+<p><strong>Conclusiones:</strong></p>
+<ul>
+<li>Las instrucciones <strong>entran a las unidades de ejecución a medida que se van
+  decodificando y hay unidades de ejecución disponibles</strong>.</li>
+<li>Las emisiones <strong>están limitadas por los posibles conflictos de recursos,
+  dependencias de datos y de saltos</strong>.</li>
+<li><strong>Al permitir la finalización desordenada aparecen nuevas fuentes de conflictos
+  por dependencia de datos.</strong></li>
+<li><strong>La lógica de emisión de instrucciones es más compleja</strong> que la empleada en
+  máquinas con política de finalización ordenada.</li>
+<li><strong>Con la política de emisión ordenada, el procesador sólo puede decodificar
+  instrucciones hasta el punto de dependencia o conflicto:</strong> no analiza si hay
+  nuevas instrucciones que pueden emitirse sin producir conflicto.</li>
+</ul>
+<h4 id="emision-y-finalizacion-desordenada">Emisión y finalización desordenada<a class="headerlink" href="#emision-y-finalizacion-desordenada" title="Permanent link">&para;</a></h4>
+<p><strong>Para permitir que el procesador busque más allá del punto de conflicto por
+nuevas instrucciones, se requiere usar una política de emisión desordenada.</strong></p>
+<p>La política de emisión desordenada <strong>requiere separar, mediante un buffer llamado
+<em>Ventana de instrucciones</em>, las unidades de decodificación y las de ejecución</strong>.</p>
+<ul>
+<li><strong>Cada instrucción decodificada se coloca en un buffer intermedio, desde donde se
+  emiten las que no presentan conflictos.</strong></li>
+<li><strong>Mientras no se llene el buffer, nuevas instrucciones son decodificadas y
+  colocadas</strong> para su emisión a las unidades de ejecución.</li>
+<li><strong>Las instrucciones emitidas no deben tener conflictos por recursos ni por
+  dependencias de datos.</strong></li>
+</ul>
+<div class="admonition important">
+<p class="admonition-title">La ventana de instrucciones no es una etapa del cauce</p>
+<p><strong>Es un buffer que retiene la información necesaria para emitirla.</strong></p>
+</div>
+<p><strong>En el ejemplo del curso:</strong></p>
+<ul>
+<li>Las instrucciones se captan y decodifican de a 2, <strong>pero ahora la ventana
+  permite, en el ciclo 3, decodificar las instrucciones I5 e I6</strong>.</li>
+<li>Como <strong>I6 no tiene dependencias y está lista para ejecutarse, puede ser emitida
+  anticipadamente, incluso antes de I5</strong>. La ventana <strong>le permite "ver" al
+  procesador más adelante de las instrucciones en conflicto</strong>, pudiendo detectar
+  nuevas instrucciones (la I6) que no generan conflicto.</li>
+</ul>
+<blockquote>
+<p><strong>Ahora se requieren 6 ciclos para ejecutar las 6 instrucciones.</strong></p>
+</blockquote>
+<h3 id="renombrado-de-registros">Renombrado de registros<a class="headerlink" href="#renombrado-de-registros" title="Permanent link">&para;</a></h3>
+<p><strong>Al permitir finalización y/o emisión desordenada surgen los nuevos problemas de
+dependencia de datos (WAW y WAR).</strong></p>
+<p>Las dependencias de salida y antidependencias <strong>surgen porque los valores de los
+registros pueden no reflejar la secuencia de valores dictada por el flujo del
+programa</strong>. En realidad <strong>es un conflicto de almacenamiento: hay instrucciones que
+compiten por un mismo registro</strong>.</p>
+<p>Estos nuevos conflictos <strong>pueden resolverse con detenciones en la etapa del
+cauce</strong>, pero esa solución <strong>produce pérdidas de tiempo que pueden llegar a ser
+inaceptables</strong>.</p>
+<p><strong>Dado que en definitiva es un conflicto de recursos —los registros—, se puede
+resolver duplicando los recursos. Esta técnica se conoce como Renombrado de
+Registros.</strong></p>
+<ul>
+<li><strong>Los registros en las instrucciones del programa son registros "lógicos".</strong></li>
+<li><strong>Los registros físicos (los reales) los asigna el procesador.</strong></li>
+<li><strong>Cada vez que se guarda un dato en un registro, el procesador le asigna un nuevo
+  registro físico.</strong> Las instrucciones siguientes que referencien a ese registro
+  <strong>deben renombrarse</strong> para referenciar el registro físico que tiene el dato
+  correcto.</li>
+</ul>
+<p><strong>Ejemplo del curso.</strong> Secuencia con nombres de registros como referencias
+"lógicas":</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>R3 := R3 op R5    (I1)
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>R4 := R3 + 1      (I2)
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>R3 := R5 + 1      (I3)
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>R7 := R3 op R4    (I4)
+</code></pre></div>
+<p>Se observan las <strong>3 dependencias</strong>: <strong>RAW entre I1 e I2</strong>, <strong>WAR entre I2 e I3</strong>,
+<strong>WAW entre I1 e I3</strong>.</p>
+<p>El procesador va asignando nuevos registros en cada escritura, quedando las
+referencias <strong>"físicas"</strong>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>R3b := R3a op R5a    (I1)
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>R4a := R3b + 1       (I2)
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>R3c := R5a + 1       (I3)
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>R7a := R3c op R4a    (I4)
+</code></pre></div>
+<ul>
+<li>En <strong>I1</strong> se asigna un nuevo registro <strong>R3b</strong>, distinto del usado anteriormente
+  (R3a).</li>
+<li><strong>I2 debe renombrarse para usar R3b</strong> (y no R3a), y <strong>crea R4a</strong>, que no existía
+  previamente.</li>
+<li><strong>I3 asigna un nuevo registro R3c</strong>, distinto del usado anteriormente (R3b).</li>
+<li><strong>I4 debe renombrarse para usar R3c</strong> (y no R3b), y <strong>crea R7a</strong>.</li>
+</ul>
+<blockquote>
+<p><strong>De esta manera se eliminan las dependencias WAW y WAR (antidependencia y
+dependencia de salida), quedando únicamente la dependencia verdadera RAW.</strong></p>
+</blockquote>
+<h3 id="el-modelo-de-ejecucion-superescalar">El modelo de ejecución superescalar<a class="headerlink" href="#el-modelo-de-ejecucion-superescalar" title="Permanent link">&para;</a></h3>
+<p>El modelo completo se esquematiza en <strong>6 etapas</strong>:</p>
+<p><strong>Fetch → Decode → Dispatch → Issue → Execute → Commit</strong></p>
+<table>
+<thead>
+<tr>
+<th>Bloque</th>
+<th>Qué hace</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Captación de instrucciones y predicción de saltos</strong> (Fetch, Decode)</td>
+<td>Las instrucciones <strong>son captadas a partir del programa estático y decodificadas</strong> para la <strong>detección temprana de dependencias</strong> y la <strong>predicción de saltos</strong></td>
+</tr>
+<tr>
+<td><strong>Envío de instrucciones</strong> (Dispatch)</td>
+<td>Las instrucciones, <strong>todavía ordenadas, son enviadas a la ventana de ejecución</strong>, donde <strong>se las redistribuye en función de las dependencias verdaderas</strong>: las que están en condiciones de ser ejecutadas o las que necesitan disponer de datos de otras instrucciones</td>
+</tr>
+<tr>
+<td><strong>Emisión y ejecución</strong> (Issue, Execute)</td>
+<td>Las instrucciones <strong>son ejecutadas en un orden basado en la disponibilidad de unidades de ejecución y en las dependencias verdaderas</strong></td>
+</tr>
+<tr>
+<td><strong>Reordenación y entrega</strong> (Commit)</td>
+<td>Las instrucciones ejecutadas <strong>son nuevamente reordenadas secuencialmente</strong> y los resultados <strong>guardados en el orden que corresponde</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Para qué sirve el último paso (Commit):</strong></p>
+<ul>
+<li><strong>Reordenar el almacenamiento de acuerdo al programa original.</strong></li>
+<li><strong>Eliminar todas las ejecuciones inservibles</strong> —aquellas que se hicieron por
+  predicción de salto o <strong>ejecución especulativa</strong>— y que se deben descartar.</li>
+<li><strong>Mejorar la respuesta a las interrupciones.</strong></li>
+</ul>
+<blockquote>
+<p><strong>De esta manera, las instrucciones ejecutadas producen resultados almacenados
+temporalmente, hasta que se graban los resultados válidos en los registros
+reales.</strong></p>
+</blockquote>
+<p><strong>En resumen, la ejecución superescalar involucra:</strong></p>
+<ul>
+<li>Diferentes estrategias de <strong>captación simultánea de múltiples instrucciones</strong>.</li>
+<li><strong>Lógica para determinar dependencias verdaderas</strong> entre valores de registros y
+  mecanismos para comunicar esos valores.</li>
+<li><strong>Mecanismos para iniciar o emitir múltiples instrucciones en paralelo.</strong></li>
+<li><strong>Recursos para la ejecución en paralelo</strong> de múltiples instrucciones.</li>
+<li><strong>Mecanismos para entregar el estado del procesador en un orden correcto.</strong></li>
+</ul>
+<h3 id="interrupciones-en-procesadores-superescalares">Interrupciones en procesadores superescalares<a class="headerlink" href="#interrupciones-en-procesadores-superescalares" title="Permanent link">&para;</a></h3>
+<p><strong>En los procesadores superescalares el tratamiento de interrupciones internas o
+excepciones —rupturas por ejecución de instrucciones— y externas —rupturas por
+eventos externos— es más complicado que en los procesadores convencionales.</strong></p>
+<p><strong>La razón:</strong> en el momento en que se produce una interrupción <strong>hay varias
+instrucciones en ejecución, y además desordenadas</strong>. El problema que se plantea es:
+producida una excepción en una instrucción dada I2, <strong>¿en qué estado quedaron las
+instrucciones anteriores (I1) y posteriores (I3)</strong>, dado que con la política de
+ejecución desordenada <strong>pudieron haber quedado en distintos estados</strong>?</p>
+<p><strong>Interrupciones internas o excepciones — 2 estrategias:</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Excepciones precisas</strong></th>
+<th><strong>Excepciones imprecisas</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Comportamiento</strong></td>
+<td><strong>Las instrucciones que preceden a la que produjo la excepción se completan, y las que le suceden se reinician.</strong> El comportamiento es "idéntico" al que tendría <strong>la misma computadora no segmentada</strong></td>
+<td><strong>No se respetan las condiciones exactas de la máquina no segmentada</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Para garantizar un estado consistente (preciso) se requiere:</strong></p>
+<ol>
+<li><strong>Las instrucciones anteriores terminan correctamente.</strong></li>
+<li><strong>La que origina la excepción y las siguientes se abortan.</strong></li>
+<li><strong>Tras la rutina de tratamiento se comienza por la que originó la excepción.</strong></li>
+</ol>
+<p>Para que las interrupciones sean precisas, <strong>los resultados se deben almacenar en
+el orden en que aparecen las instrucciones</strong>. Para ello <strong>se requiere retardar las
+escrituras de los resultados</strong> de tal manera que queden en el orden en el que
+estaba el programa secuencial.</p>
+<p><strong>Interrupciones externas.</strong> Pueden tener distinto grado de "precisión", dado que
+<strong>no necesariamente tienen que ver con las instrucciones en ejecución</strong> —por
+ejemplo, operaciones de E/S—:</p>
+<table>
+<thead>
+<tr>
+<th>Grado</th>
+<th>Comportamiento</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Imprecisas</strong></td>
+<td><strong>Se completa lo que estaba en ejecución</strong></td>
+</tr>
+<tr>
+<td><strong>"Algo" imprecisas</strong></td>
+<td><strong>El software</strong> —la rutina de servicio de la interrupción— <strong>resuelve algunas inconsistencias</strong></td>
+</tr>
+<tr>
+<td><strong>Precisas</strong></td>
+<td><strong>Sólo se completan las instrucciones previas a la interrupción</strong>, para lo cual <strong>se requiere implementar la escritura con buffer de salida</strong>. La unidad de emisión <strong>deja de emitir</strong>, <strong>se cancela la cola</strong>, <strong>todas las instrucciones pendientes se completan</strong> y comienza el procesamiento de la interrupción</td>
+</tr>
+</tbody>
+</table>
+<p><a href="../interrupciones/">Ver la ficha de interrupciones</a>.</p>
+<p class="fuentes">Fuente: <code>Teorías/08 Arq clase8 Procesadores Superescalares.pdf</code>, fil. 3–5, 6–9, 10–11, 12–17, 19–21, 22, 23–38, 39–43, 44–47, 54–58.</p>
+
+<h2 id="diagrama">Diagrama<a class="headerlink" href="#diagrama" title="Permanent link">&para;</a></h2>
+<h3 id="modelo-de-ejecucion-superescalar">Modelo de ejecución superescalar<a class="headerlink" href="#modelo-de-ejecucion-superescalar" title="Permanent link">&para;</a></h3>
+<p><img alt="Ejecución superescalar: de Fetch a Commit, y comparación con segmentada y supersegmentada" src="../../diagramas/ejecucion-superescalar.svg" /></p>
+<p class="fuentes">Fuente: <code>Teorías/08 Arq clase8 Procesadores Superescalares.pdf</code>, fil. 44–47 (modelo), fil. 9–12 y 18 (comparación) y fil. 39–43 (renombrado).</p>
+
+<h2 id="ventajas-y-desventajas-o-comparaciones">Ventajas y desventajas o comparaciones<a class="headerlink" href="#ventajas-y-desventajas-o-comparaciones" title="Permanent link">&para;</a></h2>
+<h3 id="segmentada-vs-supersegmentada-vs-superescalar">Segmentada vs. supersegmentada vs. superescalar<a class="headerlink" href="#segmentada-vs-supersegmentada-vs-superescalar" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Segmentada (máquina base)</strong></th>
+<th><strong>Supersegmentada</strong></th>
+<th><strong>Superescalar</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Idea</strong></td>
+<td>Solapar etapas de instrucciones sucesivas</td>
+<td><strong>Subdividir cada segmento en partes más pequeñas</strong></td>
+<td><strong>Iniciar más de 1 instrucción por ciclo</strong></td>
+</tr>
+<tr>
+<td><strong>Cuándo inicia una nueva instrucción</strong></td>
+<td>1 por ciclo</td>
+<td><strong>1 por subintervalo</strong> (grado 2 = 1 por semiciclo)</td>
+<td><strong>Varias por ciclo</strong> (grado 2 = 2 por ciclo)</td>
+</tr>
+<tr>
+<td><strong>Qué duplica</strong></td>
+<td>Nada</td>
+<td>Nada: <strong>profundiza el pipeline</strong></td>
+<td><strong>Unidades funcionales</strong> (ALU, load/store, captación)</td>
+</tr>
+<tr>
+<td><strong>Tipo de paralelismo</strong></td>
+<td>—</td>
+<td><strong>Temporal</strong></td>
+<td><strong>Temporal y espacial</strong></td>
+</tr>
+<tr>
+<td><strong>IPC máximo</strong></td>
+<td><strong>1</strong></td>
+<td>1 por subintervalo</td>
+<td><strong>&gt; 1</strong></td>
+</tr>
+<tr>
+<td><strong>Límite</strong></td>
+<td>IPC = 1 y atascos</td>
+<td><strong>La tecnología</strong>: la frecuencia máxima alcanzable</td>
+<td>Dependencias, conflictos de recursos, complejidad de la lógica de emisión</td>
+</tr>
+<tr>
+<td><strong>Tiempo de la instrucción individual</strong></td>
+<td>—</td>
+<td><strong>No varía</strong></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h3 id="las-3-politicas-de-emision">Las 3 políticas de emisión<a class="headerlink" href="#las-3-politicas-de-emision" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Emisión y finalización ordenada</strong></th>
+<th><strong>Emisión ordenada, finalización desordenada</strong></th>
+<th><strong>Emisión y finalización desordenada</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Orden de emisión</strong></td>
+<td>El del programa</td>
+<td>El del programa</td>
+<td><strong>Libre</strong></td>
+</tr>
+<tr>
+<td><strong>Orden de escritura</strong></td>
+<td>El del programa</td>
+<td><strong>Libre</strong></td>
+<td><strong>Libre</strong></td>
+</tr>
+<tr>
+<td><strong>Buffer intermedio</strong></td>
+<td>No</td>
+<td>No</td>
+<td><strong>Ventana de instrucciones</strong></td>
+</tr>
+<tr>
+<td><strong>Ciclos en el ejemplo (6 instrucciones)</strong></td>
+<td><strong>8</strong></td>
+<td><strong>7</strong></td>
+<td><strong>6</strong></td>
+</tr>
+<tr>
+<td><strong>Ventaja</strong></td>
+<td>Lógica simple; excepciones precisas</td>
+<td>Gana ciclos ejecutando anticipadamente</td>
+<td><strong>Permite "ver" más allá del punto de conflicto</strong></td>
+</tr>
+<tr>
+<td><strong>Desventaja</strong></td>
+<td>El procesador <strong>se detiene en el primer conflicto</strong></td>
+<td>Aparecen <strong>nuevos conflictos WAW y WAR</strong>; lógica de emisión más compleja</td>
+<td>La más compleja; necesita <strong>renombrado de registros</strong> para ser útil</td>
+</tr>
+</tbody>
+</table>
+<h3 id="con-y-sin-renombrado-de-registros">Con y sin renombrado de registros<a class="headerlink" href="#con-y-sin-renombrado-de-registros" title="Permanent link">&para;</a></h3>
+<p>Estudio de la teoría, comparando la <strong>aceleración (<em>speedup</em>)</strong> en 4 tipos de
+máquina —base sin duplicación, +ld/st, +ALU, +both— y <strong>3 tamaños de ventana de
+instrucciones (8, 16 y 32)</strong>:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><strong>Sin renombrado</strong></th>
+<th><strong>Con renombrado</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Efecto de duplicar unidades funcionales (ld/st y ALU)</strong></td>
+<td><strong>Poco impacto</strong>: la aceleración pasa de <strong>2 a 2,5</strong></td>
+<td><strong>Mejora fuertemente</strong>: la aceleración pasa de <strong>2,5 a 4</strong></td>
+</tr>
+<tr>
+<td><strong>Efecto del tamaño de la ventana</strong></td>
+<td><strong>De 8 a 32 no modifica significativamente</strong> los resultados</td>
+<td><strong>Impacto significativo al pasar de 8 a 16</strong> instrucciones</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Por qué la gran diferencia:</strong></p>
+<ul>
+<li><strong>Sin renombrado:</strong> <strong>todos</strong> los conflictos por dependencias de datos (RAW, WAR,
+  WAW) <strong>se resuelven mediante detenciones del cauce (<em>stall</em>)</strong>.</li>
+<li><strong>Con renombrado:</strong> <strong>se eliminan los conflictos por dependencia de salida y
+  antidependencia (WAW, WAR)</strong>, quedando <strong>únicamente la dependencia directa o
+  verdadera (RAW)</strong>.</li>
+</ul>
+<h3 id="excepciones-precisas-vs-imprecisas">Excepciones precisas vs. imprecisas<a class="headerlink" href="#excepciones-precisas-vs-imprecisas" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Sistema</th>
+<th>Tipo de excepción</th>
+<th>Performance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Con finalización desordenada</strong></td>
+<td><strong>Imprecisas</strong></td>
+<td><strong>Mayor</strong></td>
+</tr>
+<tr>
+<td><strong>Con finalización ordenada</strong> (es decir, <strong>con buffer de reordenamiento</strong>)</td>
+<td><strong>Precisas</strong></td>
+<td><strong>Menor</strong></td>
+</tr>
+</tbody>
+</table>
+<p class="fuentes">Fuente: <code>Teorías/08 Arq clase8 Procesadores Superescalares.pdf</code>, fil. 6, 10–12, 18, 23–38, 48–51, 59.</p>
+
+<h2 id="ejemplo-del-curso">Ejemplo del curso<a class="headerlink" href="#ejemplo-del-curso" title="Permanent link">&para;</a></h2>
+<h3 id="la-secuencia-de-6-instrucciones-y-las-3-politicas">La secuencia de 6 instrucciones y las 3 políticas<a class="headerlink" href="#la-secuencia-de-6-instrucciones-y-las-3-politicas" title="Permanent link">&para;</a></h3>
+<p><strong>El procesador de referencia</strong> es un superescalar con un <strong>cauce de 3
+segmentos</strong>:</p>
+<ul>
+<li><strong>Búsqueda de instrucción y decodificación:</strong> IF+D</li>
+<li><strong>Ejecución:</strong> Ex</li>
+<li><strong>Escritura de resultados:</strong> W</li>
+</ul>
+<p>Y dispone de:</p>
+<ul>
+<li><strong>2 unidades de decodificación</strong> D1 y D2</li>
+<li><strong>3 unidades de ejecución</strong> E1, E2 y E3</li>
+<li><strong>2 copias de la etapa de escritura</strong> W1 y W2</li>
+</ul>
+<p>Como tiene 2 unidades de búsqueda y decodificación, <strong>2 instrucciones pueden ser
+leídas y decodificadas al mismo tiempo</strong>, y <strong>sólo se puede leer un nuevo par
+cuando se liberan ambas unidades D1 y D2</strong>. Para garantizar la correcta ejecución,
+<strong>los conflictos se resuelven parando la instrucción (<em>stall</em>) hasta que el
+conflicto desaparece</strong>.</p>
+<p><strong>Características de la secuencia de 6 instrucciones:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Instrucción</th>
+<th>Característica</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>I1</strong></td>
+<td>Tarda <strong>2 ciclos</strong> en ejecutarse</td>
+</tr>
+<tr>
+<td><strong>I2</strong></td>
+<td>Tarda <strong>1 ciclo</strong></td>
+</tr>
+<tr>
+<td><strong>I3 e I4</strong></td>
+<td>Tardan 1 ciclo y <strong>usan la misma unidad funcional (E3)</strong></td>
+</tr>
+<tr>
+<td><strong>I5 e I6</strong></td>
+<td>Tardan 1 ciclo y <strong>usan la misma unidad funcional (E2)</strong></td>
+</tr>
+<tr>
+<td><strong>I5</strong></td>
+<td><strong>Depende del valor producido por I4</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Emisión y finalización ordenada — 8 ciclos</label><label for="__tabbed_1_2">Emisión ordenada, finalización desordenada — 7 ciclos</label><label for="__tabbed_1_3">Emisión y finalización desordenada — 6 ciclos</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">Ciclo</th>
+<th>D1</th>
+<th>D2</th>
+<th>E1</th>
+<th>E2</th>
+<th>E3</th>
+<th>W1</th>
+<th>W2</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">1</td>
+<td>I1</td>
+<td>I2</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: right;">2</td>
+<td>I3</td>
+<td>I4</td>
+<td>I1</td>
+<td>I2</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: right;">3</td>
+<td>I3</td>
+<td>I4</td>
+<td>I1</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: right;">4</td>
+<td></td>
+<td>I4</td>
+<td></td>
+<td></td>
+<td>I3</td>
+<td>I1</td>
+<td>I2</td>
+</tr>
+<tr>
+<td style="text-align: right;">5</td>
+<td>I5</td>
+<td>I6</td>
+<td></td>
+<td></td>
+<td>I4</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: right;">6</td>
+<td></td>
+<td>I6</td>
+<td></td>
+<td>I5</td>
+<td></td>
+<td>I3</td>
+<td>I4</td>
+</tr>
+<tr>
+<td style="text-align: right;">7</td>
+<td></td>
+<td></td>
+<td></td>
+<td>I6</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: right;">8</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>I5</td>
+<td>I6</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tabbed-block">
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">Ciclo</th>
+<th>Decodificación</th>
+<th>Ejecución</th>
+<th>Escritura</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">1</td>
+<td>I1, I2</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: right;">2</td>
+<td>I3, I4</td>
+<td>I1, I2</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: right;">3</td>
+<td>I4</td>
+<td>I1, I3</td>
+<td>I2</td>
+</tr>
+<tr>
+<td style="text-align: right;">4</td>
+<td>I5, I6</td>
+<td>I4</td>
+<td>I1, I3</td>
+</tr>
+<tr>
+<td style="text-align: right;">5</td>
+<td>I6</td>
+<td>I5</td>
+<td>I4</td>
+</tr>
+<tr>
+<td style="text-align: right;">6</td>
+<td></td>
+<td>I6</td>
+<td>I5</td>
+</tr>
+<tr>
+<td style="text-align: right;">7</td>
+<td></td>
+<td></td>
+<td>I6</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="tabbed-block">
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">Ciclo</th>
+<th>Decodificación</th>
+<th>Ventana de instrucciones</th>
+<th>Ejecución</th>
+<th>Escritura</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">1</td>
+<td>I1, I2</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: right;">2</td>
+<td>I3, I4</td>
+<td>I1, I2</td>
+<td>I1, I2</td>
+<td></td>
+</tr>
+<tr>
+<td style="text-align: right;">3</td>
+<td>I5, I6</td>
+<td>I3, I4</td>
+<td>I1, I3</td>
+<td>I2</td>
+</tr>
+<tr>
+<td style="text-align: right;">4</td>
+<td></td>
+<td>I4, I5, I6</td>
+<td>I6, I4</td>
+<td>I1, I3</td>
+</tr>
+<tr>
+<td style="text-align: right;">5</td>
+<td></td>
+<td>I5</td>
+<td>I5</td>
+<td>I4, I6</td>
+</tr>
+<tr>
+<td style="text-align: right;">6</td>
+<td></td>
+<td></td>
+<td></td>
+<td>I5</td>
+</tr>
+</tbody>
+</table>
+<p><strong>La clave:</strong> en el ciclo 3 la ventana permite decodificar I5 e I6, y como
+<strong>I6 no tiene dependencias puede emitirse anticipadamente, incluso antes de
+I5</strong>.</p>
+</div>
+</div>
+</div>
+<h3 id="los-3-riesgos-con-finalizacion-desordenada">Los 3 riesgos con finalización desordenada<a class="headerlink" href="#los-3-riesgos-con-finalizacion-desordenada" title="Permanent link">&para;</a></h3>
+<p>Programa de ejemplo:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>R3 := R2 op R5    (I1)
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>R4 := R3 + 1      (I2)
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>R3 := R5 + 1      (I3)
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>R7 := R3 op R4    (I4)
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Riesgo</th>
+<th>Explicación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1) RAW</strong> — dependencia verdadera</td>
+<td><strong>I1 escribe el resultado en R3, que es un operando de I2</strong></td>
+</tr>
+<tr>
+<td><strong>2) WAW</strong> — dependencia de salida</td>
+<td><strong>I1 escribe el resultado en R3 igual que I3.</strong> Si I3 se escribe antes que I1, <strong>entonces I4 usará un valor incorrecto de R3</strong></td>
+</tr>
+<tr>
+<td><strong>3) WAR</strong> — antidependencia</td>
+<td><strong>I3 escribe en R3, pero I2 necesita el valor previo de R3.</strong> I3 no puede escribir R3 <strong>hasta que I2 haya leído el valor</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="esquema-de-un-procesador-superescalar-concreto">Esquema de un procesador superescalar concreto<a class="headerlink" href="#esquema-de-un-procesador-superescalar-concreto" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>La unidad de búsqueda de instrucciones (F)</strong> busca y <strong>carga en un buffer
+  (cola de instrucciones)</strong> las instrucciones leídas.</li>
+<li><strong>La unidad de decodificación/emisión</strong> puede <strong>tomar 2 instrucciones de la cola
+  y decodificarlas</strong>.</li>
+<li><strong>Hay 2 unidades de ejecución (ALU): una de punto fijo y otra de punto
+  flotante.</strong></li>
+<li>Si de las 2 instrucciones que capta <strong>una es de enteros y la otra de coma
+  flotante (segmentada), y no existen riesgos, entonces pueden emitirse y
+  ejecutarse a la vez</strong>. Entran <strong>2 instrucciones por ciclo</strong>.</li>
+</ul>
+<blockquote>
+<p><strong>Es responsabilidad del compilador generar el código apropiado para el máximo
+aprovechamiento del procesador superescalar.</strong></p>
+</blockquote>
+<p class="fuentes">Fuente: <code>Teorías/08 Arq clase8 Procesadores Superescalares.pdf</code>, fil. 24–31, 33, 37–38, 40, 52–53.</p>
+
+<h2 id="preguntas-de-final-sobre-este-tema">Preguntas de final sobre este tema<a class="headerlink" href="#preguntas-de-final-sobre-este-tema" title="Permanent link">&para;</a></h2>
+<p><a href="../../finales/temas/superescalares/">:material-help-box: Ver el banco de preguntas de superescalares</a></p>
+<h2 id="fuentes-citadas">Fuentes citadas<a class="headerlink" href="#fuentes-citadas" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>Teorías/08 Arq clase8 Procesadores Superescalares.pdf</code> — 60 filminas. Fuente
+  primaria del tema.</li>
+</ul>
+<p><strong>Referencias que da la propia cátedra</strong> (fil. 60): <em>Organización y Arquitectura de
+Computadoras</em>, William Stallings, capítulo 13 de la 5.ª edición o capítulo 14 de la
+7.ª edición.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "navigation.tracking", "toc.follow", "search.highlight", "search.share", "search.suggest", "content.code.copy", "content.tooltips"], "search": "../../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f1b6f286.min.js"></script>
+      
+    
+  </body>
+</html>

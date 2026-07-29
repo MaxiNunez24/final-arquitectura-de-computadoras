@@ -1,0 +1,2488 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Sitio de estudio para el final de Arquitectura de Computadoras (UNLP)">
+      
+      
+        <meta name="author" content="Maxi">
+      
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../entrada-salida/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.4">
+    
+    
+      
+        <title>Interrupciones - Arquitectura de Computadoras — Final</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.8608ea7d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/mobile.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#interrupciones" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="../.." title="Arquitectura de Computadoras — Final" class="md-header__button md-logo" aria-label="Arquitectura de Computadoras — Final" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Arquitectura de Computadoras — Final
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Interrupciones
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo oscuro"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo oscuro" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Cambiar a modo claro"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Cambiar a modo claro" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Compartir" aria-label="Compartir" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Pestañas" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+    
+  
+  Inicio
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+    
+  
+  Temas
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../finales/" class="md-tabs__link">
+          
+  
+    
+  
+  Finales
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../diagramas/" class="md-tabs__link">
+        
+  
+    
+  
+  Diagramas
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../todos/" class="md-tabs__link">
+        
+  
+    
+  
+  TODOs
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Arquitectura de Computadoras — Final" class="md-nav__button md-logo" aria-label="Arquitectura de Computadoras — Final" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Arquitectura de Computadoras — Final
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Inicio
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Temas
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Temas
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Interrupciones
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Interrupciones
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#definicion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Definición
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#desarrollo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Desarrollo
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Desarrollo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#operacion-de-una-interrupcion-paso-a-paso" class="md-nav__link">
+    <span class="md-ellipsis">
+      Operación de una interrupción, paso a paso
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#origen-de-las-interrupciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      Origen de las interrupciones
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clasificacion-de-las-interrupciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      Clasificación de las interrupciones
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interrupciones-multiples-y-prioridades" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interrupciones múltiples y prioridades
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tratamiento-las-7-acciones-de-la-gestion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tratamiento: las 7 acciones de la gestión
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#identificacion-del-origen-con-multiples-fuentes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Identificación del origen con múltiples fuentes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#el-pic-controlador-programable-de-interrupciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      El PIC — Controlador Programable de Interrupciones
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diagrama" class="md-nav__link">
+    <span class="md-ellipsis">
+      Diagrama
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Diagrama">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ciclo-de-instruccion-con-la-fase-de-gestion-de-interrupciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ciclo de instrucción con la fase de gestión de interrupciones
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estructura-y-conexionado-del-pic" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estructura y conexionado del PIC
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ventajas-y-desventajas-o-comparaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ventajas y desventajas o comparaciones
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ventajas y desventajas o comparaciones">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#las-3-opciones-para-identificar-el-origen-del-pedido" class="md-nav__link">
+    <span class="md-ellipsis">
+      Las 3 opciones para identificar el origen del pedido
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interrupciones-por-hardware-externas-vs-internas-trap" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interrupciones por hardware externas vs. internas (trap)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enmascarables-vs-no-enmascarables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enmascarables vs. no enmascarables
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interrupcion-vs-llamado-a-subrutina" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interrupción vs. llamado a subrutina
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejemplo-del-curso" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo del curso
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ejemplo del curso">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interrupciones-del-i8086" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interrupciones del i8086
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interrupciones-del-msx88" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interrupciones del MSX88
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#la-practica-3-interrupciones-por-hardware-con-el-pic" class="md-nav__link">
+    <span class="md-ellipsis">
+      La Práctica 3 — interrupciones por hardware con el PIC
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#preguntas-de-final-sobre-este-tema" class="md-nav__link">
+    <span class="md-ellipsis">
+      Preguntas de final sobre este tema
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fuentes-citadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fuentes citadas
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../entrada-salida/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Entrada/Salida
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dma/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DMA
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../memoria-cache/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Memoria caché
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../segmentacion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Segmentación de cauce
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../soluciones-segmentacion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Soluciones a la segmentación
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../risc-cisc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RISC vs CISC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../superescalares/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Superescalares
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../paralelismo/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Paralelismo
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../buses/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Buses
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../von-neumann-y-pila/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Von Neumann y pila
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../finales/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Finales
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Finales
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finales/frecuencia/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Frecuencia de temas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finales/simulacros/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Simulacros
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Banco por tema
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            Banco por tema
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finales/por-tema/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Por tema
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finales/temas/interrupciones/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Interrupciones
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finales/temas/entrada-salida/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Entrada/Salida
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finales/temas/dma/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DMA
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finales/temas/memoria-cache/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Memoria caché
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finales/temas/segmentacion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Segmentación de cauce
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finales/temas/soluciones-segmentacion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Soluciones a la segmentación
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finales/temas/risc-cisc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RISC vs CISC
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finales/temas/superescalares/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Superescalares
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finales/temas/paralelismo/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Paralelismo
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finales/temas/buses/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Buses
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../finales/temas/von-neumann-y-pila/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Von Neumann y pila
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../diagramas/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Diagramas
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../todos/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TODOs
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#definicion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Definición
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#desarrollo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Desarrollo
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Desarrollo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#operacion-de-una-interrupcion-paso-a-paso" class="md-nav__link">
+    <span class="md-ellipsis">
+      Operación de una interrupción, paso a paso
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#origen-de-las-interrupciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      Origen de las interrupciones
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clasificacion-de-las-interrupciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      Clasificación de las interrupciones
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interrupciones-multiples-y-prioridades" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interrupciones múltiples y prioridades
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tratamiento-las-7-acciones-de-la-gestion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Tratamiento: las 7 acciones de la gestión
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#identificacion-del-origen-con-multiples-fuentes" class="md-nav__link">
+    <span class="md-ellipsis">
+      Identificación del origen con múltiples fuentes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#el-pic-controlador-programable-de-interrupciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      El PIC — Controlador Programable de Interrupciones
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diagrama" class="md-nav__link">
+    <span class="md-ellipsis">
+      Diagrama
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Diagrama">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ciclo-de-instruccion-con-la-fase-de-gestion-de-interrupciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ciclo de instrucción con la fase de gestión de interrupciones
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#estructura-y-conexionado-del-pic" class="md-nav__link">
+    <span class="md-ellipsis">
+      Estructura y conexionado del PIC
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ventajas-y-desventajas-o-comparaciones" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ventajas y desventajas o comparaciones
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ventajas y desventajas o comparaciones">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#las-3-opciones-para-identificar-el-origen-del-pedido" class="md-nav__link">
+    <span class="md-ellipsis">
+      Las 3 opciones para identificar el origen del pedido
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interrupciones-por-hardware-externas-vs-internas-trap" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interrupciones por hardware externas vs. internas (trap)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enmascarables-vs-no-enmascarables" class="md-nav__link">
+    <span class="md-ellipsis">
+      Enmascarables vs. no enmascarables
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interrupcion-vs-llamado-a-subrutina" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interrupción vs. llamado a subrutina
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ejemplo-del-curso" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ejemplo del curso
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ejemplo del curso">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#interrupciones-del-i8086" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interrupciones del i8086
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#interrupciones-del-msx88" class="md-nav__link">
+    <span class="md-ellipsis">
+      Interrupciones del MSX88
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#la-practica-3-interrupciones-por-hardware-con-el-pic" class="md-nav__link">
+    <span class="md-ellipsis">
+      La Práctica 3 — interrupciones por hardware con el PIC
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#preguntas-de-final-sobre-este-tema" class="md-nav__link">
+    <span class="md-ellipsis">
+      Preguntas de final sobre este tema
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fuentes-citadas" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fuentes citadas
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="interrupciones">Interrupciones<a class="headerlink" href="#interrupciones" title="Permanent link">&para;</a></h1>
+<h2 id="definicion">Definición<a class="headerlink" href="#definicion" title="Permanent link">&para;</a></h2>
+<p>En condiciones "normales" la CPU lee y ejecuta una instrucción a continuación de
+la otra de manera ininterrumpida (el "bucle interno del ciclo de instrucción").</p>
+<p><strong>Una interrupción es un mecanismo que permite alterar ese proceso de "ejecución
+normal" de la CPU.</strong> Permite que la CPU suspenda la tarea que está haciendo y
+responda a una solicitud de atención para resolver (ejecutar) otra tarea —el
+<strong>servicio de la interrupción</strong>—. Una vez completado el servicio, el procesador
+retoma la tarea suspendida en el punto donde se detuvo, de una manera similar al
+llamado a subrutina.</p>
+<p>El procesador conmuta de una tarea en ejecución a otra por efecto de la presencia
+de un evento. Por lo tanto se requieren <strong>3 acciones</strong>:</p>
+<ol>
+<li><strong>Detener (suspender)</strong> la tarea que está ejecutando el procesador —suspender,
+   no terminar ni abortar—.</li>
+<li><strong>Bifurcar (saltar)</strong> a otra tarea asociada a la solicitud de interrupción
+   (el servicio de interrupción).</li>
+<li><strong>Restablecer</strong> la tarea suspendida en las condiciones en las que se
+   encontraba en el momento en que se la detuvo.</li>
+</ol>
+<p class="fuentes">Fuente: <code>Teorías/02 Arq clase2 Interrupciones.pdf</code>, fil. 3–4.</p>
+
+<h2 id="desarrollo">Desarrollo<a class="headerlink" href="#desarrollo" title="Permanent link">&para;</a></h2>
+<h3 id="operacion-de-una-interrupcion-paso-a-paso">Operación de una interrupción, paso a paso<a class="headerlink" href="#operacion-de-una-interrupcion-paso-a-paso" title="Permanent link">&para;</a></h3>
+<ol>
+<li>La CPU recibe, mientras está ejecutando una tarea, un <strong>pedido de
+   interrupción</strong>.</li>
+<li>La CPU <strong>salva todo o parte del estado</strong> de la CPU correspondiente a la tarea
+   a ser suspendida. Al menos salva el <strong>Contador de Programa (PC)</strong> y el
+   <strong>registro de estado (PSW)</strong>, típicamente en la <strong>pila del sistema</strong>. Lo hace
+   porque los necesita para restaurar la tarea suspendida.</li>
+<li>La CPU busca, en un área de memoria definida, la dirección de comienzo (el
+   <strong>"vector"</strong>) del servicio de la interrupción, y comienza a ejecutar dicho
+   servicio.</li>
+<li>Cuando termina el servicio tiene que retornar al programa interrumpido,
+   mediante una instrucción especial de <strong>Retorno de Interrupción (RTI)</strong>.</li>
+<li>La ejecución de RTI <strong>desapila exactamente lo apilado</strong> cuando atendió la
+   interrupción. Como mínimo recupera el PC y el PSW, y así retoma la tarea
+   suspendida en el punto en que fue interrumpida.</li>
+</ol>
+<h3 id="origen-de-las-interrupciones">Origen de las interrupciones<a class="headerlink" href="#origen-de-las-interrupciones" title="Permanent link">&para;</a></h3>
+<p>El origen de una interrupción es la ocurrencia de un evento que requiere la
+intervención de la CPU. Existen 2 tipos de eventos:</p>
+<table>
+<thead>
+<tr>
+<th>Tipo</th>
+<th>Descripción</th>
+<th>Ejemplos</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Interno</strong></td>
+<td>Situación producida dentro del sistema de cómputo</td>
+<td>error asociado a la ejecución de una instrucción, desbordamiento aritmético (<em>overflow</em>), división por cero, temporizados propios del sistema, fallo del hardware, error de paridad en la memoria, pérdida de energía</td>
+</tr>
+<tr>
+<td><strong>Externo</strong></td>
+<td>Asociado a operaciones de E/S con periféricos</td>
+<td>finalización de una transferencia, error en la transferencia, dispositivo indisponible</td>
+</tr>
+</tbody>
+</table>
+<h3 id="clasificacion-de-las-interrupciones">Clasificación de las interrupciones<a class="headerlink" href="#clasificacion-de-las-interrupciones" title="Permanent link">&para;</a></h3>
+<p><strong>Según se puedan ignorar o no</strong> —principalmente asociado a la prioridad que
+tienen—:</p>
+<ul>
+<li><strong>No enmascarables:</strong> no pueden ser ignoradas, se atienden indefectiblemente.
+  Están asociadas a eventos críticos, peligrosos o de alta prioridad.</li>
+<li><strong>Enmascarables:</strong> pueden ser eventualmente "ignoradas". El procesador permite
+  realizar algunas acciones que inhiben su atención. Generalmente están asociadas
+  a operaciones menos críticas, por ejemplo de E/S.</li>
+</ul>
+<p><strong>Según la forma en que se invocan:</strong></p>
+<ul>
+<li><strong>Por hardware:</strong> generadas por señales físicas asociadas a eventos externos o
+  internos.<ul>
+<li><strong>Externas</strong> (<em>interrupt request</em>). El origen proviene típicamente de
+  dispositivos conectados al subsistema de E/S. Se consideran las
+  "verdaderas" interrupciones porque son <strong>aleatorias</strong> en relación al
+  proceso en ejecución: pueden ocurrir en cualquier instante de tiempo. El
+  sistema tiene que ser capaz de manejar estos eventos externos "no
+  planeados" o <strong>asincrónicos</strong>. Pueden o no estar relacionadas con el
+  proceso en ejecución en ese momento.</li>
+<li><strong>Internas</strong> (<em>trap</em> o <strong>excepciones</strong>). Son señales creadas dentro del
+  sistema de cómputo en respuesta a situaciones propias del proceso en
+  ejecución y <strong>no vinculadas con operaciones de E/S</strong>; por tal motivo <strong>no
+  son estrictamente aleatorias</strong>. Eventos que producen un trap: condiciones
+  excepcionales (overflow en la ALU de punto flotante), fallas de programa
+  (tratar de ejecutar una instrucción no definida), fallas de hardware (error
+  de paridad de memoria), accesos no alineados o a zonas de memoria
+  protegidas.</li>
+</ul>
+</li>
+<li><strong>Por software</strong> (<em>software interrupt</em>): son instrucciones explícitas con
+  efecto similar a una interrupción por hardware. Como normalmente el <strong>SO
+  administra los servicios de las interrupciones</strong>, permiten invocar los
+  servicios del SO asociados a ellas —en otras palabras, son "llamadas" a
+  funciones del SO—. El SO define los lugares donde se cargan los servicios; el
+  usuario no conoce a priori esos lugares, pero los usa invocándolos a través de
+  las interrupciones que maneja el SO.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Por qué hacen falta las interrupciones por software</p>
+<p>Hay sistemas que no permiten hacer una llamada directa a una función del SO
+por estar en una zona reservada. Sin este mecanismo, cuando se necesita
+administrar una tarea por interrupción habría que: <strong>(1)</strong> escribir el
+servicio uno mismo —bastante complicado—, o <strong>(2)</strong> buscar entre todas las
+llamadas a funciones del BIOS y el SO la que se necesita y reemplazar en el
+código la dirección de esa función invocada —también muy complicado—.</p>
+</div>
+<h3 id="interrupciones-multiples-y-prioridades">Interrupciones múltiples y prioridades<a class="headerlink" href="#interrupciones-multiples-y-prioridades" title="Permanent link">&para;</a></h3>
+<p>La necesidad de administrar eventos de distinto origen requiere, en la mayor
+parte de los casos, administrar varias interrupciones. Dado su origen diverso,
+hay algunas más importantes que otras: las más importantes deben tener mayor
+<strong>prioridad</strong>. Cuanto mayor sea su prioridad, mayor es la urgencia para ser
+atendida, <strong>incluso si hay una interrupción en curso</strong>.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Igual prioridad</label><label for="__tabbed_1_2">Distinta prioridad</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>Se procesan <strong>en el orden en que llegan</strong>.</p>
+<ul>
+<li>Cuando llega una interrupción y es atendida, se <strong>inhabilita el resto de
+  las interrupciones de igual o menor nivel</strong> de prioridad.</li>
+<li>Si llega una nueva interrupción, quedará <strong>pendiente</strong>.</li>
+<li>El procesador ejecuta el servicio de la interrupción atendida.</li>
+<li>Al finalizar el servicio se habilitan nuevamente las interrupciones.</li>
+<li>La interrupción pendiente será atendida.</li>
+</ul>
+</div>
+<div class="tabbed-block">
+<p>Las de mayor prioridad <strong>pueden interrumpir</strong> a las de menor prioridad. La
+inversa no vale.</p>
+<ul>
+<li>Una interrupción de prioridad más alta puede interrumpir en cualquier
+  momento a una de prioridad menor.</li>
+<li>Cuando se ha gestionado la de prioridad más alta, el procesador <strong>vuelve a
+  las interrupciones previas</strong> (de menor prioridad).</li>
+<li>Terminadas todas las rutinas de gestión de interrupciones, se retoma el
+  programa del usuario.</li>
+</ul>
+</div>
+</div>
+</div>
+<h3 id="tratamiento-las-7-acciones-de-la-gestion">Tratamiento: las 7 acciones de la gestión<a class="headerlink" href="#tratamiento-las-7-acciones-de-la-gestion" title="Permanent link">&para;</a></h3>
+<p>El uso de interrupciones requiere la gestión ordenada de estas acciones básicas:</p>
+<ol>
+<li>Detectar el pedido de interrupción.</li>
+<li>Detener la tarea que se estaba ejecutando.</li>
+<li>Salvar el estado de la tarea que se estaba ejecutando.</li>
+<li>Obtener la dirección de comienzo del servicio de la interrupción y bifurcar a
+   dicho servicio.</li>
+<li>Ejecutar el servicio de la interrupción.</li>
+<li>Retornar y restaurar el estado en que estaba la tarea interrumpida.</li>
+<li>Continuar con la ejecución normal de la tarea interrumpida, en el punto en el
+   que se detuvo.</li>
+</ol>
+<h4 id="1-deteccion-del-pedido-la-fase-de-interrupcion-del-ciclo-de-instruccion">1. Detección del pedido: la fase de interrupción del ciclo de instrucción<a class="headerlink" href="#1-deteccion-del-pedido-la-fase-de-interrupcion-del-ciclo-de-instruccion" title="Permanent link">&para;</a></h4>
+<p>El procesador <strong>examina la presencia de interrupciones en cada ciclo de
+instrucción</strong>. El ciclo de instrucción, que podía interpretarse como un bucle de
+ejecución interna, infinito, compuesto por 2 fases —<strong>captación</strong> de la
+instrucción y <strong>ejecución</strong>—, se modifica agregando una tercera: la <strong>fase de
+gestión de interrupciones</strong>, que determina la presencia o ausencia de pedido.</p>
+<p>La presencia de un pedido se manifiesta mediante una o más <strong>señales discretas
+(bits)</strong> comúnmente llamadas <strong>bandera</strong> o <em>flag</em>, que la CPU examina. El estado
+de estos flags asociados a interrupciones está en algún <strong>registro especial de la
+CPU</strong>. Dependiendo del estado 0 o 1 del flag se tienen 2 posibles caminos.</p>
+<h4 id="2-almacenamiento-del-proceso-a-ser-interrumpido">2. Almacenamiento del proceso a ser interrumpido<a class="headerlink" href="#2-almacenamiento-del-proceso-a-ser-interrumpido" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Si <strong>no hay</strong> pedido pendiente (flag inactivo), se inicia el ciclo de captación
+  de la siguiente instrucción (proceso "normal" de ejecución).</li>
+<li>Si <strong>hay</strong> algún pedido pendiente, el procesador guarda en la pila del sistema
+  el "estado del proceso". Existen <strong>2 estrategias de guardado</strong>:<ul>
+<li>Guardar sólo la próxima instrucción a ejecutar y algún registro crítico
+  (por ejemplo el registro de estado).</li>
+<li>Guardar <strong>todos</strong> los registros del procesador.</li>
+</ul>
+</li>
+</ul>
+<p>El objetivo de esta operación es restablecer el estado del procesador al terminar
+el servicio de la interrupción.</p>
+<h4 id="3-bifurcacion-al-servicio-de-la-interrupcion">3. Bifurcación al servicio de la interrupción<a class="headerlink" href="#3-bifurcacion-al-servicio-de-la-interrupcion" title="Permanent link">&para;</a></h4>
+<p>Obtiene la dirección donde comienza la rutina de la interrupción y <strong>carga el PC
+con este valor</strong>, bifurcando así al servicio. En general se dispone de un <strong>área
+de memoria reservada</strong> donde están estas direcciones —son varias, porque el
+procesador es capaz de atender varias interrupciones y habrá una dirección por
+interrupción—. Esa área se llama <strong>área de vectores de interrupción</strong>.</p>
+<h3 id="identificacion-del-origen-con-multiples-fuentes">Identificación del origen con múltiples fuentes<a class="headerlink" href="#identificacion-del-origen-con-multiples-fuentes" title="Permanent link">&para;</a></h3>
+<p>Cuando hay múltiples fuentes de interrupción hay varias formas de identificar el
+origen del pedido. Las más comunes:</p>
+<table>
+<thead>
+<tr>
+<th>Opción</th>
+<th>Mecanismo</th>
+<th>Características</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1</strong></td>
+<td>1 señal física de entrada a la CPU <strong>por cada</strong> interrupción</td>
+<td>Cada dispositivo que puede provocar interrupción tiene una entrada física conectada directamente a la CPU. Implementación bastante sencilla. Disponer de líneas en la CPU es <strong>costoso</strong>, así que la cantidad se acota normalmente a un número reducido (por ejemplo 3 o 4). Restringida por la cantidad de líneas disponibles.</td>
+</tr>
+<tr>
+<td><strong>2</strong></td>
+<td>1 única señal física para todas + identificación <strong>por software</strong></td>
+<td>La CPU debe "preguntar" a cada dispositivo si produjo el pedido: método de <strong>encuesta</strong> o <em>polling</em>. Es básicamente un programa que ejecuta la CPU dentro de los servicios de interrupción. Al ser detección por software, consultar uno por uno a todos los dispositivos lo hace <strong>relativamente lento e ineficiente</strong>.</td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td>1 única señal física para todas + identificación <strong>por hardware</strong></td>
+<td>La CPU recibe a continuación, típicamente a través del <strong>bus de datos</strong>, un número que identifica la fuente: el <strong>vector de la interrupción</strong>. El vector lo provee el periférico que generó el pedido, o algún dispositivo que se ocupe de generarlo según la interrupción a ser atendida.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="el-pic-controlador-programable-de-interrupciones">El PIC — Controlador Programable de Interrupciones<a class="headerlink" href="#el-pic-controlador-programable-de-interrupciones" title="Permanent link">&para;</a></h3>
+<p>La <strong>opción 3</strong> se conoce como <strong>interrupciones vectorizadas</strong>. El escenario es:</p>
+<ul>
+<li>El procesador tiene una <strong>única entrada</strong> de pedido de interrupciones.</li>
+<li>Hay <strong>varios "productores"</strong> de interrupciones.</li>
+<li>Un <strong>dispositivo especial</strong> administra las necesidades propias de la
+  interrupción. En la familia Intel se conoce como <strong>Controlador Programable de
+  Interrupciones (PIC)</strong>. Se encarga, entre otras cosas, de <strong>generar el vector,
+  administrar prioridades y habilitar interrupciones</strong>.</li>
+</ul>
+<p><strong>Diálogo PIC ↔ CPU:</strong></p>
+<ol>
+<li>El PIC recibe los pedidos de interrupción, típicamente de periféricos que
+   piden atención.</li>
+<li>El PIC solicita atención a la CPU con la única señal de pedido de interrupción
+   <strong>IntR</strong> (<em>interrupt request</em>).</li>
+<li>Cuando la CPU está lista para atender la interrupción, le avisa al PIC
+   mediante la señal <strong>IntA</strong> (<em>interrupt acknowledge</em>).</li>
+<li>El PIC genera en el <strong>bus de datos</strong> el número de la interrupción (vector) a
+   ser atendida. La CPU lee ese número y busca en la memoria el vector
+   correspondiente al servicio de esa interrupción.</li>
+</ol>
+<p><strong>Dado que se hace por hardware, es mucho más rápido.</strong></p>
+<p><strong>Registros internos del PIC</strong> —tiene 3 principales—:</p>
+<table>
+<thead>
+<tr>
+<th>Registro</th>
+<th>Función</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ISR</strong></td>
+<td>Identifica la interrupción <strong>en servicio</strong>. Indica con bit en 1.</td>
+</tr>
+<tr>
+<td><strong>IRR</strong></td>
+<td>Contiene los <strong>pedidos</strong> de interrupción provenientes de los periféricos. Indica con bit en 1.</td>
+</tr>
+<tr>
+<td><strong>IMR</strong></td>
+<td>Se usa para <strong>habilitar/deshabilitar</strong> los pedidos de interrupción. Enmascara con 1. Esta funcionalidad se conoce como <strong>enmascaramiento de interrupciones</strong>.</td>
+</tr>
+</tbody>
+</table>
+<p>Además tiene los registros <strong>INT0…INT7</strong>, con el vector de cada interrupción.</p>
+<p class="fuentes">Fuente: <code>Teorías/02 Arq clase2 Interrupciones.pdf</code>, fil. 6–7, 8–20, 21–31, 32–36, 43.</p>
+
+<h2 id="diagrama">Diagrama<a class="headerlink" href="#diagrama" title="Permanent link">&para;</a></h2>
+<h3 id="ciclo-de-instruccion-con-la-fase-de-gestion-de-interrupciones">Ciclo de instrucción con la fase de gestión de interrupciones<a class="headerlink" href="#ciclo-de-instruccion-con-la-fase-de-gestion-de-interrupciones" title="Permanent link">&para;</a></h3>
+<p><img alt="Ciclo de instrucción con fase de gestión de interrupciones" src="../../diagramas/ciclo-instruccion-interrupcion.svg" /></p>
+<h3 id="estructura-y-conexionado-del-pic">Estructura y conexionado del PIC<a class="headerlink" href="#estructura-y-conexionado-del-pic" title="Permanent link">&para;</a></h3>
+<p><img alt="Interrupciones vectorizadas con el PIC" src="../../diagramas/pic.svg" /></p>
+<p class="fuentes">Fuente: <code>Teorías/02 Arq clase2 Interrupciones.pdf</code>, fil. 22–23, 26–27 (ciclo) y fil. 33–36, 43–45 (PIC), más <code>Prácticas/Practica 3 - Interrupciones por Hardware - Resolución - AC25.pdf</code>, p. 1–2 (funciones y direcciones de los registros).</p>
+
+<h2 id="ventajas-y-desventajas-o-comparaciones">Ventajas y desventajas o comparaciones<a class="headerlink" href="#ventajas-y-desventajas-o-comparaciones" title="Permanent link">&para;</a></h2>
+<h3 id="las-3-opciones-para-identificar-el-origen-del-pedido">Las 3 opciones para identificar el origen del pedido<a class="headerlink" href="#las-3-opciones-para-identificar-el-origen-del-pedido" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Opción 1 — línea por interrupción</th>
+<th>Opción 2 — polling</th>
+<th>Opción 3 — vectorizada (PIC)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Líneas en la CPU</strong></td>
+<td>Una por dispositivo</td>
+<td>Una sola</td>
+<td>Una sola</td>
+</tr>
+<tr>
+<td><strong>Identificación</strong></td>
+<td>Implícita en la línea</td>
+<td>Por software</td>
+<td>Por hardware</td>
+</tr>
+<tr>
+<td><strong>Ventaja</strong></td>
+<td>Implementación bastante sencilla</td>
+<td>No consume líneas de CPU</td>
+<td>Mucho más rápido; el PIC además genera el vector, administra prioridades y habilita interrupciones</td>
+</tr>
+<tr>
+<td><strong>Desventaja</strong></td>
+<td>Costoso; restringido a un número reducido de líneas (por ejemplo 3 o 4)</td>
+<td>Relativamente lento e ineficiente: hay que consultar uno por uno</td>
+<td>Requiere hardware adicional (el PIC)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="interrupciones-por-hardware-externas-vs-internas-trap">Interrupciones por hardware externas vs. internas (trap)<a class="headerlink" href="#interrupciones-por-hardware-externas-vs-internas-trap" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Externas (<em>interrupt request</em>)</th>
+<th>Internas (<em>trap</em> / excepción)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Origen</strong></td>
+<td>Dispositivos conectados al subsistema de E/S</td>
+<td>Situaciones propias del proceso en ejecución</td>
+</tr>
+<tr>
+<td><strong>Vínculo con E/S</strong></td>
+<td>Sí</td>
+<td>No</td>
+</tr>
+<tr>
+<td><strong>Momento de ocurrencia</strong></td>
+<td><strong>Aleatorias</strong>, asincrónicas: en cualquier instante de tiempo</td>
+<td><strong>No estrictamente aleatorias</strong></td>
+</tr>
+<tr>
+<td><strong>Relación con el proceso en ejecución</strong></td>
+<td>Pueden o no estar relacionadas</td>
+<td>Propias del proceso</td>
+</tr>
+</tbody>
+</table>
+<h3 id="enmascarables-vs-no-enmascarables">Enmascarables vs. no enmascarables<a class="headerlink" href="#enmascarables-vs-no-enmascarables" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Enmascarables</th>
+<th>No enmascarables</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>¿Se pueden ignorar?</strong></td>
+<td>Sí, el procesador puede inhibir su atención</td>
+<td>No, se atienden indefectiblemente</td>
+</tr>
+<tr>
+<td><strong>Asociadas a</strong></td>
+<td>Operaciones menos críticas, por ejemplo de E/S</td>
+<td>Eventos críticos, peligrosos o de alta prioridad</td>
+</tr>
+<tr>
+<td><strong>En el 8086</strong></td>
+<td>INTR (con flag IF asociado)</td>
+<td>NMI</td>
+</tr>
+</tbody>
+</table>
+<h3 id="interrupcion-vs-llamado-a-subrutina">Interrupción vs. llamado a subrutina<a class="headerlink" href="#interrupcion-vs-llamado-a-subrutina" title="Permanent link">&para;</a></h3>
+<p>El retorno del servicio retoma la tarea suspendida en el punto donde se detuvo,
+<strong>de una manera similar al llamado a subrutina</strong>. La diferencia la marca la
+instrucción de retorno: IRET es similar a RET por utilizar la pila, pero
+<strong>recupera además una copia del registro de estado</strong> junto con la dirección de
+retorno. En el MSX88, IRET extrae <strong>6 bytes</strong> de la pila: 4 para la dirección de
+retorno y 2 para el registro de estado.</p>
+<p class="fuentes">Fuente: <code>Teorías/02 Arq clase2 Interrupciones.pdf</code>, fil. 3, 15, 17, 19, 28–34, 37 y <code>Teorías/2 anexo clase 02 ejer_int_en _MSX88.pdf</code>, fil. 14.</p>
+
+<h2 id="ejemplo-del-curso">Ejemplo del curso<a class="headerlink" href="#ejemplo-del-curso" title="Permanent link">&para;</a></h2>
+<h3 id="interrupciones-del-i8086">Interrupciones del i8086<a class="headerlink" href="#interrupciones-del-i8086" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>2 interrupciones por hardware:</strong> <strong>INTR</strong> (enmascarable, con flag <strong>IF</strong>
+  asociado que determina si va a ser atendida o no) y <strong>NMI</strong> (no enmascarable).</li>
+<li>El procesador dispone de una señal de reconocimiento de interrupción <strong>INTA</strong>.</li>
+<li><strong>1 instrucción de interrupción por software:</strong> <code>INT n</code>, con n entre 0 y 255.</li>
+<li>Instrucción de retorno de interrupción: <strong>IRET</strong>.</li>
+<li><strong>2 banderas</strong> relacionadas con las interrupciones:<ul>
+<li><strong>IF</strong> — habilita/deshabilita la INTR (si IF = 0 no se atiende la INTR).</li>
+<li><strong>TF</strong> — habilita/deshabilita el modo <em>trace</em> (<em>single-step</em>), mecanismo
+  implementado mediante una interrupción —la interrupción de trace— que
+  habilita a la CPU a ejecutar de a 1 instrucción por vez.</li>
+</ul>
+</li>
+<li>El esquema de manejo es <strong>vectorizado</strong>. El área de memoria donde están los
+  vectores está en las <strong>posiciones más bajas de memoria</strong> (normalmente tipo
+  RAM): <strong>0000–03FF</strong> (= 1024 bytes).</li>
+<li>En total hay <strong>256 vectores</strong>, identificados como 0 a 255 (00–FFH),
+  correspondientes a 256 interrupciones distintas. Cada vector ocupa <strong>4 bytes</strong>:
+  2 para el registro de segmento de código (CS) y 2 para el Contador de Programa
+  (IP).</li>
+</ul>
+<h3 id="interrupciones-del-msx88">Interrupciones del MSX88<a class="headerlink" href="#interrupciones-del-msx88" title="Permanent link">&para;</a></h3>
+<p>El procesador usado en el simulador MSX88 es una <strong>versión simplificada del
+8086</strong>, por lo que presenta algunas diferencias respecto de la CPU verdadera.</p>
+<ul>
+<li><strong>Por hardware:</strong> línea <strong>INT</strong> (enmascarable) con su línea de reconocimiento
+  <strong>INTA</strong>, y línea <strong>NMI</strong> (no enmascarable).</li>
+<li><strong>Por software:</strong> instrucción <code>INT xx</code>, retorno de interrupción <code>IRET</code>.</li>
+<li>Los vectores están en la parte más baja de la memoria. Cada entrada es una
+  <strong>palabra doble (4 bytes)</strong> que contiene la dirección del procedimiento que
+  brinda el servicio; <strong>la parte alta del vector es 0</strong> (ej. <code>0000yyyy</code>, donde
+  <code>yyyy</code> es la dirección lógica/física).</li>
+</ul>
+<p><strong>Vectores preasignados del MSX88:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Tipo</th>
+<th>Servicio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>Finaliza ejecución de programa</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Punto de parada para depuración/seguimiento</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Lectura de entrada estándar. Requiere el uso de BX</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Escritura de salida estándar. Requiere BX y AL</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Interrupciones de hardware preasignadas del MSX88:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Línea</th>
+<th>Fuente</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>INT0</td>
+<td>Tecla <strong>F10</strong> — produce una interrupción cada vez que se presiona F10</td>
+</tr>
+<tr>
+<td>INT1</td>
+<td><strong>Timer</strong> — conectada a la salida del Timer</td>
+</tr>
+<tr>
+<td>INT2</td>
+<td><strong>Handshake</strong> — conectada a una salida para handshake</td>
+</tr>
+<tr>
+<td>INT3</td>
+<td><strong>DMA</strong> — conectada a la salida del puerto a impresora</td>
+</tr>
+<tr>
+<td>INT4 a INT7</td>
+<td>No usadas</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Registros del PIC en el MSX88.</strong> Se sitúan a partir de la dirección <strong>20H</strong> del
+espacio de direcciones de E/S y se acceden con operaciones de lectura y escritura
+en el espacio de E/S, es decir con las instrucciones <code>IN</code> y <code>OUT</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Dirección</th>
+<th>Registro</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>20H</td>
+<td>EOI</td>
+</tr>
+<tr>
+<td>21H</td>
+<td>IMR</td>
+</tr>
+<tr>
+<td>22H</td>
+<td>IRR</td>
+</tr>
+<tr>
+<td>23H</td>
+<td>ISR</td>
+</tr>
+<tr>
+<td>24H</td>
+<td>INT0</td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+</tr>
+<tr>
+<td>2BH</td>
+<td>INT7</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">Conceptos del ejercicio de la tecla F10</p>
+<p>Aunque <strong>el final no toma assembly</strong>, el ejercicio del anexo explica
+conceptos que sí se preguntan:</p>
+<ul>
+<li><strong>Instalar el vector.</strong> <code>ORG 40</code> ubica la interrupción en el lugar 10 de la
+  tabla de vectores: como cada entrada ocupa 4 bytes, la dirección es
+  4 × 10 = 40. Ahí va la dirección de la primera instrucción del servicio.</li>
+<li><strong>Enmascarar.</strong> Cargar <strong>FEh en el IMR</strong> pone el bit 0 en 0 y los restantes
+  bits en 1, enmascarando todas las interrupciones <strong>menos la INT0</strong>, que
+  corresponde a la tecla F10. Recordar que el IMR <strong>enmascara con 1</strong>.</li>
+<li><strong>Cargar el vector en el PIC.</strong> Se escribe en el registro <strong>INT0</strong> del PIC
+  —dirección 24H, es decir PIC+4— el valor de la posición en la tabla de
+  vectores; en ese registro se buscará dicha posición para la interrupción
+  producida por F10.</li>
+<li><strong>STI y CLI</strong> activan y desactivan interrupciones. Cuando se activa la
+  bandera I, permite que por el terminal INT del procesador "ingresen"
+  interrupciones; cuando se desactiva el bit, se ignoran los cambios en el
+  terminal INT.</li>
+<li><strong>EOI.</strong> La CPU debe indicarle al controlador PIC la <strong>culminación del
+  servicio</strong> de cada interrupción de hardware. Por lo tanto, al final de la
+  rutina de servicio se escribe en el registro de comandos <strong>EOI</strong> un comando
+  (número) que indique ese final de atención. La dirección del registro
+  coincide con el valor a escribir (<code>OUT 20H, 20H</code>).</li>
+</ul>
+<p>El <strong>Timer</strong> del MSX88 posee dos registros de 8 bits: <strong>COMP</strong> —registro de
+comparación que determina el módulo de la cuenta— y <strong>CONT</strong> —registro
+contador, que muestra la cuenta de los pulsos de la señal aplicada a la
+entrada del periférico—. Cuando el valor de CONT coincide con el de COMP
+provoca una señal de salida. Direcciones de registros 10H y 11H, frecuencia
+1 Hz.</p>
+</div>
+<p class="fuentes">Fuente: <code>Teorías/02 Arq clase2 Interrupciones.pdf</code>, fil. 37–45 y <code>Teorías/2 anexo clase 02 ejer_int_en _MSX88.pdf</code>, fil. 7–15.</p>
+
+<h3 id="la-practica-3-interrupciones-por-hardware-con-el-pic">La Práctica 3 — interrupciones por hardware con el PIC<a class="headerlink" href="#la-practica-3-interrupciones-por-hardware-con-el-pic" title="Permanent link">&para;</a></h3>
+<p>La <strong>Práctica 3 resuelta</strong> trabaja los mismos conceptos sobre el simulador
+<strong>VonSim</strong>. Sus objetivos: <em>comprender la utilidad de las interrupciones por
+hardware y el funcionamiento del PIC; utilizar el TIMER, F10 y el dispositivo de
+handshaking mediante interrupciones</em>.</p>
+<h4 id="funcion-de-cada-registro-del-pic-con-ejemplos">Función de cada registro del PIC, con ejemplos<a class="headerlink" href="#funcion-de-cada-registro-del-pic-con-ejemplos" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Dir.</th>
+<th>Registro</th>
+<th>Función</th>
+<th>Ejemplo y qué significa</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>20h</code></td>
+<td><strong>EOI</strong></td>
+<td><strong>Fin de Interrupción. Sólo para escribir:</strong> se debe mandar el comando de fin de interrupción <strong>cuando se terminó de servir la interrupción</strong> (valor <code>20h</code>)</td>
+<td>No aplica</td>
+</tr>
+<tr>
+<td><code>21h</code></td>
+<td><strong>IMR</strong></td>
+<td><strong>Registro de Máscara de Interrupciones.</strong> Permite <strong>enmascarar selectivamente</strong> las interrupciones que va a recibir el PIC. <strong>Cada bit representa una línea</strong></td>
+<td><code>1111 1101</code> → <strong>está habilitada la INT1 (bit 1 en 0)</strong>, conectada al Timer</td>
+</tr>
+<tr>
+<td><code>23h</code></td>
+<td><strong>ISR</strong></td>
+<td><strong>Registro de Interrupción en Servicio.</strong> El bit que representa <strong>la línea que se está atendiendo estará en 1</strong> (bit 0 ↔ INT0 … bit 7 ↔ INT7), el resto en 0. <strong>Si no hay interrupciones atendiéndose, todos los bits valen 0</strong></td>
+<td><code>0000 0100</code> → <strong>la CPU está ejecutando el manejador de INT2</strong>, conectada al HandShake</td>
+</tr>
+<tr>
+<td><code>24h</code></td>
+<td><strong>INT0</strong></td>
+<td><strong>ID de Línea INT0.</strong> Almacena el <strong>ID de la interrupción asociada al dispositivo F10</strong> para <strong>buscar en el vector de interrupciones la dirección de comienzo de la subrutina que lo atiende</strong></td>
+<td><code>15</code> → <strong>es el número de vector que se le enviará a la CPU</strong>. <strong>Multiplicado por 4 (15 × 4 = 60)</strong> da la dirección de memoria donde debe estar la dirección de la rutina</td>
+</tr>
+<tr>
+<td><code>25h</code></td>
+<td><strong>INT1</strong></td>
+<td>Ídem, para el <strong>Timer</strong></td>
+<td><code>10</code> → 10 × 4 = <strong>40</strong></td>
+</tr>
+<tr>
+<td><code>26h</code></td>
+<td><strong>INT2</strong></td>
+<td>Ídem, para el <strong>Handshake</strong></td>
+<td><code>25</code> → 25 × 4 = <strong>100</strong></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition important">
+<p class="admonition-title">La regla del ×4</p>
+<p><strong>El ID que se carga en el registro INTn del PIC no es una dirección: es el
+número de vector.</strong> La dirección donde está la rutina se obtiene
+<strong>multiplicando por 4</strong>, porque <strong>cada entrada de la tabla de vectores ocupa 4
+bytes</strong>. Es el mismo cálculo del <code>ORG 40</code> del anexo (4 × 10).</p>
+</div>
+<h4 id="como-se-enmascara-la-tabla-de-configuracion">Cómo se enmascara: la tabla de configuración<a class="headerlink" href="#como-se-enmascara-la-tabla-de-configuracion" title="Permanent link">&para;</a></h4>
+<p>La práctica hace configurar el IMR para distintas combinaciones de dispositivos.
+<strong>Recordar que el IMR enmascara con 1</strong> (0 = habilitada):</p>
+<table>
+<thead>
+<tr>
+<th>Dispositivos habilitados</th>
+<th>IMR</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>F10</strong> (INT0)</td>
+<td><code>1111 1110</code></td>
+</tr>
+<tr>
+<td><strong>Timer</strong> (INT1)</td>
+<td><code>1111 1101</code></td>
+</tr>
+<tr>
+<td><strong>Handshake</strong> (INT2)</td>
+<td><code>1111 1011</code></td>
+</tr>
+<tr>
+<td><strong>Sin interrupciones</strong></td>
+<td><code>1111 1111</code></td>
+</tr>
+<tr>
+<td><strong>F10 y Timer</strong></td>
+<td><code>1111 1100</code></td>
+</tr>
+<tr>
+<td><strong>Timer y Handshake</strong></td>
+<td><code>1111 1001</code></td>
+</tr>
+<tr>
+<td><strong>F10, Timer y Handshake</strong></td>
+<td><code>1111 1000</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="las-preguntas-conceptuales-del-contador-de-pulsaciones">Las preguntas conceptuales del contador de pulsaciones<a class="headerlink" href="#las-preguntas-conceptuales-del-contador-de-pulsaciones" title="Permanent link">&para;</a></h4>
+<p><strong>¿Qué hacen CLI y STI, y qué pasaría sin ellas?</strong></p>
+<blockquote>
+<p><em>CLI inhibe las interrupciones enmascarables; STI las vuelve a habilitar. Las
+interrupciones enmascarables son las gestionadas por el PIC.</em></p>
+<p><strong>Si no están mientras configuramos el PIC, la CPU podría recibir un pedido de
+interrupción de un vector que aún no está configurado</strong> —en ese caso el registro
+INT0—; <strong>eso podría hacer que la CPU busque la rutina manejadora en la dirección
+equivocada y se termine ejecutando código en otra dirección de memoria.</strong></p>
+</blockquote>
+<p><strong>¿Por qué el valor <code>0FEH</code>?</strong> Para <strong>configurar el IMR y habilitar solamente la
+interrupción de F10</strong>.</p>
+<p><strong>¿Qué le indica al PIC que la interrupción terminó?</strong> <strong>Escribir el valor <code>20h</code> en
+el registro EOI.</strong></p>
+<p class="fuentes">Fuente: <code>Prácticas/Practica 3 - Interrupciones por Hardware - Resolución - AC25.pdf</code>, p. 1–4.</p>
+
+<h2 id="preguntas-de-final-sobre-este-tema">Preguntas de final sobre este tema<a class="headerlink" href="#preguntas-de-final-sobre-este-tema" title="Permanent link">&para;</a></h2>
+<p><a href="../../finales/temas/interrupciones/">:material-help-box: Ver el banco de preguntas de interrupciones</a></p>
+<h2 id="fuentes-citadas">Fuentes citadas<a class="headerlink" href="#fuentes-citadas" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>Teorías/02 Arq clase2 Interrupciones.pdf</code> — 46 filminas. Fuente primaria del
+  tema.</li>
+<li><code>Teorías/2 anexo clase 02 ejer_int_en _MSX88.pdf</code> — 15 filminas. Ejercicios de
+  práctica y detalles del simulador MSX88.</li>
+<li><code>Prácticas/Practica 3 - Interrupciones por Hardware - Resolución - AC25.pdf</code> —
+  p. 1–4. Función de cada registro del PIC con ejemplos, tabla de configuración
+  del IMR y las preguntas conceptuales sobre CLI/STI y EOI.</li>
+</ul>
+<p><strong>Referencias que da la propia cátedra</strong> (fil. 46): William Stallings, capítulo 3;
+MSX88, Manual de usuario. Lectura recomendada: <em>"Interrupciones en la arquitectura
+INTEL IA32"</em>, Blázquez, J.M., 2004.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.indexes", "navigation.top", "navigation.tracking", "toc.follow", "search.highlight", "search.share", "search.suggest", "content.code.copy", "content.tooltips"], "search": "../../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f1b6f286.min.js"></script>
+      
+    
+  </body>
+</html>

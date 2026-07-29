@@ -1,0 +1,36 @@
+@startuml
+' ---------------------------------------------------------------------------
+' Evolución de las máquinas de N direcciones resolviendo A = (B + C) x D / E.
+' Fuente: Teorías/1 anexo clase 01 sobre maq_de_Ndir.pdf, fil. 1-5.
+' Los programas van transcriptos textuales de las filminas.
+' ---------------------------------------------------------------------------
+!include _estilo.iuml
+
+title Máquinas de N direcciones\n<size:13>La misma expresión  A = (B + C) × D / E  en cada formato</size>
+
+rectangle "**MÁQUINA DE 4 DIRECCIONES**\n| COD OP | dirOP1 | dirOP2 | dirRES | **dirProxInstr** |\n\l<font:monospace>I0   ADD dirB, dirC, dirA, dirI3</font>\l<font:monospace>I1   HALT</font>\l<font:monospace>I2   DIV dirA, dirE, dirA, dirI1</font>\l<font:monospace>I3   MUL dirA, dirD, dirA, dirI2</font>\l\n**Cada instrucción indica dónde está la siguiente**:\nel programa no está en orden secuencial en memoria" as M4 #E8EAF6
+
+rectangle "**MÁQUINA DE 3 DIRECCIONES**\n| COD OP | dirOP1 | dirOP2 | dirRES |\n\l<font:monospace>I0   ADD dirB, dirC, dirA</font>\l<font:monospace>I1   MUL dirA, dirD, dirA</font>\l<font:monospace>I2   DIV dirA, dirE, dirA</font>\l<font:monospace>I3   HALT</font>\l\n**La CPU necesita registro PC para ejecución secuencial**" as M3 #E8EAF6
+
+rectangle "**MÁQUINA DE 2 DIRECCIONES**\n| COD OP | dirOP1 / **dirRES** | dirOP2 |\n\l<font:monospace>I0   MOV dirA, dirB</font>\l<font:monospace>I1   ADD dirA, dirC</font>\l<font:monospace>I2   MUL dirA, dirD</font>\l<font:monospace>I4   DIV dirA, dirE</font>\l<font:monospace>I5   HALT</font>\l\n**CPU con registro PC y nuevas operaciones**\nEl primer operando es también el destino" as M2 #E8EAF6
+
+rectangle "**MÁQUINA DE 1 DIRECCIÓN**\n| COD OP | dirOP2 |\n\l<font:monospace>I0   LOAD  dirB</font>\l<font:monospace>I1   ADD   dirC</font>\l<font:monospace>I2   MUL   dirD</font>\l<font:monospace>I4   DIV   dirE</font>\l<font:monospace>I5   STORE dirA</font>\l<font:monospace>I6   HALT</font>\l\n**CPU con registro PC y registro Acumulador,\ny nuevas operaciones**" as M1 #E8EAF6
+
+rectangle "**MÁQUINA DE 0 DIRECCIONES**\n| COD OP |\n\l<font:monospace>I0   PUSH dirE</font>\l<font:monospace>I1   PUSH dirD</font>\l<font:monospace>I2   PUSH dirC</font>\l<font:monospace>I3   PUSH dirB</font>\l<font:monospace>I4   ADD</font>\l<font:monospace>I5   MUL</font>\l<font:monospace>I6   DIV</font>\l<font:monospace>I7   POP  dirA</font>\l<font:monospace>I8   HALT</font>\l\n**CPU con registro PC, Pila y nuevas operaciones**\nLas operaciones no nombran operandos: **los toman\nimplícitamente de la cabecera de la pila**" as M0 #C5CAE9
+
+M4 -down-> M3
+M3 -down-> M2
+M2 -down-> M1
+M1 -down-> M0
+
+note right of M0
+  **Acá aparece la pila.**
+  Como todas las operaciones
+  hacen referencia a la misma
+  posición —la cabecera—,
+  **la dirección del operando
+  está implícita y no necesita
+  incluirse en la instrucción**
+end note
+
+@enduml

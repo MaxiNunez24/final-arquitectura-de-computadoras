@@ -1,0 +1,62 @@
+@startuml
+' ---------------------------------------------------------------------------
+' Estructura interna del módulo de E/S.
+' Fuente: Teorías/03 Arq clase3 EntradaSalida.pdf, fil. 10-13.
+'
+' Mobile-first: las 3 líneas del bus se apilan en vertical en vez de ponerse
+' una al lado de la otra, para que el diagrama no supere el ancho de pantalla.
+' ---------------------------------------------------------------------------
+!include _estilo.iuml
+
+title Estructura interna del módulo de E/S
+
+rectangle "**INTERFAZ AL BUS DEL SISTEMA**\n\lBus de datos\lLíneas de dirección\lLíneas de control\l" as BUS #FFF8E1
+
+rectangle "**MÓDULO DE E/S**" as MOD {
+  rectangle "**Registros de datos**\nInformación útil recibida desde,\no transmitida a, el periférico" as RD #C5CAE9
+  rectangle "**Registros de estado / control**\nControlan las características de la\ntransferencia y almacenan señales de\nestado de la comunicación\n(falla, no listo, etc.)" as RC #C5CAE9
+  rectangle "**Lógica de E/S**" as LOG
+  rectangle "**Lógica del interfaz a\ndispositivo externo**" as LIE
+}
+
+rectangle "**PERIFÉRICO**" as PER {
+  rectangle "**Buffer / Transductor**\nSección de manipulación de datos:\nalmacena y convierte los datos a\nintercambiar con el periférico" as BUF
+  rectangle "**Lógica de control**\nSección de control y estado: recibe\ny genera las señales de control\ny estado del periférico" as LOGC
+}
+
+rectangle "**Datos externos**" as EXT #FFF8E1
+
+BUS -down-> RD : bus de datos
+BUS -down-> LOG : líneas de dirección\ny de control
+LOG -right-> RC
+RD -down-> LIE : **Datos**
+RC -down-> LIE : **Estado · Control**
+LOG -down-> LIE
+LIE -down-> BUF : Datos
+LIE -down-> LOGC : Señales de control
+BUF -down-> EXT
+
+note right of RC
+  **Recursos visibles a la CPU**
+  (y al programador): son
+  básicamente **registros**
+end note
+
+note bottom of EXT
+  **2 tipos de comunicaciones**
+
+  **Hacia el bus** (con CPU y memoria)
+  • interpretar las órdenes de la CPU
+    y transmitirlas al periférico
+  • transferir datos con CPU y memoria
+  • informar el estado del periférico
+
+  **Hacia el periférico**
+  • transferir datos (incluye
+    adaptación eléctrica)
+  • controlar y temporizar
+  • almacenar temporalmente (buffer)
+  • detectar errores
+end note
+
+@enduml
