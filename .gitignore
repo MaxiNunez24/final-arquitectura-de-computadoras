@@ -1,0 +1,27 @@
+# ---- Material de cátedra: NO versionar ----
+# PDFs pesados y material propiedad de la cátedra (UNLP).
+fuentes/
+
+# ---- Build de MkDocs ----
+site/
+
+# ---- SVG generados desde .puml ----
+# Los .puml van versionados; los .svg se generan en CI.
+docs/diagramas/*.svg
+
+# ---- Herramientas ----
+plantuml.jar
+.cache/
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# ---- Editor / SO ----
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/

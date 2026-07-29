@@ -1,0 +1,70 @@
+name: Build & Deploy
+
+on:
+  push:
+    branches: [main]
+  # Permite disparar el build a mano desde la pestaña Actions
+  workflow_dispatch:
+
+# Permisos necesarios para publicar en GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Un solo deploy a la vez; si se pushea de nuevo, se cancela el anterior
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Setup Java (para PlantUML)
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Cachear el jar de PlantUML
+        uses: actions/cache@v4
+        with:
+          path: plantuml.jar
+          key: plantuml-1.2026.6
+
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+
+      # Pre-renderizado: los .svg se generan acá, el sitio publicado no
+      # consulta ningún servidor PlantUML en runtime.
+      - name: Renderizar diagramas PlantUML a SVG
+        run: bash scripts/render_puml.sh
+
+      - name: Build del sitio
+        run: mkdocs build --strict
+
+      - name: Subir artefacto de Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Desplegar a GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
