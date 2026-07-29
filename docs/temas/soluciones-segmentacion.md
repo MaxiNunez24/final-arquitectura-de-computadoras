@@ -353,9 +353,11 @@ de **3 casos**:
 
 ## Diagrama
 
-<!-- Diagramas pendientes (Tarea 4): adelantamiento (forwarding) en el cauce del
-     nanoMIPS (fil. 14, 16, 23, 26) y resolución temprana del BEQ (fil. 33, 36-37).
-     Estos diagramas complementan el del cauce de 5 etapas con riesgos. -->
+### Los 3 riesgos y sus soluciones sobre el cauce del nanoMIPS
+
+![Cauce de 5 etapas del nanoMIPS y los tres tipos de riesgo](../diagramas/cauce-nanomips.svg)
+
+<p class="fuentes">Fuente: <code>Teorías/05 Arq clase5 Algunas soluciones.pdf</code>, fil. 6, 12–27 y 32–39, sobre el cauce de <code>Teorías/04 Arq clase4 Segmentación de cauce.pdf</code>, fil. 45–54.</p>
 
 ## Ventajas y desventajas o comparaciones
 

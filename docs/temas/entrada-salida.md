@@ -287,9 +287,15 @@ de DMA: [ver la ficha de DMA](dma.md).
 
 ## Diagrama
 
-<!-- Diagramas pendientes (Tarea 4): estructura interna del módulo de E/S
-     (fil. 12) y comparación de las tres técnicas de gestión de E/S
-     (fil. 24–28, 44). -->
+### Estructura interna del módulo de E/S
+
+![Estructura interna del módulo de E/S](../diagramas/modulo-es.svg)
+
+### Las 3 técnicas de gestión de la transferencia
+
+![Comparación de las tres técnicas de gestión de E/S](../diagramas/tecnicas-es.svg)
+
+<p class="fuentes">Fuente: <code>Teorías/03 Arq clase3 EntradaSalida.pdf</code>, fil. 10–13 (módulo) y fil. 24–28, 44–52 (técnicas).</p>
 
 ## Ventajas y desventajas o comparaciones
 

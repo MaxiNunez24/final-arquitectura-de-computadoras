@@ -320,8 +320,15 @@ Las políticas son **distintas en aciertos que en fallos**.
 
 ## Diagrama
 
-<!-- Diagramas pendientes (Tarea 4): jerarquía de memoria (fil. 8, 11) y las tres
-     correspondencias de caché (fil. 43, 44–45, 48–49, 52–53). -->
+### Jerarquía de memoria
+
+![Jerarquía de memoria](../diagramas/jerarquia-memoria.svg)
+
+### Las 3 correspondencias de caché
+
+![Las tres correspondencias de caché](../diagramas/correspondencias-cache.svg)
+
+<p class="fuentes">Fuente: <code>Teorías/07 Arq clase7 Memoria.pdf</code>, fil. 8–15 (jerarquía) y fil. 42–55 (correspondencias).</p>
 
 ## Ventajas y desventajas o comparaciones
 

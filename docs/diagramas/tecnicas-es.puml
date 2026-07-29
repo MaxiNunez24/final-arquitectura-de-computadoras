@@ -1,0 +1,68 @@
+@startuml
+' ---------------------------------------------------------------------------
+' Comparación de las tres técnicas de gestión de la transferencia de E/S.
+' Fuente: Teorías/03 Arq clase3 EntradaSalida.pdf, fil. 24-28, 44-52.
+' ---------------------------------------------------------------------------
+!include _estilo.iuml
+
+title Las 3 técnicas de gestión de la transferencia de E/S
+
+rectangle "**1 · E/S PROGRAMADA CON ESPERA DE RESPUESTA**" as T1 #FFEBEE {
+  rectangle "La CPU envía la orden de E/S al módulo" as A1
+  rectangle "La CPU **lee el registro de estado**\ndel módulo de interfaz" as A2
+  rectangle "¿Está preparado?\n**NO → vuelve a leer el estado**\n(la CPU permanece **ociosa**)" as A3 #FFCDD2
+  rectangle "SÍ → la CPU transfiere **1 dato**" as A4
+  rectangle "¿Quedan datos? SÍ → vuelve al paso 2" as A5
+}
+
+rectangle "**2 · E/S PROGRAMADA ADMINISTRADA POR INTERRUPCIÓN**" as T2 #FFF8E1 {
+  rectangle "La CPU envía la orden **READ** al módulo" as B1
+  rectangle "El módulo pide el dato al periférico" as B2
+  rectangle "El periférico busca el dato,\n**mientras la CPU sigue con otras tareas**" as B3 #FFF3C4
+  rectangle "El módulo emite un **pedido de interrupción**" as B4
+  rectangle "La CPU bifurca al servicio y **lee el dato**" as B5
+  rectangle "La CPU **retorna a la tarea interrumpida**" as B6
+}
+
+rectangle "**3 · E/S CON ACCESO DIRECTO A MEMORIA (DMA)**" as T3 #E8F5E9 {
+  rectangle "**Fase 1 · Inicialización**\nLa CPU configura el módulo de E/S y el DMAC\n(tipo, n.º de bytes, dirección inicial)" as C1
+  rectangle "**Fase 2 · Ejecución**\nEl DMAC pide el bus · la CPU lo libera y se\ndesconecta lógicamente · el DMAC actúa como\n**bus master** y transfiere de a una palabra" as C2 #C8E6C9
+  rectangle "**Fase 3 · Finalización**\nEl DMAC libera el bus e **interrumpe** a la CPU.\nLa CPU verifica el resultado en los registros\ninternos del DMAC" as C3
+}
+
+A1 -down-> A2
+A2 -down-> A3
+A3 -down-> A4
+A4 -down-> A5
+B1 -down-> B2
+B2 -down-> B3
+B3 -down-> B4
+B4 -down-> B5
+B5 -down-> B6
+C1 -down-> C2
+C2 -down-> C3
+
+' Enlaces invisibles entre elementos concretos (no entre contenedores):
+' es lo único que fuerza el apilado vertical y mantiene el diagrama
+' angosto para leerlo desde el celular.
+A5 -down[hidden]-> B1
+B6 -down[hidden]-> C1
+
+note right of T1
+  **La CPU interviene en cada dato**
+  y espera ociosa entre uno y otro
+end note
+
+note right of T2
+  **La CPU interviene en cada dato**,
+  pero no espera: entre dato y dato
+  puede ejecutar otra tarea
+end note
+
+note right of T3
+  **La CPU NO interviene en la
+  transferencia**: sólo prepara y
+  verifica el resultado
+end note
+
+@enduml

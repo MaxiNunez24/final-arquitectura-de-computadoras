@@ -1,0 +1,57 @@
+@startuml
+' ---------------------------------------------------------------------------
+' Taxonomía de Flynn con SMP, NUMA y clusters.
+' Fuente: Teorías/09 Arq clase9 Procesamiento paralelo.pdf, fil. 5-17,
+'         18-19, 22-24, 25-28, 32-33.
+'
+' Mobile-first: el árbol de fil. 6 es horizontal y de 4 ramas; acá se apila
+' en vertical, porque dibujado como árbol se va a ~1600px de ancho y en el
+' celular queda ilegible. El contenido y la jerarquía son los mismos.
+' ---------------------------------------------------------------------------
+!include _estilo.iuml
+
+title Taxonomía de Flynn\n<size:13>Clasifica según las cantidades de flujos de instrucciones y datos\nque se pueden transferir simultáneamente</size>
+
+rectangle "**SISD**  ·  una instrucción, un dato" as SISD #E8EAF6 {
+  rectangle "**UC** → SI → **EP** → SD → **UM**\nUna UC lee una única secuencia de instrucciones,\nque el EP resuelve sobre una única secuencia de datos\n\n**Ej.: monoprocesadores**" as SISDD
+}
+
+rectangle "**SIMD**  ·  una instrucción, múltiples datos" as SIMD #E8EAF6 {
+  rectangle "**1 UC** · matriz de **EP** · **1 memoria local (ML) por EP**\nLa UC interpreta una única secuencia de instrucciones que\nmúltiples EP resuelven simultáneamente, cada uno sobre su ML\n\nRequiere **repertorio ampliado con operaciones vectoriales** e\n**instrucciones para transferir datos entre EP**\n\n**Ej.: procesadores vectoriales y matriciales**" as SIMDD
+}
+
+rectangle "**MISD**  ·  múltiples instrucciones, un dato" as MISD #E8EAF6 {
+  rectangle "**1 UC por cada EP** · **1 UM para todos**\nCada UC interpreta una secuencia de instrucciones que cada EP\nresuelve simultáneamente sobre una única secuencia de datos\n\n**Es un modelo teórico: no hay registros de máquinas de este tipo**" as MISDD #FFCDD2
+}
+
+rectangle "**MIMD**  ·  múltiples instrucciones, múltiples datos" as MIMD #E8EAF6 {
+  rectangle "Múltiples UC ejecutando múltiples secuencias de instrucciones\nsobre múltiples secuencias de datos.\n**Se dividen según la organización de la memoria**, que es también\nla forma de comunicarse" as MIMDD
+
+  rectangle "**MEMORIA COMPARTIDA**  *(fuertemente acoplada)*" as COMP #E8F5E9 {
+    rectangle "**SMP** — multiprocesador simétrico\n• 2 o más procesadores **homogéneos** de capacidades comparables\n• **memoria principal y E/S única compartida**\n• interconexión por **bus** u otro medio similar\n• **igual tiempo de acceso para todos** → **UMA**\n• todos desempeñan las mismas funciones · SO integrado" as SMP #C8E6C9
+    rectangle "**NUMA** — acceso no uniforme a memoria\n• procesadores homogéneos formando **nodos**\n• cada nodo es un procesador completo con **memoria local y E/S**\n• nodos unidos por **red de interconexión**\n• **espacio de direcciones común** → sigue siendo memoria compartida\n• pero el **tiempo de acceso difiere** entre la memoria local y la de\n  los otros nodos → de ahí el nombre **NUMA**" as NUMA #C8E6C9
+  }
+
+  rectangle "**MEMORIA DISTRIBUIDA**  *(débilmente acoplada)*" as DIST #E8F5E9 {
+    rectangle "**Clusters**\n• 2 o más nodos, **homogéneos o heterogéneos**\n• cada nodo con memoria local y E/S propias\n• red de interconexión → **levemente acoplados**\n• **espacios de direcciones independientes** → memoria distribuida\n• comunicación entre procesos **por mensajes**\n• computadoras completas que **trabajan como un único recurso**" as CLU #C8E6C9
+  }
+}
+
+SISDD -down-> SIMDD
+SIMDD -down-> MISDD
+MISDD -down-> MIMDD
+MIMDD -down-> SMP
+SMP -down-> NUMA
+NUMA -down-> CLU
+
+note bottom of CLU
+  **Tipos de acceso a memoria**
+  **UMA** — igual tiempo de acceso a todas las regiones y para todos
+  los procesadores.  *Ej.: SMP*
+  **NUMA** — el tiempo de acceso difiere según la región de memoria
+  **CC-NUMA** — un NUMA que **mantiene coherencia de caché** entre las
+  cachés de los distintos procesadores.  Orden de acceso:
+  **L1 → L2 → memoria principal del nodo → memoria remota (por red)**
+end note
+
+@enduml

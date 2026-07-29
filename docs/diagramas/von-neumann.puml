@@ -1,0 +1,29 @@
+@startuml
+' ---------------------------------------------------------------------------
+' Modelo de arquitectura de von Neumann: 3 subsistemas y los 3 buses.
+' Fuente: Teorías/03 Arq clase3 EntradaSalida.pdf, fil. 3.
+' ---------------------------------------------------------------------------
+!include _estilo.iuml
+
+title Arquitectura de von Neumann
+
+rectangle "**CPU**\n\l• ALU\l• UC (unidad de control)\l• Registros\l" as CPU #C5CAE9
+rectangle "**Memoria**" as MEM #C5CAE9
+rectangle "**E/S**" as ES #C5CAE9
+rectangle "**Periférico**" as PER #FFF8E1
+
+rectangle "**Bus de datos**\n**Bus de direcciones**\n**Bus de control**" as BUSES #FFF8E1
+
+CPU -down- BUSES
+MEM -down- BUSES
+ES -down- BUSES
+ES -right-> PER
+
+note bottom of BUSES
+  El **subsistema de E/S** comprende los
+  dispositivos conectados al bus del sistema
+  que proveen los servicios de transferencia
+  de datos con los periféricos
+end note
+
+@enduml

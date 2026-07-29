@@ -322,9 +322,17 @@ distribución equitativa de las hebras**.
 
 ## Diagrama
 
-<!-- Diagrama pendiente (Tarea 4): taxonomía de Flynn con SMP/NUMA/cluster
-     (fil. 6), y los esquemas funcionales SISD/SIMD/MISD/MIMD (fil. 7, 9, 12,
-     15, 16). -->
+### Taxonomía de Flynn con SMP, NUMA y clusters
+
+![Taxonomía de Flynn con SMP, NUMA y clusters](../diagramas/taxonomia-flynn.svg)
+
+!!! note "Está dibujado en vertical, no como árbol"
+    La filmina 6 lo muestra como un **árbol horizontal de 4 ramas**. Acá va
+    apilado en vertical porque, dibujado como árbol, el diagrama se va a
+    ~1600 px de ancho y **en el celular el texto queda ilegible**. El contenido
+    y la jerarquía son los mismos.
+
+<p class="fuentes">Fuente: <code>Teorías/09 Arq clase9 Procesamiento paralelo.pdf</code>, fil. 5–17 (taxonomía y esquemas funcionales), fil. 18–19, 22–24, 25–28 (SMP, NUMA, clusters) y fil. 32–33 (UMA/NUMA/CC-NUMA).</p>
 
 ## Ventajas y desventajas o comparaciones
 

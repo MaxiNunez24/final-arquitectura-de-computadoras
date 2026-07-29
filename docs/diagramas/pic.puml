@@ -1,0 +1,55 @@
+@startuml
+' ---------------------------------------------------------------------------
+' Controlador Programable de Interrupciones (PIC): conexionado y registros.
+' Fuente: Teorías/02 Arq clase2 Interrupciones.pdf, fil. 33-36 y 43-45.
+'         Prácticas/Practica 3 ... AC25.pdf, p. 1-2 (funciones y direcciones).
+'
+' Mobile-first: se arma en vertical (periféricos arriba, CPU abajo) para que
+' entre en el ancho de un celular sin scroll horizontal.
+' ---------------------------------------------------------------------------
+!include _estilo.iuml
+
+title Interrupciones vectorizadas con el PIC
+
+rectangle "**Periféricos**\n\lIR0 · tecla F10\lIR1 · Timer\lIR2 · Handshake\lIR3 · DMA\lIR4…IR7 · no usadas\l" as PER #FFF8E1
+
+rectangle "**PIC** — Controlador Programable de Interrupciones" as PIC {
+  rectangle "**IRR**  ·  22H\nPedidos de interrupción de los\nperiféricos. Indica con bit en 1" as IRR
+  rectangle "**IMR**  ·  21H\nMáscara: habilita / deshabilita\npedidos. **Enmascara con 1**" as IMR
+  rectangle "**ISR**  ·  23H\nInterrupción en servicio.\nIndica con bit en 1" as ISR
+  rectangle "**INT0 … INT7**  ·  24H…2BH\nVector (ID) de cada interrupción" as VEC
+  rectangle "**EOI**  ·  20H\nFin de interrupción" as EOI
+}
+
+rectangle "**Procesador**" as CPU
+rectangle "**Memoria**\nÁrea de vectores de interrupción\n(posiciones más bajas)" as MEM
+
+PER -down-> IRR : pedidos
+IRR -down-> IMR : filtra
+IMR -down-> ISR : la que se atiende
+ISR -down-> VEC
+
+PIC -down-> CPU : **IntR** — interrupt request
+CPU -up-> EOI : escribe 20H al\nterminar el servicio
+VEC -down-> CPU : **n.º de interrupción**\npor el bus de datos
+CPU -down-> MEM : busca el vector\nen **n.º × 4**
+
+note right of CPU
+  Cuando la CPU está lista
+  responde con **IntA**
+  (interrupt acknowledge)
+end note
+
+note bottom of MEM
+  Cada entrada ocupa **4 bytes**:
+  por eso la dirección del vector
+  es **n.º de interrupción × 4**
+end note
+
+note right of PIC
+  Se resuelve **por hardware**:
+  mucho más rápido que la
+  encuesta por software (polling)
+end note
+
+@enduml

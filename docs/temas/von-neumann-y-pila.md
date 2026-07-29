@@ -301,13 +301,22 @@ de la j+1**.
 
 ## Diagrama
 
-<!-- Diagramas pendientes (Tarea 4): modelo de von Neumann de 3 subsistemas con
-     los 3 buses (03 Arq clase3, fil. 3), y evolución de las máquinas de N
-     direcciones (1 anexo clase 01, fil. 1-5).
+### Los 3 subsistemas de von Neumann
 
-     La estructura de la pila (SP / base / límite) NO tiene diagrama en las
-     teorías de cátedra: sólo aparece descrita en texto en los resúmenes de
-     alumnos, así que no se dibuja. -->
+![Arquitectura de von Neumann: CPU, memoria y E/S sobre los tres buses](../diagramas/von-neumann.svg)
+
+### Las máquinas de N direcciones
+
+![Máquinas de 4, 3, 2, 1 y 0 direcciones resolviendo la misma expresión](../diagramas/maquinas-n-direcciones.svg)
+
+<p class="fuentes">Fuente: <code>Teorías/03 Arq clase3 EntradaSalida.pdf</code>, fil. 3 (von Neumann) y <code>Teorías/1 anexo clase 01 sobre maq_de_Ndir.pdf</code>, fil. 1–5 (máquinas de N direcciones; los programas van transcriptos textuales).</p>
+
+!!! warning "No hay diagrama de cátedra de la estructura de la pila"
+    La estructura de la pila —**puntero de pila, base y límite**— **no tiene
+    diagrama en las teorías**: sólo aparece descrita en texto, y en **resúmenes de
+    alumnos**, no en material de cátedra. **Por eso no se dibuja acá**: sería
+    inventar un esquema que la cátedra nunca dio.
+    <!-- TODO: falta en fuentes -->
 
 ## Ventajas y desventajas o comparaciones
 

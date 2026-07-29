@@ -1,0 +1,67 @@
+@startuml
+' ---------------------------------------------------------------------------
+' Cauce de 5 etapas del nanoMIPS, con los 3 tipos de riesgo y sus soluciones.
+' Fuente: Teorías/04 Arq clase4 Segmentación de cauce.pdf, fil. 45-54 y 58-66.
+'         Teorías/05 Arq clase5 Algunas soluciones.pdf, fil. 6, 12-27, 32-39.
+' ---------------------------------------------------------------------------
+!include _estilo.iuml
+
+title Cauce de 5 etapas del nanoMIPS\ny los 3 tipos de riesgo
+
+rectangle "**LAS 5 ETAPAS Y SUS RECURSOS**" as ETAPAS #E8EAF6 {
+  rectangle "**F** · búsqueda de la instrucción\nRecurso: **MI** (memoria de instrucciones)" as F
+  rectangle "**D** · decodificación y acceso a registros\nRecurso: **BR** (banco de registros)" as D
+  rectangle "**X** · ejecución\nRecurso: **ALU**" as X
+  rectangle "**M** · acceso a la memoria de datos\nRecurso: **MD** (memoria de datos)" as M
+  rectangle "**W** · escritura del resultado\nRecurso: **BR**" as W
+}
+
+rectangle "Entre cada etapa hay **registros sincrónicos**: en cada ciclo de\nreloj copian a la salida lo que tienen en la entrada. **También se\nsegmentan las señales de control**, porque cada unidad funcional\nestá operando con una instrucción distinta" as REGS #FFF8E1
+
+rectangle "**RIESGO 1 · ESTRUCTURAL**" as R1 #FFEBEE {
+  rectangle "Conflicto por el uso de un **recurso**\n(memoria, ALU, registros)\n\nEj.: con **memoria única**, F y M chocan\ncada vez que se solapan" as R1D
+  rectangle "**Soluciones — agregar más hardware**\n① **Duplicar** recursos (sumadores además de la ALU)\n② **Separar** el recurso: **MI y MD distintas**\n③ **Subdividir** el acceso: escribir el registro en el\n   1.er semiciclo y leerlo en el 2.º" as R1S #C8E6C9
+}
+
+rectangle "**RIESGO 2 · DEPENDENCIA DE DATOS**" as R2 #FFEBEE {
+  rectangle "2 o más instrucciones **comparten un dato**\n\n**RAW** — lectura después de escritura · dependencia **verdadera**\n**WAW** — escritura después de escritura · dependencia de **salida**\n(sólo si las instrucciones se adelantan unas a otras)\n**WAR** — escritura después de lectura · **antidependencia**\n(no se puede dar en el cauce simple)" as R2D
+  rectangle "**Soluciones**\n**Por hardware:** ciclos de parada · **adelantamiento (forwarding)**\n**Por software:** insertar NOP · **reordenar el código**" as R2S #C8E6C9
+  rectangle "**Forwarding en el nanoMIPS: 8 casos RAW, 3 caminos**\n① casos 1 y 4 → salida de **M** a entrada de **M**\n② casos 2, 3 y 7 → salida de **M** a entrada de **X**\n③ casos 5, 6 y 8 → salida de **X** a entrada de **X**\nSe resuelven con **MUX** que controla una **unidad de adelantamiento**" as R2F #C8E6C9
+}
+
+rectangle "**RIESGO 3 · DEPENDENCIA DE CONTROL**" as R3 #FFEBEE {
+  rectangle "La ejecución de una instrucción **depende de cómo se ejecute otra**:\ninstrucciones de **salto**. En el nanoMIPS, **BEQ recién calcula la\ndirección de salto en la fase W** → se pierden **3 ciclos**" as R3D
+  rectangle "**Soluciones**\n**Adelantar la resolución del salto a la etapa D** con un restador\nextra a la salida del BR y un sumador para la dirección:\n**se pierde 1 solo ciclo en vez de 3**\n\n**Predicción por hardware:** estática (el nanoMIPS predice **no saltar**)\no dinámica (conmutador, **BHT**, por código de operación, varios\ncauces, precaptación del destino, buffer de bucles)\n**Por software:** rellenar el ***delay slot*** reordenando" as R3S #C8E6C9
+}
+
+F -down-> D
+D -down-> X
+X -down-> M
+M -down-> W
+W -down-> REGS
+REGS -down-> R1D
+R1D -down-> R1S
+R1S -down-> R2D
+R2D -down-> R2S
+R2S -down-> R2F
+R2F -down-> R3D
+R3D -down-> R3S
+
+note right of ETAPAS
+  **Qué fases usa cada instrucción**
+  **LOAD** F-D-X-M-W · las 5
+  **STORE** F-D-X-M · sin W
+  **Aritm./lógica** F-D-X-W · sin M
+  **Salto** F-D-X-W · sin M
+end note
+
+note right of REGS
+  Con K etapas:
+  **Vel. segmentado = K × Vel. secuencial**
+
+  **No mejora la velocidad de cada
+  instrucción: mejora la productividad
+  (throughput)**
+end note
+
+@enduml

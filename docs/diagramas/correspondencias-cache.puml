@@ -1,0 +1,56 @@
+@startuml
+' ---------------------------------------------------------------------------
+' Las tres correspondencias (políticas de asignación) de la memoria caché.
+' Fuente: Teorías/07 Arq clase7 Memoria.pdf, fil. 42-55.
+' Los repartos de bits son los del ejemplo de la propia teoría:
+' memoria de 16 MB (24 bits) y caché de 64 KB con bloques de 4 bytes.
+' ---------------------------------------------------------------------------
+!include _estilo.iuml
+
+title Las 3 correspondencias de caché\n<size:13>Ejemplo de la teoría: MP de 16 MB (24 bits), caché de 64 KB, bloques de 4 bytes</size>
+
+rectangle "**TOTALMENTE ASOCIATIVA**\nUn bloque puede almacenarse **libremente\nen cualquier lugar** de la caché" as A #E8EAF6 {
+  rectangle "Dirección de memoria — **2 campos**\n| **Tag** (bloque) 22 bits | **Word** 2 bits |" as ADIR
+  rectangle "Caché: **16 K líneas** de 4 bytes/línea" as ACACHE
+  rectangle "El tag se compara **simultáneamente con\nTODAS las etiquetas** del directorio\n→ requiere memoria asociativa (**CAM**)" as ACOMP #C5CAE9
+  rectangle "✔ Libertad absoluta de asignación y reemplazo\n✘ Directorio **complejo y costoso**" as ABAL #FFF8E1
+}
+
+rectangle "**DIRECTA**\nUn bloque **sólo puede estar en un lugar fijo**\nde la caché" as D #E8EAF6 {
+  rectangle "Dirección de memoria — **3 campos**\n| **Tag** (grupo) 8 | **Line** 14 | **Word** 2 |" as DDIR
+  rectangle "MP: 256 grupos de 16.384 bloques\nCaché: **16 K líneas** de 4 bytes/línea" as DCACHE
+  rectangle "N.º línea caché =\n**n.º bloque referenciado MOD n.º líneas caché**\nEl tag se compara con **UNA sola etiqueta**:\nla de la línea correspondiente" as DCOMP #C5CAE9
+  rectangle "✔ **Muy simple** de implementar y poco costosa\n✘ Dos bloques que caen en la **misma línea**,\naccedidos repetidamente → **muchos desaciertos**" as DBAL #FFF8E1
+}
+
+rectangle "**ASOCIATIVA POR CONJUNTOS**\nUn bloque puede almacenarse en un **conjunto\nrestringido de lugares**" as S #E8EAF6 {
+  rectangle "Dirección de memoria — **3 campos**\n| **Tag** (grupo) 9 | **Conjunto** 13 | **Palabra** 2 |" as SDIR
+  rectangle "Caché de 64 KB dividida en **N conjuntos\n(N vías: 2, 4, 8…)**. En el ejemplo:\n**2 conjuntos de 8 K líneas** cada uno" as SCACHE
+  rectangle "El tag se compara con las etiquetas\n**del conjunto** que le corresponde" as SCOMP #C5CAE9
+  rectangle "✔ **Combina lo mejor de las otras dos**\ncorrespondencias" as SBAL #FFF8E1
+}
+
+ADIR -down-> ACACHE
+ACACHE -down-> ACOMP
+ACOMP -down-> ABAL
+DDIR -down-> DCACHE
+DCACHE -down-> DCOMP
+DCOMP -down-> DBAL
+SDIR -down-> SCACHE
+SCACHE -down-> SCOMP
+SCOMP -down-> SBAL
+
+' Los enlaces invisibles van entre elementos concretos (no entre los
+' contenedores) porque es lo único que fuerza a Graphviz a apilar los
+' 3 bloques en vertical. Si se apilan en horizontal el diagrama se va a
+' ~1600px de ancho y en el celular el texto queda ilegible.
+ABAL -down[hidden]-> DDIR
+DBAL -down[hidden]-> SDIR
+
+note bottom of S
+  **Reemplazo:** en la **directa no hay elección**
+  (la asignación es fija). En las otras dos se
+  elige con **LRU, FIFO, LFU o aleatorio**
+end note
+
+@enduml

@@ -157,9 +157,11 @@ dominio público.**
 
 ## Diagrama
 
-<!-- Diagramas pendientes (Tarea 4): interconexión mediante un bus (fil. 11),
-     arquitectura de bus tradicional (fil. 14) y bus de altas prestaciones
-     (fil. 38). -->
+### Interconexión y jerarquía de buses
+
+![Interconexión mediante un bus, arquitectura tradicional y de altas prestaciones](../diagramas/buses-jerarquia.svg)
+
+<p class="fuentes">Fuente: <code>Teorías/7 anexo clase 07 sobre_buses.pdf</code>, fil. 8–11 (los 3 buses), fil. 13–14 (problema del bus único y arquitectura tradicional) y fil. 38 (bus de altas prestaciones).</p>
 
 ## Ventajas y desventajas o comparaciones
 

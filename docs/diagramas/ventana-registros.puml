@@ -1,0 +1,57 @@
+@startuml
+' ---------------------------------------------------------------------------
+' Ventana de registros de los procesadores RISC: solapamiento y buffer circular.
+' Fuente: Teorías/06 Arq clase6 RISC.pdf, fil. 26-38.
+' El reparto R0-R31 es el ejemplo de la propia teoría (8 variables por tipo).
+' ---------------------------------------------------------------------------
+!include _estilo.iuml
+
+title Ventana de registros\n<size:13>La solución RISC al costo de las llamadas a subrutina</size>
+
+rectangle "**EL PROBLEMA**\n\l• Los estudios muestran que **los llamados y retornos de subrutina\l  son los que más tiempo consumen**\l• Cada vez que una subrutina invoca otra (**anidamiento**) debe\l  pasarle los argumentos → **gasto de tiempo considerable**\l• **Cuantos más registros tenga, más tiempo se consume en pasar\l  la información**; cuantos más necesite localmente, más tiempo\l  se requiere en reservarlos\l" as PROB #FFEBEE
+
+rectangle "**Los 4 tipos de dato que necesita cada subrutina**" as TIPOS #E8EAF6 {
+  rectangle "**R0 – R7**  ·  registros **globales**\nDatos globales, vistos por todas las subrutinas" as G #FFF8E1
+  rectangle "**R8 – R15**  ·  registros de **parámetros**\nDatos de entrada: argumentos recibidos" as P #C8E6C9
+  rectangle "**R16 – R23**  ·  registros **locales**\nDatos propios: variables locales" as L #C5CAE9
+  rectangle "**R24 – R31**  ·  registros **temporales**\nDatos de salida: argumentos a pasar" as T #C8E6C9
+}
+
+rectangle "**LA SOLUCIÓN — 2 pasos**\n\l**1.º** Asignar a cada subrutina **un banco de registros propio**.\l   R8–R31 son los accesibles por la subrutina; **R0–R7 son globales\l   y accesibles por todas**\l\l**2.º** **Superponer** los registros donde una subrutina recibe los\l   parámetros con los registros donde pasa los argumentos la\l   subrutina que la llama\l" as SOL #E8F5E9
+
+rectangle "**EL SOLAPAMIENTO**" as SOLAP #E8EAF6 {
+  rectangle "**Subrutina de nivel j**\nlocales j  ·  **temporales j (R24–R31)**" as NJ #C5CAE9
+  rectangle "**Registros físicamente los mismos**\nlos **temporales de j** y los **parámetros de j+1**\n→ los parámetros se pasan **directamente**,\nsin copiar nada" as SHARE #A5D6A7
+  rectangle "**Subrutina de nivel j+1**\n**parámetros j+1 (R8–R15)**  ·  locales j+1" as NJ1 #C5CAE9
+}
+
+rectangle "**IMPLEMENTACIÓN: buffer circular**\n\l• El banco se implementa como un **buffer de tipo circular**, con una\l  capacidad determinada de **ventanas**, basada en la **profundidad de\l  anidamientos** admitida por el procesador (**del orden de 7**)\l• Nivel 0 (w0): accede a **Ain, Aloc y Bin**\l• Nivel 1 (w1): accede a **Bin, Bloc y Cin**\l• **Bin es accesible por ambos**: por ahí el nivel 0 pasa los parámetros\l  y el nivel 1 los recibe\l• **Cada invocación mueve un puntero** al siguiente banco, de modo que\l  queden superpuestos los registros de pasaje de parámetros\l• **La cantidad de registros accesibles por cada subrutina es la misma,\l  pero cambian los registros físicos a los que accede**\l" as BUF #E8F5E9
+
+PROB -down-> G
+G -down-> P
+P -down-> L
+L -down-> T
+T -down-> SOL
+SOL -down-> NJ
+NJ -down-> SHARE
+SHARE -down-> NJ1
+NJ1 -down-> BUF
+
+note right of SOLAP
+  **Los registros locales son
+  físicamente distintos** para
+  cada subrutina y **sólo
+  accesibles por ella**
+end note
+
+note bottom of BUF
+  **Variables globales — 2 soluciones**
+  ① Que **el compilador asigne posiciones de memoria**: ineficiente para
+     globales de acceso frecuente, porque **requiere accesos a memoria,
+     que son inherentemente lentos**
+  ② **Incorporar un conjunto de registros para variables globales**
+     accesible en todos los niveles. **Este banco no se muestra en la
+     ventana de registros**
+end note
+
+@enduml

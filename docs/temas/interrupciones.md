@@ -228,8 +228,15 @@ Además tiene los registros **INT0…INT7**, con el vector de cada interrupción
 
 ## Diagrama
 
-<!-- Diagramas pendientes (Tarea 4): ciclo de instrucción con fase de gestión de
-     interrupciones (fil. 22–23, 25) y estructura del PIC (fil. 33, 35, 43). -->
+### Ciclo de instrucción con la fase de gestión de interrupciones
+
+![Ciclo de instrucción con fase de gestión de interrupciones](../diagramas/ciclo-instruccion-interrupcion.svg)
+
+### Estructura y conexionado del PIC
+
+![Interrupciones vectorizadas con el PIC](../diagramas/pic.svg)
+
+<p class="fuentes">Fuente: <code>Teorías/02 Arq clase2 Interrupciones.pdf</code>, fil. 22–23, 26–27 (ciclo) y fil. 33–36, 43–45 (PIC), más <code>Prácticas/Practica 3 - Interrupciones por Hardware - Resolución - AC25.pdf</code>, p. 1–2 (funciones y direcciones de los registros).</p>
 
 ## Ventajas y desventajas o comparaciones
 

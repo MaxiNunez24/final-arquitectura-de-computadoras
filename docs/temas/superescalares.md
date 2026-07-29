@@ -359,10 +359,11 @@ ejemplo, operaciones de E/S—:
 
 ## Diagrama
 
-<!-- Diagrama pendiente (Tarea 4): ejecución superescalar, modelo de 6 etapas
-     Fetch-Decode-Dispatch-Issue-Execute-Commit con la ventana de ejecución
-     (fil. 44), y comparación segmentada / supersegmentada / superescalar
-     (fil. 9, 10, 12, 18). -->
+### Modelo de ejecución superescalar
+
+![Ejecución superescalar: de Fetch a Commit, y comparación con segmentada y supersegmentada](../diagramas/ejecucion-superescalar.svg)
+
+<p class="fuentes">Fuente: <code>Teorías/08 Arq clase8 Procesadores Superescalares.pdf</code>, fil. 44–47 (modelo), fil. 9–12 y 18 (comparación) y fil. 39–43 (renombrado).</p>
 
 ## Ventajas y desventajas o comparaciones
 

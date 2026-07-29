@@ -1,0 +1,44 @@
+@startuml
+' ---------------------------------------------------------------------------
+' Jerarquía de memoria: niveles, velocidades y tamaños.
+' Fuente: Teorías/07 Arq clase7 Memoria.pdf, fil. 8, 10, 11, 15.
+' ---------------------------------------------------------------------------
+!include _estilo.iuml
+
+title Jerarquía de memoria
+
+rectangle "**Registros**\nDentro del datapath · ~100 B\nAdministra: **el compilador**" as REG #C5CAE9
+rectangle "**Caché**  (SRAM)\nRAM de muy alta velocidad\n1's – 10's ns · KB – MB\nAdministra: **el hardware**" as CACHE #D1C4E9
+rectangle "**Memoria principal**  (DRAM)\nRAM de alta velocidad\n100's ns · MB – GB\nAdministra: hardware, SO o programador" as MP #E1BEE7
+rectangle "**Almacenamiento secundario**  (disco)\nMemoria virtual · medios magnéticos/ópticos\n10.000.000's ns (10's ms) · GB" as DISCO #F8BBD0
+rectangle "**Almacenamiento terciario**  (cinta)\n10.000.000.000's ns (10's s) · TB" as CINTA #FFCDD2
+
+REG -down-> CACHE
+CACHE -down-> MP
+MP -down-> DISCO
+DISCO -down-> CINTA
+
+note right of REG
+  ↑ **más rápido**
+  ↑ más caro
+  ↑ más chico
+end note
+
+note right of CINTA
+  ↓ **más lento**
+  ↓ más barato
+  ↓ más grande
+end note
+
+note bottom of CINTA
+  **Objetivos de la jerarquía**
+  • **Maximizar tamaño:** capacidad equiparada al nivel más grande
+  • **Optimizar velocidad:** próxima a la del nivel más rápido
+  • **Minimizar el costo total:** cercano al del nivel más lento
+
+  **Propiedades que debe cumplir**
+  • **Inclusión:** los datos de un nivel están también en los inferiores
+  • **Coherencia:** las copias en distintos niveles tienen los mismos valores
+end note
+
+@enduml

@@ -365,8 +365,11 @@ Las soluciones más elaboradas están en la clase 5:
 
 ## Diagrama
 
-<!-- Diagrama pendiente (Tarea 4): cauce de 5 etapas del nanoMIPS con riesgos
-     (fil. 46, 49, 52, 54, 59, 61, 64–66). -->
+### Cauce de 5 etapas del nanoMIPS con los 3 tipos de riesgo
+
+![Cauce de 5 etapas del nanoMIPS y los tres tipos de riesgo](../diagramas/cauce-nanomips.svg)
+
+<p class="fuentes">Fuente: <code>Teorías/04 Arq clase4 Segmentación de cauce.pdf</code>, fil. 45–54 y 58–66, con las soluciones de <code>Teorías/05 Arq clase5 Algunas soluciones.pdf</code>, fil. 6, 12–27 y 32–39.</p>
 
 ## Ventajas y desventajas o comparaciones
 

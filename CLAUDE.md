@@ -219,8 +219,28 @@ orden, aunque alguna quede vacía con TODO:
   (SCSI, temporización asíncrona, Core i7, ejemplo numérico de DMA).
   **La sección "Diagrama" de cada ficha está vacía a propósito**, con un comentario
   HTML que dice qué diagrama va y de qué filminas sale: se completa en la Tarea 4.
-- **Tarea 4 — Diagramas PlantUML.** *Pendiente.* `docs/diagramas/` está vacío.
+- **Tarea 4 — Diagramas PlantUML.** Hecha. **13 diagramas** en `docs/diagramas/`
+  (los 9 pedidos + 4 extras), insertados en la sección "Diagrama" de cada ficha y
+  reunidos en `docs/diagramas/index.md`.
 - **Tarea 5 — CLAUDE.md.** Hecha (este archivo).
+- **TODOs.** `docs/todos.md` lista los 4 huecos reales, agrupados por tema.
+
+### Convenciones de los diagramas
+
+- **Todos comparten `docs/diagramas/_estilo.iuml`**, que se incluye con
+  `!include _estilo.iuml`. El renderizador sólo toma `*.puml`, así que el `.iuml`
+  no genera SVG propio.
+- **Mobile-first: angostos y altos.** Objetivo **≤ 900 px de ancho**. El CSS los
+  escala al 100 % del ancho de la columna, así que un diagrama de 1600 px queda
+  ilegible en el celular. Varios originales de la cátedra son horizontales
+  (taxonomía de Flynn, las 3 correspondencias de caché, las 3 técnicas de E/S):
+  **se apilaron en vertical a propósito**, con una nota en la ficha cuando el
+  cambio de forma es notorio.
+- **Para forzar el apilado vertical de bloques hermanos**, los enlaces
+  `-down[hidden]->` tienen que ir **entre elementos concretos, no entre los
+  contenedores**: entre contenedores Graphviz los sigue poniendo lado a lado.
+- **No usar `skinparam padding`:** mete un banner de warning dentro del SVG.
+- Cada `.puml` arranca con un **comentario que cita la filmina de origen**.
 
 ### Diagramas pedidos (Tarea 4)
 

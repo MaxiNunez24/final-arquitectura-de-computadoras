@@ -314,8 +314,11 @@ variables más usadas o las que más tiempo permanecerán en el registro**.
 
 ## Diagrama
 
-<!-- Diagramas pendientes (Tarea 4): estructura de la ventana de registros y su
-     implementación como buffer circular (fil. 28, 32, 34, 36). -->
+### La ventana de registros
+
+![Ventana de registros: solapamiento y buffer circular](../diagramas/ventana-registros.svg)
+
+<p class="fuentes">Fuente: <code>Teorías/06 Arq clase6 RISC.pdf</code>, fil. 26–38.</p>
 
 ## Ventajas y desventajas o comparaciones
 

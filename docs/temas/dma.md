@@ -187,8 +187,11 @@ datos**:
 
 ## Diagrama
 
-<!-- Diagramas pendientes (Tarea 4): comparación de las tres técnicas de gestión
-     de E/S incluyendo DMA (fil. 24, 44, 47). -->
+### El DMA frente a las otras 2 técnicas de gestión de E/S
+
+![Comparación de las tres técnicas de gestión de E/S](../diagramas/tecnicas-es.svg)
+
+<p class="fuentes">Fuente: <code>Teorías/03 Arq clase3 EntradaSalida.pdf</code>, fil. 24–28 y 44–52.</p>
 
 ## Ventajas y desventajas o comparaciones
 
