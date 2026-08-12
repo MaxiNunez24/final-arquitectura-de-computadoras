@@ -68,10 +68,88 @@ def lista_temas(temas: dict[str, str]) -> list[dict]:
     return [{"slug": s, "nombre": n} for s, n in temas.items()]
 
 
+def validar(ejercicios: dict, rubricas: list[dict], temas: dict) -> list[str]:
+    """Chequeos sobre los YAML de ejercicios y rúbricas.
+
+    Un índice de `correctas` mal puesto no rompe nada: genera un ejercicio que
+    marca como buena una opción equivocada, y se estudia el error como si
+    estuviera verificado. Es exactamente el tipo de fallo silencioso que este
+    proyecto no se puede permitir, así que el build lo tiene que frenar.
+    """
+    fallos: list[str] = []
+    vistos: set[str] = set()
+
+    for it in ejercicios["opciones"]:
+        ide = it["id"]
+        if ide in vistos:
+            fallos.append(f"{ide}: id repetido")
+        vistos.add(ide)
+
+        n = len(it["opciones"])
+        if it["tema"] not in temas:
+            fallos.append(f"{ide}: tema desconocido {it['tema']!r}")
+        if n < 2:
+            fallos.append(f"{ide}: tiene {n} opción(es)")
+        if not it["correctas"]:
+            fallos.append(f"{ide}: sin respuesta correcta")
+        for c in it["correctas"]:
+            if not 0 <= c < n:
+                fallos.append(f"{ide}: correcta {c} fuera de rango (0..{n - 1})")
+        if len(set(it["correctas"])) != len(it["correctas"]):
+            fallos.append(f"{ide}: índices de correctas repetidos")
+        # Una "afirmación falsa" con más de una respuesta no tiene sentido:
+        # la consigna dice "una es falsa".
+        if it.get("tipo") == "falsa" and len(it["correctas"]) != 1:
+            fallos.append(f"{ide}: tipo falsa con {len(it['correctas'])} correctas")
+        for i, o in enumerate(it["opciones"]):
+            if not (o.get("explicacion") or "").strip():
+                fallos.append(f"{ide}: opción {i} sin explicación")
+        if not (it.get("fuente") or "").strip():
+            fallos.append(f"{ide}: sin cita de fuente")
+
+    for it in ejercicios["diagramas"]:
+        ide = it["id"]
+        if ide in vistos:
+            fallos.append(f"{ide}: id repetido")
+        vistos.add(ide)
+        n = len(it["opciones"])
+        if not 0 <= it["correcta"] < n:
+            fallos.append(f"{ide}: correcta {it['correcta']} fuera de rango (0..{n - 1})")
+        nombres = [o["svg"] for o in it["opciones"]]
+        if len(set(nombres)) != n:
+            fallos.append(f"{ide}: el mismo diagrama aparece dos veces como opción")
+        for nom in nombres:
+            if not (RAIZ / "docs" / "diagramas" / f"{nom}.puml").exists():
+                fallos.append(f"{ide}: no existe docs/diagramas/{nom}.puml")
+
+    ids_banco = set()
+    for r in rubricas:
+        if r["tema"] not in temas:
+            fallos.append(f"{r['id']}: tema desconocido {r['tema']!r}")
+        if not r.get("claves"):
+            fallos.append(f"{r['id']}: sin claves")
+        ids_banco.update(r.get("aplica_a") or [])
+
+    return fallos
+
+
 def main() -> int:
     banco = cargar("banco-finales.yml")
     rubricas = cargar("rubricas.yml")["rubricas"]
     ejercicios = cargar("ejercicios.yml")
+
+    fallos = validar(ejercicios, rubricas, banco["temas"])
+    # Se valida también que los aplica_a apunten a preguntas que existan.
+    ids_preguntas = {p["id"] for p in banco["preguntas"]}
+    for r in rubricas:
+        for qid in r.get("aplica_a") or []:
+            if qid not in ids_preguntas:
+                fallos.append(f"{r['id']}: aplica_a apunta a {qid}, que no está en el banco")
+    if fallos:
+        print("ERROR — los YAML no pasan la validación:", file=sys.stderr)
+        for f in fallos:
+            print(f"  · {f}", file=sys.stderr)
+        return 1
 
     temas: dict[str, str] = banco["temas"]
     preguntas: list[dict] = banco["preguntas"]

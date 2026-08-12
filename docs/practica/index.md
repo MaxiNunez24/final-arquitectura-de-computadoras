@@ -16,11 +16,11 @@ La parte del sitio donde **producís** en vez de leer. Todo corre en el navegado
 
 - :material-help-circle: **[Quiz conceptual](quiz.md)**
 
-    15 preguntas de opción múltiple.
+    44 preguntas de opción múltiple.
 
 - :material-alert-circle: **[Detectá la afirmación falsa](afirmaciones.md)**
 
-    6 ejercicios de lectura crítica.
+    14 ejercicios de lectura crítica.
 
 - :material-image-search: **[Elegí el diagrama correcto](diagramas.md)**
 
