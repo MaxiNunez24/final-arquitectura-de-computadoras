@@ -18,6 +18,11 @@ Sitio de estudio para el final de **Arquitectura de Computadoras** (UNLP).
     Los 11 temas del programa, cada uno con definición, desarrollo, diagrama,
     comparaciones y las preguntas de final que le corresponden.
 
+- :material-pencil-box: **[Práctica](practica/index.md)**
+
+    Donde producís en vez de leer: simulacro cronometrado con rúbrica, fichas
+    de recuperación activa, quiz y ejercicios de diagramas.
+
 - :material-chart-bar: **[Frecuencia de temas](finales/frecuencia.md)**
 
     Qué se tomó más veces. Sirve para priorizar si el tiempo aprieta.
@@ -32,6 +37,14 @@ Sitio de estudio para el final de **Arquitectura de Computadoras** (UNLP).
     Finales completos reconstruidos tal como se tomaron, para cronometrar.
 
 </div>
+
+!!! tip "Leer no alcanza"
+    El punto donde se cae el estudio de este final no es entender, es **poder
+    redactar cinco respuestas completas a mano en 3 horas**. Reconocer una
+    definición correcta es mucho más fácil que producirla en una hoja en blanco.
+    Por eso, cuando termines de leer una ficha, seguí con las
+    [fichas de recuperación activa](practica/fichas.md) y con el
+    [simulacro cronometrado](practica/simulacro.md).
 
 ## Cómo está construido este sitio
 

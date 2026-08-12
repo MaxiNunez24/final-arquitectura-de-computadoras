@@ -167,11 +167,17 @@ No volver a investigar esto, ya está confirmado con `sha256sum` y análisis de 
 
 ```
 data/banco-finales.yml     Fuente de verdad del banco de finales
+data/rubricas.yml          Checklists de autocorrección ("qué tiene que aparecer")
+data/ejercicios.yml        Quiz, afirmaciones falsas y elección de diagrama
 scripts/gen_banco.py       Genera docs/finales/ desde el YAML
+scripts/gen_practica.py    Genera docs/practica/ desde los 3 YAML
 scripts/render_puml.sh     Pre-renderiza docs/diagramas/*.puml a SVG
 docs/temas/                Las 11 fichas por tema
 docs/finales/              Generado — NO editar a mano
+docs/practica/             Generado — NO editar a mano
 docs/diagramas/            Los .puml versionados (los .svg se generan)
+docs/assets/javascripts/practica.js    Motor de los widgets (JS plano)
+docs/assets/stylesheets/practica.css
 mkdocs.yml
 .github/workflows/deploy.yml
 ```
@@ -179,18 +185,95 @@ mkdocs.yml
 ### Flujos
 
 ```bash
-python3 scripts/gen_banco.py    # tras editar data/banco-finales.yml
-bash scripts/render_puml.sh     # tras editar cualquier .puml
-mkdocs build --strict           # tiene que pasar limpio
-mkdocs serve                    # previsualizar
+python3 scripts/gen_banco.py     # tras editar data/banco-finales.yml
+python3 scripts/gen_practica.py  # tras editar cualquiera de los 3 YAML de data/
+bash scripts/render_puml.sh      # tras editar cualquier .puml
+mkdocs build --strict            # tiene que pasar limpio
+mkdocs serve                     # previsualizar
 ```
 
-**`docs/finales/*.md` es generado.** Editarlo a mano no sirve: se pisa. Los
-cambios van en `data/banco-finales.yml`.
+**`docs/finales/*.md` y `docs/practica/*.md` son generados.** Editarlos a mano
+no sirve: se pisan. Los cambios van en los YAML de `data/`.
+
+!!! warning "En local, `mkdocs build --strict` aborta con 28 warnings"
+    Son **todas** por los `.svg` faltantes: están en `.gitignore` y se generan
+    en el build. Corré `bash scripts/render_puml.sh` antes y quedan en cero. En
+    CI ya corre en ese orden. **Si aparece un warning que no sea de un `.svg`,
+    ése sí es real.**
+
+    `mkdocs serve` **no recarga** los cambios de los archivos generados: hay que
+    reiniciarlo.
 
 **Los diagramas se pre-renderizan a SVG en el build**, no en runtime. El sitio
 publicado no depende de ningún servidor PlantUML externo. Los `.puml` van
 versionados; los `.svg` están en `.gitignore`.
+
+## La sección de práctica
+
+`docs/practica/` son **widgets de JS plano dentro del MkDocs**. No hay build
+extra, ni framework, ni segundo deploy. Los datos van **embebidos en cada página**
+como `<script type="application/json">`: sin `fetch` no hay rutas relativas que
+romper con `use_directory_urls`, y anda con la pestaña sin señal.
+
+### Por qué NO se replicó el stack del otro proyecto
+
+Existe un curso hermano con **Astro + Starlight + Pyodide** (Python real
+corregido en el navegador). **Acá no aplica:** este final es escrito y teórico,
+**no se toma programación**. Montar un intérprete de Python para un examen donde
+no se escribe una línea de código es traer la infraestructura sin la carga.
+
+Lo que sí se tomó de ese stack es **el patrón**: teoría y práctica separadas y
+linkeadas, ejercicio cada tanto, progreso en `localStorage`. Los componentes que
+transfieren son opción múltiple, "encontrá el error" (reformulado como
+**afirmación falsa**) y el **modo parcial** sin feedback instantáneo. Los que no
+transfieren son todos los que dependen de ejecutar código.
+
+### Los 5 formatos
+
+| Página | Widget | De dónde salen los datos |
+|---|---|---|
+| `simulacro.md` | Reloj de 3 h, autoguardado, una entrega, rúbrica al entregar | `banco-finales.yml` + `rubricas.yml` |
+| `fichas.md` | Recuperación activa con repetición espaciada por cajones | `banco-finales.yml` + `rubricas.yml` |
+| `quiz.md` | Opción múltiple (admite varias correctas) | `ejercicios.yml`, `tipo: multiple` |
+| `afirmaciones.md` | Detectá la afirmación falsa | `ejercicios.yml`, `tipo: falsa` |
+| `diagramas.md` | Elegí el diagrama correcto | `ejercicios.yml`, sección `diagramas` |
+
+Los últimos tres comparten el mismo motor: una consigna, N opciones, una o
+varias correctas y explicación por opción.
+
+### Cómo se cruzan los incisos con las rúbricas
+
+Los incisos de los simulacros **son** las preguntas del banco: salen de los
+mismos archivos. `gen_practica.py` los cruza por **Jaccard sobre el vocabulario**
+(palabras de más de 3 letras, umbral 0,5) y así ofrece al corregir **la rúbrica
+del enunciado concreto** en vez de las 5 del tema. Cobertura actual: **92 de 98
+incisos**. Los que no matchean caen a las del tema, con un aviso.
+
+### REGLA NÚMERO UNO aplicada a los ejercicios
+
+**Un distractor inventado es contenido inventado, y es peor que en una ficha**,
+porque se lee como un error *ya verificado*.
+
+- ✅ **Recombinar la fuente.** El distractor es una afirmación que la teoría
+  **sí hace**, puesta donde no corresponde: el `ISR` ofrecido donde va el `IRR`,
+  la ventaja de `write-through` atribuida a `write-back`, los campos de la
+  correspondencia directa ofrecidos como respuesta sobre la asociativa. Todo el
+  material existe en las fuentes; lo único que se arma es el cruce.
+- ❌ **Fabricar.** Números que la cátedra no dio, mecanismos que no describió,
+  "consecuencias lógicas" deducidas por criterio propio.
+
+**Por eso no hay ejercicios de cálculo.** Se relevaron las 11 fichas buscando
+CPI, speedup, tasa de aciertos y ancho de banda: **sólo `memoria-cache` (tiempo
+de acceso medio), `buses` (anchos de banda de los chipsets) y `entrada-salida`
+(impresora/disco) traen cálculo desarrollado**. `segmentacion` no tiene ni una
+fórmula de speedup, y `paralelismo`, `risc-cisc` y `dma` no tienen ningún
+cálculo. Inventar los números sería exactamente lo que el proyecto no hace.
+
+En `rubricas.yml`, el campo `extension` **es lo único orientativo**: es criterio
+de estudio (cuánto escribiría un alumno para aprobar ese punto), no sale de las
+fuentes. Los `claves` y la `fuente` sí.
+
+---
 
 ## Estructura fija de una ficha de tema
 
@@ -223,7 +306,29 @@ orden, aunque alguna quede vacía con TODO:
   (los 9 pedidos + 4 extras), insertados en la sección "Diagrama" de cada ficha y
   reunidos en `docs/diagramas/index.md`.
 - **Tarea 5 — CLAUDE.md.** Hecha (este archivo).
+- **Tarea 6 — Práctica interactiva.** Hecha. 5 formatos de ejercicio en
+  `docs/practica/`, con **35 rúbricas y 279 puntos de checklist** cubriendo los
+  11 temas: 44/44 fichas y 92/98 incisos de simulacro reciben la rúbrica de su
+  enunciado. Quiz (15) y afirmaciones falsas (6) cubren por ahora **sólo
+  interrupciones, entrada-salida y memoria caché**; los 13 ejercicios de
+  diagramas cubren todos los temas que tienen diagrama.
 - **TODOs.** `docs/todos.md` lista los 4 huecos reales, agrupados por tema.
+
+### Lo próximo, si hay tiempo
+
+1. **Ampliar `ejercicios.yml`** a los 8 temas que todavía no tienen quiz ni
+   afirmaciones falsas. Es el trabajo de mayor rendimiento por hora: el motor ya
+   está, sólo falta contenido.
+2. **`site_url` en `mkdocs.yml` sigue vacío** —
+   `https://maxinunez24.github.io/final-arquitectura-de-computadoras/`.
+3. **Transcribir `2015 - AC Final - 01.pdf`** a mano y sumarlo como simulacro
+   número 13.
+
+!!! danger "El repo es público"
+    `https://github.com/MaxiNunez24/final-arquitectura-de-computadoras`. Las
+    fuentes son material de cátedra: `fuentes/` y `*.zip` están en `.gitignore` y
+    **tienen que seguir ahí**. Para migrar las fuentes entre máquinas, copiar la
+    carpeta directamente; no hace falta git.
 
 ### Convenciones de los diagramas
 
