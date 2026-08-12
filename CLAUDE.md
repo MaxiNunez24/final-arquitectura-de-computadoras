@@ -306,23 +306,54 @@ orden, aunque alguna quede vacía con TODO:
   (los 9 pedidos + 4 extras), insertados en la sección "Diagrama" de cada ficha y
   reunidos en `docs/diagramas/index.md`.
 - **Tarea 5 — CLAUDE.md.** Hecha (este archivo).
-- **Tarea 6 — Práctica interactiva.** Hecha. 5 formatos de ejercicio en
-  `docs/practica/`, con **35 rúbricas y 279 puntos de checklist** cubriendo los
-  11 temas: 44/44 fichas y 92/98 incisos de simulacro reciben la rúbrica de su
-  enunciado. Quiz (15) y afirmaciones falsas (6) cubren por ahora **sólo
-  interrupciones, entrada-salida y memoria caché**; los 13 ejercicios de
-  diagramas cubren todos los temas que tienen diagrama.
+- **Tarea 6 — Práctica interactiva.** Hecha. 5 formatos en `docs/practica/`:
+  **35 rúbricas con 279 puntos de checklist** (44/44 fichas y 92/98 incisos de
+  simulacro reciben la rúbrica de su enunciado), **44 preguntas de quiz**,
+  **14 afirmaciones falsas** y **13 ejercicios de diagramas**. Los 11 temas
+  quedan cubiertos en los tres formatos.
+
+  Los ítems del quiz de la segunda tanda se escribieron **leyendo las filminas**,
+  no las fichas. Se verificó primero que **la página del PDF sea el número de
+  filmina** —está impreso en cada diapositiva— así que las citas del sitio son
+  correctas.
 - **TODOs.** `docs/todos.md` lista los 4 huecos reales, agrupados por tema.
+
+### Verificación de los ejercicios
+
+`gen_practica.py` **valida y aborta con exit 1** ante: índices de `correctas`
+fuera de rango o repetidos, ids duplicados, temas inexistentes, opciones sin
+explicación, ítems sin cita de fuente, `tipo: falsa` con más de una correcta,
+diagramas que apunten a un `.puml` inexistente y `aplica_a` que apunte fuera del
+banco.
+
+**Un índice de correcta mal puesto no rompe el build pero enseña un error como
+si estuviera verificado.** Por eso el chequeo frena la generación en vez de
+avisar. Los 6 modos de fallo están probados.
+
+Prueba de humo end-to-end: contestar el quiz entero con las respuestas
+declaradas en el YAML da **44/44** y las afirmaciones **14/14**.
 
 ### Lo próximo, si hay tiempo
 
-1. **Ampliar `ejercicios.yml`** a los 8 temas que todavía no tienen quiz ni
-   afirmaciones falsas. Es el trabajo de mayor rendimiento por hora: el motor ya
-   está, sólo falta contenido.
-2. **`site_url` en `mkdocs.yml` sigue vacío** —
+1. **`site_url` en `mkdocs.yml` sigue vacío** —
    `https://maxinunez24.github.io/final-arquitectura-de-computadoras/`.
-3. **Transcribir `2015 - AC Final - 01.pdf`** a mano y sumarlo como simulacro
+2. **Transcribir `2015 - AC Final - 01.pdf`** a mano y sumarlo como simulacro
    número 13.
+3. Más ítems de quiz donde la cobertura es más fina: buses, RISC vs CISC, DMA y
+   von Neumann tienen 3 cada uno.
+
+### Herramienta para leer las fuentes
+
+`pdftotext -layout` (viene con Git Bash en `/mingw64/bin`) extrae las teorías
+con `\f` entre filminas. Para ubicar un tema rápido, grepear el texto extraído
+por palabra clave devuelve el número de filmina directamente.
+
+!!! warning "Java 8 no puede renderizar los diagramas en esta máquina"
+    `scripts/render_puml.sh` baja PlantUML 1.2026.6, que necesita **Java 11+**.
+    Con el Java 8 instalado tira `UnsupportedClassVersionError`. **No afecta al
+    sitio publicado**: el workflow usa Temurin 17. En local significa que las
+    miniaturas de `practica/diagramas.md` no se ven y que
+    `mkdocs build --strict` aborta por los 28 links a `.svg`.
 
 !!! danger "El repo es público"
     `https://github.com/MaxiNunez24/final-arquitectura-de-computadoras`. Las
