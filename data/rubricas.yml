@@ -266,3 +266,342 @@ rubricas:
       - "L1 muy pequeña y ultrarrápida: sostiene un tiempo de acierto bajo, que es el término (1 − TF) × t_accesoMC."
       - "L2 un poco más grande y lenta: atrapa parte de los fallos de L1 sin tener que ir a la MP, bajando la penalización por fallo efectiva."
       - "Cerrar con el costo: es una de las 5 consideraciones de diseño, y crece fuertemente con el tamaño cuando la caché va en el chip."
+
+  # =========================== SEGMENTACIÓN ==================================
+
+  - id: RUB-SEG-QUE-ES
+    tema: segmentacion
+    titulo: "Qué es la segmentación de cauce y cuánto mejora el rendimiento"
+    aplica_a: [SEG-01]
+    extension: "~media carilla. Si además pide el rendimiento, sumá media más."
+    fuente: "Teorías/04 Arq clase4 Segmentación de cauce.pdf, fil. 31–36, 39, 42, 43–44, 45–54."
+    claves:
+      - "La idea central: el procesador se comporta como una línea de montaje. Cada instrucción pasa por varias etapas y en cada una se hace sólo una parte del todo."
+      - "Una instrucción nueva puede entrar antes de que terminen las anteriores, así que varias están siendo manipuladas simultáneamente, cada una en un estado de ejecución distinto."
+      - "Las 5 etapas del nanoMIPS con su recurso: F (búsqueda, MI), D (decodificación y acceso a registros, BR), X (ejecución, ALU), M (acceso a memoria de datos, MD) y W (escritura en el banco de registros, BR)."
+      - "Cómo se implementa: dividiendo el cauce de datos en etapas con registros sincrónicos entre cada una; los datos avanzan en cada ciclo de reloj."
+      - "Que también hay que segmentar el CONTROL, y por qué: cada unidad funcional está operando con una instrucción distinta, en distinto estado de ejecución."
+      - "El comportamiento con 5 instrucciones: la primera termina en el ciclo 5, y a partir de ahí se termina 1 instrucción por ciclo. En el quinto ciclo hay 5 instrucciones en vuelo, en distintas fases."
+      - "El rendimiento: si K es el número de etapas, la velocidad del segmentado es K × la del secuencial. El incremento potencial es proporcional al número de etapas."
+      - "LO MÁS IMPORTANTE, y lo que más se olvida: la segmentación NO mejora la velocidad de ejecución de una instrucción. Mejora la productividad (throughput), o sea la cantidad de instrucciones resueltas en un período de tiempo."
+      - "Cerrar con que es invisible al programador —que no interviene— y que sirve tanto en RISC como en CISC."
+
+  - id: RUB-SEG-RIESGOS
+    tema: segmentacion
+    titulo: "Los 3 riesgos (motivos de retardo) del cauce"
+    aplica_a: [SEG-02, SEG-03, SEG-04]
+    extension: "~1 carilla. Los 3 riesgos con causa, ejemplo y solución elemental. Si pide sólo dependencias de datos, desarrollá RAW/WAR/WAW a fondo."
+    fuente: "Teorías/04 Arq clase4 Segmentación de cauce.pdf, fil. 55–57, 58–66."
+    claves:
+      - "De dónde salen los riesgos: de las suposiciones que el análisis ideal hace y no se cumplen — que todas las instrucciones pasan por todas las etapas, que todas las etapas se manejan en paralelo, y que no hay saltos."
+      - "Riesgo ESTRUCTURAL: conflicto por el uso de un recurso (memoria, ALU, registros). Ejemplo del curso: si la memoria fuera una sola habría conflicto cada vez que se solapan los ciclos M y F; por eso el nanoMIPS separa MI y MD."
+      - "Riesgo por DEPENDENCIA DE DATOS: 2 o más instrucciones comparten un dato. Hay riesgo cuando los operandos fuente o destino no están disponibles en el momento en que se los necesita en una etapa."
+      - "RAW (lectura después de escritura) — dependencia verdadera o real: una instrucción escribe un dato que otra lee después."
+      - "WAW (escritura después de escritura) — dependencia de salida. Aclarar que sólo ocurre si se permite que las instrucciones se adelanten unas a otras."
+      - "WAR (escritura después de lectura) — antidependencia. Aclarar que NO se puede dar en el cauce simple del nanoMIPS."
+      - "Riesgo por DEPENDENCIA DE CONTROL: la ejecución de una instrucción depende de cómo se ejecute otra. Aparece con el salto condicional: hay que calcular el nuevo valor del PC y la próxima instrucción no puede empezar hasta resolverlo."
+      - "Las soluciones elementales por retardo que muestra la clase 4: 1 ciclo de parada en el estructural, retrasar la D en la dependencia de datos, y 3 ciclos en la de control."
+      - "Si el enunciado dice «cuánto mejora el rendimiento», agregar que cada instrucción sigue requiriendo la misma cantidad de ciclos: la ganancia es en throughput, no en latencia."
+
+  # ==================== SOLUCIONES A LA SEGMENTACIÓN =========================
+
+  - id: RUB-SOL-TODAS
+    tema: soluciones-segmentacion
+    titulo: "Métodos y técnicas para disminuir o evitar las paradas del cauce"
+    aplica_a: [SOL-01]
+    extension: "~1 carilla y media: es la pregunta más larga del banco. Organizala por tipo de riesgo, no como una lista suelta."
+    fuente: "Teorías/05 Arq clase5 Algunas soluciones.pdf, fil. 6, 7–11, 12–28, 29–31, 32–39, 40–52, 53–54."
+    claves:
+      - "Estructurar la respuesta por los 3 riesgos: estructural, de datos y de control. Es lo que ordena el tema."
+      - "ESTRUCTURAL — la solución es básicamente agregar más hardware, con 3 estrategias: duplicar recursos (sumadores además de la ALU), separar el recurso en conflicto (MI y MD), y subdividir el acceso al recurso (escribir el registro en el primer semiciclo y leerlo en el segundo)."
+      - "DATOS por hardware — ciclos de parada: la solución más sencilla, agregar retardos en la ruta de datos. Decir el problema: reducen fuertemente la performance."
+      - "DATOS por hardware — forwarding o adelantamiento: pasar directamente el resultado de una unidad funcional a otra, sin esperar la etapa final de escritura de la instrucción que lo produce."
+      - "El ejemplo del curso del forwarding: en LW R1,100(R2) seguido de SW R1,0(R10), el dato ya está disponible en la etapa M de LW aunque todavía no se cargó en R1 en W; con un camino de la salida de M a la entrada de M no hay que esperar."
+      - "Que en el nanoMIPS se identifican 8 casos de conflicto RAW, agrupados en 3 problemas de adelantamiento: salida de M a entrada de M, salida de M a entrada de X, y salida de X a entrada de X."
+      - "Cómo se implementa el forwarding: con multiplexores, y una unidad de adelantamiento que detecta las dependencias en los campos de las instrucciones y selecciona las entradas del MUX."
+      - "DATOS por software (lo hace el compilador, transparente al programador): introducir NOP —que genera retardos y baja la performance— o reordenar instrucciones para aumentar la separación entre las dependientes, con cuidado de no alterar la lógica del programa."
+      - "CONTROL — ciclos de parada: 3 ciclos en el nanoMIPS."
+      - "CONTROL — adelantar la resolución del salto a la etapa D, con un restador extra a la salida del banco de registros para evaluar tempranamente la condición y un sumador adicional para calcular la dirección. Resultado: se pierde 1 solo ciclo en lugar de 3."
+      - "CONTROL por hardware — predicción de saltos, estática (no usa información previa) o dinámica (usa la historia del programa)."
+      - "CONTROL por software — el delay slot: el compilador rellena el hueco de retardo con instrucciones útiles, y si no puede, con NOP."
+
+  - id: RUB-SOL-SALTOS
+    tema: soluciones-segmentacion
+    titulo: "Atascos producidos por saltos y su tratamiento"
+    aplica_a: [SOL-02]
+    extension: "~1 carilla. Es el subtema que más se toma de esta clase: no lo despaches con «se predice el salto»."
+    fuente: "Teorías/05 Arq clase5 Algunas soluciones.pdf, fil. 32–39, 40–52, 53–54."
+    claves:
+      - "Los 2 tipos de salto: incondicional, donde la dirección de destino se debe determinar lo antes posible en el cauce; y condicional, que suma el riesgo por la dependencia entre la condición y el resultado de una instrucción previa."
+      - "El caso concreto: en el BEQ del nanoMIPS la dirección de salto recién se calcula en la fase W, y por eso se pierden 3 ciclos."
+      - "Predicción ESTÁTICA: se presume una condición sin mirar la historia. Las 2 variantes son predecir que nunca se salta (capta siempre la siguiente) y predecir que siempre se salta (capta siempre el destino)."
+      - "Que el nanoMIPS predice que no va a saltar: si no salta no pierde ningún ciclo, si salta pierde 1."
+      - "Ventajas de la estática: sencilla de implementar, pequeños cambios en la Unidad de Control, ruta de datos sin cambios. Desventaja: la instrucción a descartar puede afectar el estado del procesador — mitigado en el nanoMIPS porque lo que se descarta es el ciclo F, que no lo modifica."
+      - "Predicción DINÁMICA — conmutador saltar/no saltar: hacen falta 2 predicciones fallidas consecutivas para conmutar de estado. Buen comportamiento en lazos."
+      - "Predicción DINÁMICA — BHT (tabla de historia de saltos): una pequeña caché asociada a la etapa F, con 3 campos (dirección de la instrucción de bifurcación, dirección del destino, y N bits de estado de historia de uso). Si la predicción falla se actualiza la tabla; si la instrucción no estaba, se carga como entrada nueva."
+      - "Otras dinámicas que conviene nombrar: predicción según el código de operación (tasa de acierto de hasta 75 %), varios cauces o multiple stream (duplica hardware y aumenta las búsquedas), precaptación del destino del salto (la usa el IBM 360/91) y buffer de bucles (memoria muy rápida con las últimas instrucciones captadas, muy eficaz si entra todo el bucle)."
+      - "Por software — el delay slot: el hueco o ranura de retardo de salto. Hay máquinas que captan y ejecutan siempre la instrucción siguiente al salto en lugar de descartarla, y el compilador trata de poner ahí trabajo útil."
+      - "Los 3 casos de relleno del delay slot: instrucciones anteriores al salto (la mejor solución, siempre se ejecutan y son útiles, pero no siempre es posible), del destino del salto, y a continuación del salto — estas dos últimas no deben modificar el estado del proceso si la predicción falla."
+
+  # ============================ SUPERESCALARES ===============================
+
+  - id: RUB-SUP-CARACTERISTICAS
+    tema: superescalares
+    titulo: "Características de un procesador superescalar (y frente al supersegmentado)"
+    aplica_a: [SUP-01, SUP-05]
+    extension: "~media carilla. Si pide la comparación con supersegmentado, la tabla es la forma más rápida de contestarla."
+    fuente: "Teorías/08 Arq clase8 Procesadores Superescalares.pdf, fil. 9, 10, 12, 18."
+    claves:
+      - "Definición: se pueden completar 2 o más instancias de cada etapa de una instrucción simultáneamente."
+      - "Lo que exige: la duplicación de algunas o todas las partes de la CPU/ALU — captación de múltiples instrucciones a la vez, ejecución simultánea de sumas y multiplicaciones, carga/almacenamiento mientras la ALU opera."
+      - "SUPERSEGMENTADO, para contrastar: cada ciclo se divide en fracciones más chicas en las que se inician nuevas instrucciones. Uno de grado 2 acepta una instrucción nueva en cada semiciclo."
+      - "Por qué se puede subdividir: muchas operaciones no necesitan todo un ciclo de reloj, así que subdividirlo equivale a usar una mayor frecuencia."
+      - "La diferencia de fondo: el supersegmentado hace el pipeline más profundo y su paralelismo es TEMPORAL, limitado por la tecnología (la frecuencia máxima); el superescalar suma paralelismo ESPACIAL duplicando unidades."
+      - "Que el superescalar presenta los 2 tipos de paralelismo de máquina, temporal y espacial: una máquina de profundidad 5 y ancho 4 podría ejecutar hasta 20 instrucciones simultáneamente."
+      - "Que los conflictos son los mismos que en un procesador segmentado: dependencia de datos, penalización por saltos y conflicto por recursos."
+      - "El punto de partida que lo justifica: en un procesador escalar segmentado el IPC es 1 en el mejor de los casos, y sólo se podía mejorar el tiempo aumentando la frecuencia."
+
+  - id: RUB-SUP-PARALELISMO
+    tema: superescalares
+    titulo: "De qué depende el paralelismo de una máquina (IPL y MPL)"
+    # PAR-06 pregunta lo mismo desde la clase 9 y el banco la archiva en
+    # paralelismo; la responde este contenido, así que se la engancha acá.
+    aplica_a: [SUP-02, SUP-06, PAR-06]
+    extension: "~media carilla. El enunciado «de qué depende» pide factores CON justificación de cada uno, no una lista."
+    fuente: "Teorías/08 Arq clase8 Procesadores Superescalares.pdf, fil. 19–24, 25–30."
+    claves:
+      - "Definir paralelismo: la capacidad de ejecutar varias tareas en el mismo intervalo de tiempo."
+      - "Separar los 2 tipos, que es lo que se está evaluando: paralelismo a nivel de INSTRUCCIONES (IPL), que son las posibilidades que tiene un PROGRAMA; y a nivel de MÁQUINA (MPL), que es la capacidad de la MÁQUINA para encontrar y ejecutar tareas en paralelo."
+      - "De qué depende el IPL: de que las instrucciones sean independientes. Es el grado de paralelismo del programa, medido como la cantidad promedio de instrucciones que pueden ejecutarse en paralelo."
+      - "De qué depende el MPL, los 3 factores: número de instrucciones captadas por ciclo, número de unidades funcionales, y mecanismos para localizar y ejecutar instrucciones independientes."
+      - "El punto que cierra la respuesta: de nada sirve una máquina muy paralela si el programa no tiene instrucciones independientes, y al revés."
+      - "Las limitaciones concretas: dependencias de datos (verdadera, de salida y antidependencia), penalizaciones en saltos y conflictos por uso de recursos."
+
+  - id: RUB-SUP-EMISION
+    tema: superescalares
+    titulo: "Las 3 políticas de emisión de instrucciones"
+    aplica_a: [SUP-04]
+    extension: "~1 carilla. Con el ejemplo de las 6 instrucciones y el conteo de ciclos de cada política: es lo que distingue una respuesta completa."
+    fuente: "Teorías/08 Arq clase8 Procesadores Superescalares.pdf, fil. 31–33, 34–43."
+    claves:
+      - "Definir la política de emisión: el protocolo usado para enviar las instrucciones a las unidades funcionales; define cómo se captan, ejecutan y finalizan."
+      - "Plantear los 3 órdenes que hay que distinguir: el orden en que se captan, el orden en que se ejecutan, y el orden en que se actualizan registros y posiciones de memoria."
+      - "La regla general: cuanto más sofisticado el procesador, menos restricciones impone a esos ordenamientos; la única condición es que el resultado sea correcto."
+      - "1) EMISIÓN Y FINALIZACIÓN ORDENADA: se emiten como están en el programa y los resultados se escriben en el mismo orden. En el ejemplo del curso, 8 ciclos para 6 instrucciones."
+      - "2) EMISIÓN ORDENADA Y FINALIZACIÓN DESORDENADA: se emiten en orden pero los resultados se escriben en cualquier orden, lo que permite ejecutar I3 anticipadamente. 7 ciclos."
+      - "Que al permitir la finalización desordenada aparecen NUEVAS fuentes de conflictos por dependencia de datos (WAW y WAR), y la lógica de emisión se vuelve más compleja."
+      - "La limitación de la emisión ordenada: el procesador sólo puede decodificar hasta el punto de dependencia o conflicto, no mira si más adelante hay instrucciones emitibles sin conflicto."
+      - "3) EMISIÓN Y FINALIZACIÓN DESORDENADA: requiere separar decodificación de ejecución mediante un buffer, la VENTANA DE INSTRUCCIONES. 6 ciclos."
+      - "Aclarar que la ventana de instrucciones NO es una etapa del cauce: es un buffer que retiene la información necesaria para emitir."
+      - "Qué gana la ventana en el ejemplo: permite ver más adelante de las instrucciones en conflicto, y emitir I6 anticipadamente incluso antes que I5 porque no tiene dependencias."
+
+  - id: RUB-SUP-RENOMBRE
+    tema: superescalares
+    titulo: "Objetivo del renombrado de registros"
+    aplica_a: [SUP-03]
+    extension: "~media carilla. Conviene incluir el ejemplo de las 4 instrucciones con R3: se contesta solo."
+    fuente: "Teorías/08 Arq clase8 Procesadores Superescalares.pdf, fil. 44–52."
+    claves:
+      - "El problema que resuelve: al permitir emisión y/o finalización desordenada aparecen las dependencias WAW (de salida) y WAR (antidependencia)."
+      - "Por qué aparecen: los valores de los registros pueden no reflejar la secuencia dictada por el flujo del programa."
+      - "La reinterpretación clave, que es lo que el enunciado busca: en realidad es un CONFLICTO DE ALMACENAMIENTO — hay instrucciones que compiten por un mismo registro."
+      - "Descartar la solución fácil y decir por qué: se podría resolver con detenciones en el cauce, pero las pérdidas de tiempo pueden ser inaceptables."
+      - "La idea: como es un conflicto de recursos, se resuelve DUPLICANDO el recurso. Eso es el renombrado."
+      - "El mecanismo: los registros de las instrucciones del programa son lógicos; los físicos los asigna el procesador. Cada vez que se guarda un dato en un registro se asigna un nuevo registro físico, y las instrucciones siguientes que lo referencien se renombran."
+      - "El resultado, que es la respuesta al «objetivo»: se eliminan las dependencias WAW y WAR, quedando únicamente la dependencia verdadera RAW."
+
+  # ========================= PROCESAMIENTO PARALELO ==========================
+
+  - id: RUB-PAR-FLYNN
+    tema: paralelismo
+    titulo: "La taxonomía de Flynn y sus 4 variantes"
+    aplica_a: [PAR-01, PAR-02]
+    extension: "~1 carilla. Para cada tipo: composición, cómo funciona y ejemplo. El MIMD se lleva la mitad del espacio."
+    fuente: "Teorías/09 Arq clase9 Procesamiento paralelo.pdf, fil. 6, 7, 9, 12, 15, 16, 17."
+    claves:
+      - "El criterio de la clasificación: la cantidad de flujos de instrucciones y de datos que se pueden transferir simultáneamente."
+      - "SISD — una secuencia de instrucciones y una de datos. Compuesto por una UC, un EP y una UM: la UC lee una única secuencia de instrucciones que el EP resuelve sobre una única secuencia de datos. Ejemplo: monoprocesadores."
+      - "SIMD — una de instrucciones, múltiples de datos. Una UC, una matriz de EP y una memoria local por cada EP: la UC interpreta una única secuencia que múltiples EP resuelven simultáneamente, cada uno con sus propios datos. Ejemplo: procesadores vectoriales y matriciales."
+      - "Que el SIMD requiere un conjunto ampliado de instrucciones para operaciones vectoriales, e instrucciones para transferir datos entre EP."
+      - "MISD — múltiples de instrucciones, una de datos. Una matriz de EP cada uno con su propia UC, y una UM para todos. Decir explícitamente que es un MODELO TEÓRICO: no hay registros de máquinas de este tipo."
+      - "MIMD — múltiples de ambas. Múltiples procesadores ejecutando múltiples secuencias de instrucciones sobre múltiples secuencias de datos."
+      - "La subdivisión del MIMD según la organización de la memoria, que es también la forma de comunicarse: memoria compartida (fuertemente acoplada) con SMP y NUMA, y memoria distribuida (débilmente acoplada) con los clusters."
+
+  - id: RUB-PAR-SMP-CLUSTER
+    tema: paralelismo
+    titulo: "SMP, NUMA y clusters: características y diferencias"
+    aplica_a: [PAR-03, PAR-04, PAR-05]
+    extension: "~1 carilla. Si el enunciado dice «compare», tabla; si dice «características de», desarrollo por separado."
+    fuente: "Teorías/09 Arq clase9 Procesamiento paralelo.pdf, fil. 17–20, 21–25, 26–31, 33."
+    claves:
+      - "SMP: dos o más procesadores idénticos u homogéneos, de capacidades comparables."
+      - "SMP: memoria principal y E/S única, compartida por todos los procesadores; interconexión por bus o medio similar, de ahí que sean «fuertemente acoplados»."
+      - "SMP: igual tiempo de acceso a memoria para todos los procesadores — por eso son del tipo UMA (Uniform Memory Access)."
+      - "NUMA: procesadores homogéneos formando NODOS, cada nodo un procesador completo con su propia memoria local y E/S, interconectados por una red."
+      - "NUMA: el espacio de direcciones es COMÚN a todos los procesadores —por eso es memoria compartida—, pero el tiempo de acceso difiere entre la memoria local y la de los otros nodos. De ahí el nombre: Non Uniform Memory Access."
+      - "CLUSTER: 2 o más nodos, cada uno un procesador completo con memoria local y E/S, que pueden ser homogéneos o HETEROGÉNEOS — a diferencia del SMP y el NUMA."
+      - "CLUSTER: como los espacios de direcciones son INDEPENDIENTES, es un sistema de memoria DISTRIBUIDA. Por el tipo de red y protocolo se los considera «levemente acoplados»."
+      - "CLUSTER: la comunicación entre procesos es en base a MENSAJES, a resolver por el programa. Es la diferencia operativa más grande con el SMP."
+      - "Que en los tres casos todos los procesadores pueden desempeñar las mismas funciones y el SO está integrado."
+      - "La definición de cluster que conviene citar: computadoras completas interconectadas que trabajan conjuntamente como un único recurso, comportándose ante las tareas como una única máquina. Prestaciones y disponibilidad elevadas, aplicaciones de servidor, alternativa a los SMP."
+      - "Si hay lugar, la clasificación por tipo de acceso: UMA, NUMA y CC-NUMA, este último un NUMA que mantiene coherencia entre las cachés de los distintos procesadores."
+
+  # ================================== DMA ====================================
+
+  - id: RUB-DMA-FUNCIONAL
+    tema: dma
+    titulo: "Características funcionales del DMA"
+    aplica_a: [DMA-01]
+    extension: "~1 carilla. Las 3 fases son el esqueleto de la respuesta; las 2 técnicas, el cierre."
+    fuente: "Teorías/03 Arq clase3 EntradaSalida.pdf, fil. 24, 33–43, 44, 45–48."
+    claves:
+      - "Definir: técnica de transferencia entre periférico y memoria SIN intervención directa de la CPU, llevada a cabo por un controlador de DMA (DMAC) ubicado sobre el bus, entre el módulo de E/S y la memoria."
+      - "Ubicarla como la tercera de las 3 estrategias de gestión de E/S, y decir qué la distingue: las otras dos requieren que la CPU participe en la transferencia de cada dato."
+      - "El DMAC como maestro del bus: DMAC y CPU compiten por el bus, y cuando el DMAC lo toma actúa como master."
+      - "Lo que el DMAC debe ser capaz de hacer como master: solicitar el bus con la lógica de arbitraje, especificar la dirección de memoria, generar las señales de control, especificar el tipo de operación y generar las señales de sincronización."
+      - "FASE 1, inicialización: la CPU configura la interfaz de E/S (tipo de transferencia, configuración del periférico) y el DMAC (número de bytes o palabras, tipo de transferencia, dirección de memoria inicial)."
+      - "FASE 2, ejecución: el periférico avisa que está listo → el DMAC pide el bus a la CPU → la CPU libera el bus y se desconecta lógicamente → le avisa al DMAC → el DMAC toma el control y ejecuta la transferencia."
+      - "Que en la transferencia el bus master es DMAC + periférico y el bus slave es la memoria, y que después de cada palabra se actualizan los registros del DMAC: bytes faltantes y próxima dirección."
+      - "FASE 3, finalización: el DMAC libera el bus y avisa a la CPU, que retoma el control; el DMAC activa además una señal de interrupción, y la CPU verifica por los registros internos del DMAC si la transferencia fue OK, si hubo errores y el estado del periférico."
+      - "Las 2 técnicas — RÁFAGA: la CPU concede el bus y el DMAC no lo libera hasta terminar el bloque completo. Rápida, pero la CPU no puede usar el bus y se degrada el rendimiento."
+      - "Las 2 técnicas — ROBO DE CICLO: se transfiere una única palabra y el DMAC libera el bus, pidiéndolo tantas veces como haga falta. No degrada tanto el rendimiento, pero tarda un poco más."
+      - "El punto que suele faltar: el robo de ciclo NO es una interrupción — el procesador no guarda contexto ni interrumpe su tarea. Para transferencias de múltiples palabras es la técnica más eficiente, porque la CPU sigue trabajando."
+
+  - id: RUB-DMA-COHERENCIA
+    tema: dma
+    titulo: "¿El DMA afecta la coherencia de datos de la jerarquía de memoria?"
+    aplica_a: [DMA-02]
+    extension: "~1/3 de carilla. Es una pregunta de sí o no: contestá primero y justificá después."
+    fuente: "Teorías/07 Arq clase7 Memoria.pdf, fil. 61–64 (+ Teorías/03 Arq clase3 EntradaSalida.pdf, fil. 33–43)."
+    claves:
+      - "Contestar que SÍ, y decir por qué en una línea antes de desarrollar."
+      - "El motivo estructural: el DMAC transfiere directamente contra la MEMORIA PRINCIPAL, sin pasar por la caché de la CPU."
+      - "Que la teoría de caché lo nombra explícitamente como uno de los escenarios que obligan a definir política de escritura: un módulo de E/S puede tener acceso directo a la MP y requerir información que fue modificada en la caché."
+      - "El caso de LECTURA por DMA con write-back: la caché tiene el dato actualizado y la MP todavía no —se actualiza recién al reemplazar el bloque—, así que el DMAC se lleva un dato viejo."
+      - "El caso de ESCRITURA por DMA: el DMAC escribe en MP una posición que la caché tiene copiada, y la copia de la caché queda desactualizada."
+      - "Que con write-through el problema de la lectura no se da, porque caché y MP se actualizan simultáneamente; el precio es el aumento del tráfico con memoria."
+      - "Mencionar el bit de «sucio» como el mecanismo que permite saber qué bloque hay que volcar."
+
+  # ================================= BUSES ===================================
+
+  - id: RUB-BUS-ELEMENTOS
+    tema: buses
+    titulo: "Qué es un bus y qué elementos característicos lo definen"
+    aplica_a: [BUS-01]
+    extension: "~media carilla. Los 3 buses del sistema con su factor clave son el núcleo de la respuesta."
+    fuente: "7 anexo clase 07 sobre_buses.pdf, fil. 7, 12, 11, 14."
+    claves:
+      - "Definir: un camino de comunicación entre dos o más dispositivos, normalmente un medio de transmisión."
+      - "Que agrupa varias líneas con función común — un dato de 8 bits se transmite por ocho líneas."
+      - "Lo físico: un conjunto de conductores eléctricos paralelos, líneas de metal, con conectores para colocar tarjetas."
+      - "BUS DE DATOS: transmite datos, y a ese nivel no hay diferencia entre datos e instrucciones. Su ANCHO es un factor clave para las prestaciones: 8, 16, 32, 64 bits."
+      - "BUS DE DIRECCIONES: identifica la fuente o el destino del dato. Su ancho determina la MÁXIMA CAPACIDAD DE MEMORIA del sistema — el MSX88 tiene 16 bits, o sea 64 K lugares."
+      - "BUS DE CONTROL: transmite señales de control y temporización — escritura/lectura en memoria, petición de interrupción, señales de reloj."
+      - "Qué recibe y envía cada unidad: la memoria recibe y entrega datos, recibe direcciones y señales de control; el módulo de E/S es funcionalmente similar pero además envía la señal de interrupción al procesador; el procesador lee instrucciones y datos, escribe datos, envía control y recibe interrupciones."
+
+  - id: RUB-BUS-COMPLETA
+    tema: buses
+    titulo: "Bus: tipos, temporización y métodos de arbitraje"
+    aplica_a: [BUS-02]
+    extension: "~1 carilla. Son 4 subtemas: repartí el espacio y no te comas el arbitraje, que es el que más se olvida."
+    fuente: "7 anexo clase 07 sobre_buses.pdf, fil. 7, 12, 11, 14, 20, 22, 38."
+    claves:
+      - "Arrancar con la definición y los 3 buses del sistema (datos, direcciones, control) con su factor clave."
+      - "TIPOS — dedicados: líneas separadas para direcciones y para datos. Más líneas."
+      - "TIPOS — multiplexados: las mismas líneas para direcciones y datos, con una línea de control adicional (a/d) para definir cuál de las dos cosas viaja. Menos líneas pero más circuitería."
+      - "Por qué hay jerarquía de buses: conectar muchos dispositivos a un único bus produce retardos de propagación, y pasar el control de un dispositivo a otro afecta sensiblemente las prestaciones."
+      - "La arquitectura TRADICIONAL: bus local (procesador, caché, controlador local de E/S) → bus del sistema (memoria principal) → bus de expansión (red, SCSI, módem, serie)."
+      - "La arquitectura de ALTAS PRESTACIONES: intercala un bus de alta velocidad, del que cuelgan SCSI, FireWire, gráficos, vídeo y LAN, dejando el de expansión para FAX, módem y serie."
+      - "TEMPORIZACIÓN: es la forma de coordinar los eventos en el bus."
+      - "Temporización SÍNCRONA: la presencia de un evento la determina un reloj; el bus incluye una línea de reloj que todos los dispositivos pueden leer; el intervalo de un «uno» seguido de un «cero» es el ciclo de bus; suele sincronizar en el flanco de subida y la mayoría de los eventos duran un único ciclo."
+      - "Temporización ASÍNCRONA: nombrar las señales del cronograma (MSYN, SSYN, lectura, direcciones, datos) y ser honesto — la cátedra sólo da el cronograma, sin descripción del mecanismo. Si hace falta desarrollarlo, es Stallings cap. 3."
+      - "ARBITRAJE — por qué hace falta: el control del bus puede necesitarlo más de un módulo (la CPU y el controlador de DMA), y sólo una unidad puede transmitir en un instante dado."
+      - "Arbitraje CENTRALIZADO: un único dispositivo de hardware —el controlador del bus o árbitro— asigna los tiempos. Puede estar en un módulo separado o ser parte del procesador."
+      - "Arbitraje DISTRIBUIDO: cada módulo puede controlar el acceso al bus y dispone de su propia lógica para hacerlo."
+
+  # ============================== RISC vs CISC ===============================
+
+  - id: RUB-RISC-CISC
+    tema: risc-cisc
+    titulo: "Características que diferencian RISC de CISC"
+    aplica_a: [RISC-01, RISC-02]
+    extension: "~media carilla, o ~1/3 si pide sólo 3 características. El verbo «compare» pide tabla."
+    fuente: "Teorías/06 Arq clase6 RISC.pdf, fil. 8, 20–21, 42."
+    claves:
+      - "CISC: repertorios de instrucciones grandes, formato complejo y de longitud variable, muchos modos de direccionamiento, y capacidad de implementar sentencias de alto nivel con muy pocas instrucciones de máquina —resolver la sentencia «por hardware»—."
+      - "RISC: repertorio reducido y básico, y formato de instrucción FIJO y sencillo (todas las instrucciones con la misma cantidad de bits)."
+      - "RISC: unidad de control CABLEADA, no microprogramada. En CISC es típicamente microprogramada."
+      - "RISC: máquina tipo LOAD-STORE — el acceso a memoria sólo con instrucciones de movimiento de datos, y las aritméticas y lógicas sólo entre registros."
+      - "RISC: cauce diseñado para ejecutar 1 instrucción por ciclo, o sea uso preciso de la segmentación."
+      - "RISC: uso intensivo de registros de uso general con optimización por software; banco de registros amplio frente al más limitado del CISC."
+      - "Si pide sólo 3, las más defendibles son: formato fijo, LOAD-STORE y unidad de control cableada — porque de esas tres se deduce casi todo lo demás."
+      - "Sumar el contexto si hay lugar: el RISC surgió de los estudios sobre el comportamiento de los programas, a mediados de los 80, en Berkeley (Patterson, RISC 1) y Stanford (Hennessy, MIPS-XMP)."
+      - "Cerrar con las desventajas del CISC que la teoría marca: las instrucciones complejas son difíciles de aprovechar por el compilador —las usa poco o nada—, la optimización es más difícil, y los códigos de operación más largos aumentan el tamaño de la instrucción."
+
+  - id: RUB-RISC-PILA
+    tema: risc-cisc
+    titulo: "Implementar la pila en un RISC de registros genéricos (MIPS)"
+    aplica_a: [RISC-03]
+    extension: "~media carilla. Ojo: acá se cruzan RISC y pila, así que mirá también las rúbricas de von Neumann y pila."
+    fuente: "Teorías/06 Arq clase6 RISC.pdf, fil. 42 (+ Prácticas/Practica 4 - Resolución - AC2025.pdf)."
+    claves:
+      - "El punto de partida: en un RISC los registros son genéricos y no hay instrucciones PUSH/POP dedicadas, porque es una máquina LOAD-STORE."
+      - "Consecuencia directa: la pila se implementa POR CONVENCIÓN — un registro de uso general se reserva como puntero de pila, y apilar/desapilar se hace a mano."
+      - "Apilar: decrementar el puntero de pila y hacer un STORE del dato en esa dirección. Desapilar: hacer un LOAD y después incrementar el puntero."
+      - "Que la pila crece de direcciones más altas hacia más bajas, así que apilar RESTA al puntero."
+      - "El llamado y retorno en MIPS: jal guarda la dirección de retorno en un registro, y jr vuelve. A diferencia del CALL/RET de una máquina con pila en hardware, la dirección de retorno NO se apila sola."
+      - "Por qué eso importa en el anidamiento: si una subrutina llama a otra, el segundo jal pisa la dirección de retorno guardada en el registro, así que hay que apilarla explícitamente antes de la llamada anidada."
+      - "El pasaje de parámetros asociado: por registros (limitado por la cantidad disponible) o por pila, que es independiente de memoria y registros."
+      - "Ser honesto sobre la fuente: el desarrollo del tema se apoya en la Práctica 4 y en resúmenes de alumnos, no en una filmina de teoría. Conviene verificarlo contra Stallings caps. 10 y 11."
+
+  # ========================= VON NEUMANN Y PILA ==============================
+
+  - id: RUB-VN-ARQUITECTURA
+    tema: von-neumann-y-pila
+    titulo: "Elementos de una máquina von Neumann y función de cada uno"
+    aplica_a: [VN-01]
+    extension: "~1/3 de carilla más el esquema. Es corta: no la infles, pero no te olvides de los 3 buses."
+    fuente: "Teorías/03 Arq clase3 EntradaSalida.pdf, fil. 3."
+    claves:
+      - "Los 3 subsistemas: CPU, Memoria y E/S."
+      - "Los 3 buses que los vinculan: bus de datos, bus de direcciones y bus de control."
+      - "La composición interna de la CPU: ALU, Unidad de Control y registros."
+      - "La función de la CPU: la Unidad de Control interpreta las instrucciones y genera las señales; la ALU ejecuta las operaciones; los registros almacenan datos y estado."
+      - "La función de la memoria: recibe y entrega datos, recibe direcciones y recibe señales de control (leer, escribir, temporizar)."
+      - "La función del subsistema de E/S: vincula con los periféricos, es funcionalmente similar a la memoria hacia el bus, y además envía señales de interrupción al procesador."
+      - "Si el enunciado dice «esquematice», el dibujo son los 3 bloques colgados de los 3 buses. Es el diagrama von-neumann.svg del sitio."
+
+  - id: RUB-VN-PILA
+    tema: von-neumann-y-pila
+    titulo: "Qué es una pila y cómo se comporta con anidamiento de procedimientos"
+    aplica_a: [VN-03]
+    extension: "~media carilla. Conviene dibujar la pila con dos llamadas anidadas: se explica sola."
+    fuente: "Resumen Arquitectura (2).pdf, p. 1 y Finales/Resumen AC Guaymas.docx.pdf, p. 1 — RESÚMENES DE ALUMNOS."
+    claves:
+      - "Definir: conjunto ordenado de elementos del que sólo uno es accesible en un instante dado. El punto de acceso es la cabecera, y la longitud es variable."
+      - "Que sólo se pueden añadir o eliminar elementos en la cabecera, y que por eso es una lista LIFO (last in, first out)."
+      - "Que la pila crece desde direcciones más altas hacia direcciones más bajas."
+      - "Las operaciones: PUSH añade en la cabecera, POP elimina de la cabecera, y en ambos casos la cabecera cambia. Operación unaria: opera con el elemento de la cabecera y lo sustituye por el resultado. Binaria: opera con los dos de la cabecera, los elimina y deja el resultado."
+      - "Los 3 registros que hacen falta: puntero de pila (dirección del tope, se incrementa o decrementa), base de la pila (dirección base del bloque; si se hace POP con la pila vacía, error) y límite (el otro extremo; si se hace PUSH con el bloque lleno, error)."
+      - "Subrutina: sección de código que recibe el control en un punto de entrada y lo devuelve en uno de salida; se invoca con CALL, que carga el PC con la dirección de comienzo, y termina con RET, que carga el PC con la dirección siguiente al CALL —que hubo que guardar previamente en la pila—."
+      - "ANIDAMIENTO, que es lo que la pregunta busca: una subrutina puede invocar a otra, cada una tiene asociado su propio espacio en la pila, y la cantidad de anidamientos es casi infinita, limitada por el espacio. Al terminar una, se devuelve el control a la que la invocó."
+      - "Por qué la pila es la estructura correcta para esto: el orden LIFO coincide exactamente con el orden en que hay que deshacer las llamadas anidadas."
+      - "Las otras funciones de la pila: guardar el contexto del procesador — el PC y el estado (flags)."
+      - "Aclarar en el examen que este punto sale de resúmenes: si te preguntan por la fuente, la de cátedra sobre pila es la Práctica 4."
+
+  - id: RUB-VN-PARAMETROS
+    tema: von-neumann-y-pila
+    titulo: "Métodos de pasaje de argumentos a procedimientos"
+    aplica_a: [VN-02]
+    extension: "~media carilla. Son 3 métodos más la distinción valor/referencia: no mezcles las dos clasificaciones."
+    fuente: "Finales/Resumen AC Guaymas.docx.pdf, p. 1–2 y Resumen Arquitectura (2).pdf, p. 1 — RESÚMENES DE ALUMNOS."
+    claves:
+      - "Separar primero las 2 clasificaciones, que es donde se cae la mayoría: por un lado POR VALOR vs. POR REFERENCIA, por otro los 3 MÉTODOS (registros, memoria, pila)."
+      - "Por VALOR: se pasa el valor de la variable. Son parámetros de entrada y el procedimiento no puede modificar el original."
+      - "Por REFERENCIA: se pasa la dirección de memoria del argumento, no su valor. Permite que el procedimiento modifique el valor original."
+      - "Vía REGISTROS: sencillo, pero limitado por el número de registros disponibles —ésa es la principal limitación—. Como se modifican los contenidos, hay que documentar qué registros se usan."
+      - "Vía MEMORIA: los parámetros van por un área definida de RAM. Difícil de estandarizar por las dificultades para asignar esa área."
+      - "Vía PILA: el método más ampliamente usado, el «verdadero» pasaje de parámetros. Su ventaja principal es que es independiente de la memoria y de los registros, y que los registros no tienen que modificarse en las subrutinas."
+      - "La advertencia sobre la pila: hay que entender bien cómo funciona porque la usa el usuario (en la invocación y en la subrutina) Y el sistema (al salvar la dirección de retorno en el CALL, y en las interrupciones)."
+      - "Cómo se combinan ambas clasificaciones sobre la pila: por valor se apilan los registros que contienen los datos; por referencia se apilan las direcciones efectivas."
+      - "ANIDAMIENTO: cada subrutina tiene su propio espacio en la pila, y al terminar devuelve el control a la que la invocó. Con pasaje por pila el anidamiento no rompe nada; con pasaje por registros, la llamada anidada pisa los registros del llamador."

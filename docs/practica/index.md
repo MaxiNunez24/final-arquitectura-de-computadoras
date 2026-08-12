@@ -38,15 +38,3 @@ No hay servidor ni corrección automática de texto: los datos salen de `data/ba
 
 !!! danger "Los distractores tampoco se inventan"
     La [regla número uno](../index.md) también rige acá. Las opciones incorrectas de un quiz son afirmaciones que **la teoría sí hace**, puestas donde no corresponden. Por eso **no hay ejercicios de cálculo** salvo donde la cátedra desarrolla el cálculo: ver [TODOs](../todos.md).
-
-!!! warning "Temas todavía sin rúbrica"
-    Estos temas no tienen cargado el checklist de autocorrección:
-
-    - **Buses** — al corregir, el simulacro manda a la ficha
-    - **DMA — Acceso Directo a Memoria** — al corregir, el simulacro manda a la ficha
-    - **Procesamiento paralelo** — al corregir, el simulacro manda a la ficha
-    - **RISC vs CISC** — al corregir, el simulacro manda a la ficha
-    - **Segmentación de cauce** — al corregir, el simulacro manda a la ficha
-    - **Soluciones a los riesgos de segmentación** — al corregir, el simulacro manda a la ficha
-    - **Procesadores superescalares** — al corregir, el simulacro manda a la ficha
-    - **Von Neumann y pila** — al corregir, el simulacro manda a la ficha
