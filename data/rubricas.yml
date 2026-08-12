@@ -1,0 +1,268 @@
+# =============================================================================
+# RÚBRICAS DE AUTOCORRECCIÓN — Arquitectura de Computadoras (UNLP)
+# =============================================================================
+# Cada rúbrica es el checklist de "qué tiene que aparecer sí o sí" en una
+# respuesta escrita. Se usa en dos lugares:
+#   · al entregar un simulacro cronometrado (docs/practica/simulacro.md)
+#   · al dar vuelta una ficha de recuperación activa (docs/practica/fichas.md)
+#
+# -----------------------------------------------------------------------------
+# DE DÓNDE SALE CADA COSA
+# -----------------------------------------------------------------------------
+# `claves`  → contenido de cátedra. Cada ítem es un punto que la ficha del tema
+#             desarrolla, y la ficha a su vez cita la filmina. NO se inventan:
+#             si algo no está en la ficha, no va acá.
+# `fuente`  → la misma cita que lleva la sección de la ficha de la que salió.
+# `extension` → ORIENTATIVO, criterio de estudio, NO sale de las fuentes.
+#             Es una estimación de cuánto escribiría un alumno para aprobar
+#             ese punto en 3 horas repartidas entre 5 puntos.
+#
+# `aplica_a` son ids de data/banco-finales.yml. `tema` es el slug del tema, y
+# es lo que usa el simulacro para ofrecer la rúbrica del inciso.
+# =============================================================================
+
+rubricas:
+
+  # =========================== INTERRUPCIONES ================================
+
+  - id: RUB-INT-MECANISMO
+    tema: interrupciones
+    titulo: "Mecanismo de interrupción y tratamiento de múltiples"
+    aplica_a: [INT-01]
+    extension: "~1 carilla. Es la pregunta más frecuente del banco: no la despaches en 10 líneas."
+    fuente: "Teorías/02 Arq clase2 Interrupciones.pdf, fil. 3–4, 6–7, 8–20, 21–31."
+    claves:
+      - "Definir la interrupción como el mecanismo que altera la ejecución normal del ciclo de instrucción, suspendiendo la tarea en curso para atender un pedido."
+      - "Las 3 acciones: detener (suspender, no abortar), bifurcar al servicio, restablecer la tarea suspendida en las condiciones en que estaba."
+      - "Salvado del estado: al menos el PC y el registro de estado (PSW), típicamente en la pila del sistema. Mencionar las 2 estrategias: guardar sólo PC + registro crítico, o guardar todos los registros."
+      - "El vector: la CPU busca en un área de memoria reservada (área de vectores de interrupción) la dirección de comienzo del servicio y carga el PC con ese valor."
+      - "El retorno con RTI, que desapila exactamente lo apilado y recupera como mínimo PC y PSW."
+      - "La fase de gestión de interrupciones como tercera fase del ciclo de instrucción, que se suma a captación y ejecución: la CPU examina el flag en cada ciclo."
+      - "Fuentes de interrupción: internas (overflow, división por cero, error de paridad, fallo de hardware) y externas (operaciones de E/S con periféricos)."
+      - "Clasificación: enmascarables vs. no enmascarables, y por hardware (externas / internas o trap) vs. por software."
+      - "Múltiples con IGUAL prioridad: se procesan en el orden en que llegan; al atender una se inhabilita el resto de igual o menor nivel, las nuevas quedan pendientes y se habilitan al terminar el servicio."
+      - "Múltiples con DISTINTA prioridad: las de mayor prioridad pueden interrumpir a las de menor, nunca al revés; al terminar la más alta se vuelve a las previas y recién al final al programa de usuario."
+
+  - id: RUB-INT-PIC
+    tema: interrupciones
+    titulo: "Estructura interna del PIC (Controlador Programable de Interrupciones)"
+    aplica_a: [INT-02]
+    extension: "~media carilla más el esquema. El enunciado dice «esquematice»: el dibujo no es opcional."
+    fuente: "Teorías/02 Arq clase2 Interrupciones.pdf, fil. 32–36, 43."
+    claves:
+      - "El escenario que lo justifica: la CPU tiene una única entrada de pedido de interrupción y hay varios productores de interrupciones."
+      - "Qué hace el PIC: genera el vector, administra prioridades y habilita interrupciones."
+      - "El diálogo completo PIC ↔ CPU: el PIC recibe los pedidos de los periféricos → pide atención con IntR → la CPU responde con IntA → el PIC pone el número de interrupción (vector) en el bus de datos → la CPU lo lee y busca el vector en memoria."
+      - "Registro IRR: contiene los pedidos de interrupción provenientes de los periféricos, indica con bit en 1."
+      - "Registro ISR: identifica la interrupción en servicio, indica con bit en 1."
+      - "Registro IMR: habilita/deshabilita los pedidos; enmascara con 1. Es el enmascaramiento de interrupciones."
+      - "Los registros INT0…INT7, que guardan el vector de cada interrupción."
+      - "Cerrar con por qué conviene: al hacerse por hardware es mucho más rápido que la encuesta por software."
+
+  - id: RUB-INT-VECTORIZADAS
+    tema: interrupciones
+    titulo: "Interrupciones vectorizadas y las 3 formas de identificar el origen"
+    aplica_a: [INT-03]
+    extension: "~media carilla. Conviene contestar comparando las 3 opciones, no sólo definiendo la tercera."
+    fuente: "Teorías/02 Arq clase2 Interrupciones.pdf, fil. 21–31, 32–36."
+    claves:
+      - "Nombrar que «vectorizadas» es la opción 3: una única señal física para todas las fuentes, con identificación por hardware."
+      - "El mecanismo: la CPU recibe a continuación, típicamente por el bus de datos, un número que identifica la fuente — el vector de la interrupción."
+      - "Quién provee el vector: el periférico que generó el pedido, o un dispositivo dedicado a generarlo (el PIC)."
+      - "Opción 1 para contrastar: una señal física de entrada a la CPU por cada interrupción. Sencilla, pero las líneas son costosas y la cantidad queda acotada a un número reducido."
+      - "Opción 2 para contrastar: una única señal con identificación por software (encuesta o polling). La CPU pregunta a cada dispositivo uno por uno: relativamente lento e ineficiente."
+      - "La ventaja de la vectorizada: al resolverse por hardware es mucho más rápida."
+
+  - id: RUB-INT-SOFTWARE
+    tema: interrupciones
+    titulo: "Interrupciones por software: cuándo, por qué, para qué y cómo"
+    aplica_a: [INT-04]
+    extension: "~1/3 de carilla. El enunciado pide 4 cosas: contestá las 4 por separado."
+    fuente: "Teorías/02 Arq clase2 Interrupciones.pdf, fil. 21–31."
+    claves:
+      - "Qué son: instrucciones explícitas con efecto similar a una interrupción por hardware."
+      - "Por qué existen: el SO administra los servicios de las interrupciones, así que permiten invocar los servicios del SO asociados a ellas — son «llamadas» a funciones del SO."
+      - "El problema que resuelven: hay sistemas que no permiten llamar directamente a una función del SO por estar en zona reservada."
+      - "Las 2 alternativas malas que evitan: escribir uno mismo el servicio, o buscar entre las llamadas del BIOS/SO y reemplazar en el código la dirección de la función invocada."
+      - "Cómo se usan: el SO define dónde se cargan los servicios; el usuario no conoce a priori esos lugares pero los usa invocándolos a través de las interrupciones que maneja el SO."
+      - "Ubicarlas en la clasificación: son la tercera rama junto a las de hardware externas e internas (trap), y a diferencia de las externas no son aleatorias."
+
+  - id: RUB-INT-SUBRUTINA
+    tema: interrupciones
+    titulo: "Diferencias entre terminar una subrutina y terminar un gestor de interrupción"
+    aplica_a: [INT-05]
+    extension: "~1/3 de carilla. Es una pregunta de contraste: armá el paralelo explícito."
+    fuente: "Teorías/02 Arq clase2 Interrupciones.pdf, fil. 3–4, 8–20."
+    claves:
+      - "El origen: el llamado a subrutina es una instrucción del programa, planeada y sincrónica; la interrupción por hardware externa es aleatoria y asincrónica, puede ocurrir en cualquier instante."
+      - "Qué se salva: la subrutina guarda la dirección de retorno; la interrupción salva además el registro de estado (PSW), y según la estrategia todos los registros del procesador."
+      - "Cómo se obtiene el destino: la subrutina tiene la dirección en la propia instrucción; la interrupción la busca en el área de vectores de interrupción."
+      - "La instrucción de retorno es distinta: RET en la subrutina, RTI (retorno de interrupción) en el gestor."
+      - "Qué desapila el retorno: RTI desapila exactamente lo que se apiló al atender la interrupción, como mínimo PC y PSW; el retorno de subrutina recupera la dirección de retorno."
+      - "Aclarar que el mecanismo es «de una manera similar al llamado a subrutina»: la teoría marca la analogía, así que conviene decir en qué se parecen antes de decir en qué difieren."
+
+  # ============================= ENTRADA/SALIDA ==============================
+
+  - id: RUB-ES-MODULO
+    tema: entrada-salida
+    titulo: "Estructura interna del módulo de E/S"
+    aplica_a: [ES-01]
+    extension: "~media carilla más el esquema."
+    fuente: "Teorías/03 Arq clase3 EntradaSalida.pdf, fil. 6–13, 14–16, 20–23."
+    claves:
+      - "Las dos caras del módulo: la interfaz al bus del sistema y la interfaz a dispositivos externos, unidas por la lógica de E/S."
+      - "Del lado del bus entran el bus de datos, las líneas de dirección y las líneas de control; del otro lado salen datos, estado y control hacia el periférico."
+      - "Los recursos visibles a la CPU (y al programador) son básicamente registros."
+      - "Registros de datos: contienen la información útil recibida desde, o transmitida a, el periférico."
+      - "Registros de control y estado: controlan las características de la transferencia y almacenan las señales de estado (falla, no listo, etc.)."
+      - "Los 2 tipos de información que provee la conexión con el periférico: datos, y control y estado (sentido de la transferencia, operación, estado del periférico)."
+      - "Las comunicaciones hacia el periférico: transferir datos con adaptación eléctrica, controlar y temporizar, almacenar temporalmente (buffer) y detectar errores."
+      - "Las comunicaciones hacia el bus: interpretar las órdenes de la CPU y transmitirlas al periférico, transferir datos con CPU y memoria, e informar a la CPU del estado del periférico."
+
+  - id: RUB-ES-TECNICAS
+    tema: entrada-salida
+    titulo: "Las 3 técnicas de gestión de la transferencia de E/S"
+    aplica_a: [ES-02]
+    extension: "~1 carilla. Describí las 3 y cerrá comparándolas: es lo que separa un 6 de un 9."
+    fuente: "Teorías/03 Arq clase3 EntradaSalida.pdf, fil. 24–32, 59."
+    claves:
+      - "Nombrar las 3: E/S programada con espera de respuesta, E/S programada administrada por interrupción, y E/S con acceso directo a memoria (DMA)."
+      - "El criterio que las separa: las 2 primeras requieren intervención directa de la CPU, que participa en la transferencia de todos los datos; en DMA la CPU no interviene en cada dato."
+      - "Programada con espera: la CPU consulta el estado, y si el periférico no está listo vuelve a consultar. Durante la espera la CPU permanece ociosa — señalarlo como el problema."
+      - "Administrada por interrupción: la CPU no ejecuta el lazo de comprobación de estado; el módulo avisa con un pedido de interrupción cuando está listo, y mientras tanto la CPU sigue con otra tarea."
+      - "DMA: la CPU sólo prepara y supervisa la transferencia, que la hace el DMAC tomando el control del bus."
+      - "Sumar los niveles de transferencia si hay lugar: nivel 1 (programada con espera), 2 (con interrupción), 3 (DMA), 4 y 5 (canales de E/S básico e inteligente, donde la CPU interviene mínimamente o no interviene)."
+
+  - id: RUB-ES-ESPERA
+    tema: entrada-salida
+    titulo: "E/S programada con espera de respuesta"
+    aplica_a: [ES-03]
+    extension: "~1/3 de carilla. Va la secuencia paso a paso, que es lo que se está evaluando."
+    fuente: "Teorías/03 Arq clase3 EntradaSalida.pdf, fil. 24–32."
+    claves:
+      - "La CPU interviene directamente en la transferencia de cada unidad de información (byte, word) y tiene control casi directo sobre la operación."
+      - "Paso 1: la CPU verifica el estado del periférico leyendo un registro del módulo de interfaz."
+      - "Paso 2: examina el bit (o bits) que identifican ese estado."
+      - "Paso 3: si el dispositivo no está listo, vuelve al paso 1 — el lazo de espera."
+      - "Paso 4: cuando está listo, transfiere 1 dato hacia o desde el módulo."
+      - "Paso 5: si quedan datos, vuelve al paso 1; si se completó, termina el servicio de E/S."
+      - "El inconveniente central, dicho explícitamente: durante la espera la CPU permanece ociosa."
+
+  - id: RUB-ES-UBICACION
+    tema: entrada-salida
+    titulo: "Modos de ubicación de los módulos de E/S (memory-mapped vs. separada)"
+    aplica_a: [ES-04]
+    extension: "~1/3 de carilla. Es una comparación: conviene tabla o dos columnas."
+    fuente: "Teorías/03 Arq clase3 EntradaSalida.pdf, fil. 20–23."
+    claves:
+      - "Plantear que desde la CPU el subsistema de E/S es un conjunto de registros, y que hay 2 técnicas de acceso."
+      - "E/S compartida con memoria (memory-mapped): los registros de E/S y la memoria comparten un único espacio de direcciones."
+      - "En memory-mapped los registros de E/S se comportan idéntico a una memoria de lectura/escritura y NO hay instrucciones específicas de E/S: se usan las mismas de movimiento de datos a memoria."
+      - "E/S separada de memoria (modelo Intel): registros de E/S y memoria en espacios de direcciones diferentes."
+      - "En E/S separada, como el bus de direcciones es compartido, se requieren señales de control adicionales para identificar si la CPU accede a memoria o a E/S."
+      - "En E/S separada hay instrucciones específicas: IN para la entrada y OUT para la salida."
+
+  # ============================== MEMORIA CACHÉ ==============================
+
+  - id: RUB-CAC-DISENO
+    tema: memoria-cache
+    titulo: "Elementos a tener en cuenta para el diseño de una caché"
+    aplica_a: [CAC-01]
+    extension: "~1 carilla. Ojo: hay 5 consideraciones de diseño y 4 puntos a definir. No los mezcles."
+    fuente: "Teorías/07 Arq clase7 Memoria.pdf, fil. 41, 42–55, 56–60, 61–64."
+    claves:
+      - "Tamaño de la caché: suficientemente grande para contener la mayor cantidad posible de información, pero no demasiado, porque impacta en la velocidad de acceso y en el costo."
+      - "Tamaño del bloque o ranura: muy importante en la tasa de aciertos. Mejora al aumentar hasta cierto tamaño y después ya no; además, con bloques más grandes entran menos bloques de MP y crece la penalización por fallo. Existe un valor óptimo."
+      - "Costo: crece fuertemente con el tamaño, y es significativamente grande cuando la caché está incluida en el chip del procesador."
+      - "Niveles de caché: una sola o varias unidades con distintos tamaños — L1 muy pequeña y ultrarrápida, L2 más grande y lenta."
+      - "Separación de caché de instrucciones y de operandos: el mecanismo de acceso a instrucciones es distinto al de datos, así que dividirlas permite darles tamaños y políticas distintos y mejorar la tasa de aciertos general."
+      - "Los 4 puntos a definir: organización (tamaño de caché, cantidad y tamaño de bloques), política de asignación, política de reemplazo y política de escritura."
+
+  - id: RUB-CAC-CORRESPONDENCIAS
+    tema: memoria-cache
+    titulo: "Las 3 funciones de correspondencia entre MP y caché"
+    aplica_a: [CAC-02]
+    extension: "~1 carilla. Para cada una: campos de la dirección, operación y conclusión. Con esquema si dice «esquematice»."
+    fuente: "Teorías/07 Arq clase7 Memoria.pdf, fil. 42–55."
+    claves:
+      - "Definir la política de asignación como la función de mapeo que define cómo se asignan los bloques de MP a los bloques o ranuras de la caché."
+      - "Totalmente asociativa: un bloque puede almacenarse libremente en cualquier lugar de la caché. Dirección con 2 campos: tag (número de bloque en MP) y word (palabra dentro del bloque)."
+      - "En la totalmente asociativa el tag se compara SIMULTÁNEAMENTE con todas las etiquetas del directorio, lo que exige una memoria asociativa (CAM). La implementación del directorio es compleja y costosa, pero da libertad absoluta de asignación y reemplazo."
+      - "Directa: un bloque sólo puede estar en un lugar fijo. Dirección con 3 campos: tag (número de grupo), line (bloque dentro del grupo) y word."
+      - "En la directa el número de línea sale del número de bloque «en módulo» la cantidad de líneas de la caché. Es muy simple y poco costosa, pero el rendimiento puede ser malo: dos bloques que caen en la misma línea y se acceden repetidamente generan muchísimos desaciertos."
+      - "Asociativa por conjuntos: un bloque puede ir a un conjunto restringido de lugares. Dirección con 3 campos: tag/grupo, conjunto y palabra."
+      - "En la asociativa por conjuntos la caché se divide en N conjuntos (N vías, con N = 2, 4, 8…), cada conjunto tiene varias líneas y el bloque va a alguna línea de un conjunto determinado."
+      - "Cerrar con la conclusión de la teoría: la asociativa por conjuntos combina lo mejor de las otras dos."
+
+  - id: RUB-CAC-REEMPLAZO-ESCRITURA
+    tema: memoria-cache
+    titulo: "Reemplazo de bloque, correspondencia y políticas de escritura"
+    aplica_a: [CAC-03, CAC-06]
+    extension: "~1 carilla y media: son tres temas en una pregunta. Repartí el tiempo, no te quedes en la correspondencia."
+    fuente: "Teorías/07 Arq clase7 Memoria.pdf, fil. 42–55, 56–60, 61–64."
+    claves:
+      - "Cuándo se reemplaza: ante un fallo hay que traer un bloque de MP, y ubicarlo exige reemplazar uno existente."
+      - "En correspondencia directa NO hay elección: la asignación es fija, hay una sola línea posible, así que indefectiblemente se reemplaza el que está en esa ranura. Decirlo explícitamente."
+      - "Los algoritmos aplican a la asociativa y la asociativa por conjuntos, y todos deben implementarse en hardware por razones de velocidad."
+      - "LRU: reemplaza el bloque que lleva más tiempo sin utilizarse. Requiere controles de tiempos y aprovecha la localidad temporal; en asociativa por conjuntos se agrega un bit de USE por ranura."
+      - "FIFO: reemplaza el que entró antes; requiere controles de acceso. LFU: el de menos referencias; requiere controles de uso. Aleatoria: una línea al azar."
+      - "Escritura en ACIERTO — write-through: se actualizan simultáneamente caché y MP. Inconveniente: aumenta el tráfico con memoria y puede haber retrasos en escrituras múltiples."
+      - "Escritura en ACIERTO — write-back: sólo se actualiza la caché y se escribe la MP cuando se reemplaza el bloque. Requiere un bit de «sucio». Inconveniente: la MP puede contener información errónea en algún momento."
+      - "Escritura en FALLO: no-write allocate (se escribe directo en MP, la caché se usa sólo en lecturas) se combina con write-through; write allocate (el bloque se copia primero a la caché y luego se escribe) se combina con write-back."
+
+  - id: RUB-CAC-COHERENCIA
+    tema: memoria-cache
+    titulo: "Políticas de escritura desde el punto de vista de la coherencia de datos"
+    aplica_a: [CAC-04]
+    extension: "~media carilla. El verbo es «analice»: no alcanza con describir, hay que decir cuándo conviene cada una y por qué."
+    fuente: "Teorías/07 Arq clase7 Memoria.pdf, fil. 61–64."
+    claves:
+      - "El problema de fondo: hay que evitar la inconsistencia de información entre MP y caché durante las escrituras. Aunque el dato se escriba en la caché, el bloque de MP debe actualizarse en algún momento."
+      - "Los dos escenarios que agravan el problema y que la teoría nombra: un módulo de E/S con acceso directo a memoria que necesita información modificada en la caché, y las arquitecturas con múltiples CPU con cachés individuales."
+      - "Write-through mantiene la coherencia en todo momento, porque actualiza simultáneamente caché y MP; el precio es el aumento del tráfico con memoria."
+      - "Write-back deja la MP desactualizada entre la escritura y el reemplazo del bloque: puede contener información errónea en algún momento. Ese es exactamente el riesgo de coherencia."
+      - "El bit de «sucio» como el mecanismo que usa write-back para saber qué bloque hay que volcar a memoria al reemplazarlo."
+      - "Conectar con DMA: si el DMAC lee de MP un bloque que la caché tiene modificado y todavía no volcó, lee un dato viejo."
+
+  - id: RUB-CAC-TIEMPOMEDIO
+    tema: memoria-cache
+    titulo: "Mejorar el tiempo de acceso medio: sobre qué parámetros trabajar"
+    aplica_a: [CAC-07]
+    extension: "~media carilla. Escribí la fórmula y después justificá parámetro por parámetro."
+    fuente: "Teorías/07 Arq clase7 Memoria.pdf, fil. 28–32, 41."
+    claves:
+      - "Escribir la fórmula: t_CPU = (1 − TF) × t_accesoMC + TF × PF."
+      - "Definir TF como tasa de fallos (número de fallos / número total de accesos) y PF como penalización por fallo, el tiempo gastado en acceder a la MP."
+      - "Decir explícitamente que para mejorar las prestaciones hay que reducir los tres: t_accesoMC, TF y PF."
+      - "Cómo bajar t_accesoMC: caché más chica y/o en el chip; acá aparece la tensión con el tamaño, porque agrandarla mejora TF pero empeora el tiempo de acceso."
+      - "Cómo bajar TF: trabajar el tamaño del bloque hasta su valor óptimo, la política de asignación (la asociativa por conjuntos combina lo mejor de las otras dos) y separar caché de instrucciones y de datos."
+      - "Cómo bajar PF: depende de la latencia de la MP y del ancho de banda, que depende de la velocidad del bus; también del tamaño del bloque, porque un bloque más grande son más palabras a transferir."
+      - "Mencionar los múltiples niveles (L1 pequeña y rápida, L2 más grande) como forma de atacar la penalización sin resignar el tiempo de acierto."
+
+  - id: RUB-CAC-JERARQUIA
+    tema: memoria-cache
+    titulo: "Por qué funciona una jerarquía de memoria"
+    aplica_a: [CAC-06]
+    extension: "~1/3 de carilla para el «por qué». Si la pregunta sigue con ubicación y reemplazo, sumá la rúbrica de correspondencias."
+    fuente: "Teorías/07 Arq clase7 Memoria.pdf, fil. 17–27, 28–32."
+    claves:
+      - "La clave es que la eficiencia depende de la cantidad de veces que la caché acierta, y que esa tasa NO tiene por qué ser proporcional al tamaño de la caché, que es miles de veces más chica que la MP."
+      - "La razón está en el comportamiento de los programas, mediante 2 principios de carácter empírico — decir que son empíricos."
+      - "Localidad temporal: es altamente probable que los elementos referenciados recientemente vuelvan a ser referenciados en el corto tiempo."
+      - "Localidad espacial: es altamente probable que los próximos elementos referenciados estén en las proximidades de los últimos referenciados."
+      - "La organización en bloques o ranuras de longitud fija, cada uno con su etiqueta, y el conjunto de etiquetas formando el directorio."
+      - "El funcionamiento: la caché intercepta la dirección generada por la CPU; en acierto entrega el dato a velocidad de caché, en fallo trae el bloque completo desde MP."
+      - "Que los fallos se gestionan por hardware y detienen el procesador hasta que el dato esté disponible."
+
+  - id: RUB-CAC-DOSNIVELES
+    tema: memoria-cache
+    titulo: "Justificación del uso de dos niveles de caché"
+    aplica_a: [CAC-05]
+    extension: "~1/3 de carilla."
+    fuente: "Teorías/07 Arq clase7 Memoria.pdf, fil. 41."
+    claves:
+      - "Plantear la tensión de fondo: agrandar la caché mejora la tasa de aciertos, pero el tamaño impacta en la velocidad de acceso y en el costo — sobre todo dentro del chip del procesador."
+      - "La salida es dividir en múltiples niveles con distintos tamaños en vez de una sola caché."
+      - "L1 muy pequeña y ultrarrápida: sostiene un tiempo de acierto bajo, que es el término (1 − TF) × t_accesoMC."
+      - "L2 un poco más grande y lenta: atrapa parte de los fallos de L1 sin tener que ir a la MP, bajando la penalización por fallo efectiva."
+      - "Cerrar con el costo: es una de las 5 consideraciones de diseño, y crece fuertemente con el tamaño cuando la caché va en el chip."

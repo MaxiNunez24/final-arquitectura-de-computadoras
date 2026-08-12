@@ -52,6 +52,11 @@ theme:
 
 extra_css:
   - assets/stylesheets/mobile.css
+  - assets/stylesheets/practica.css
+
+extra_javascript:
+  # Widgets de práctica: JS plano, sin dependencias ni build.
+  - assets/javascripts/practica.js
 
 plugins:
   - search:
@@ -101,6 +106,13 @@ nav:
       - Paralelismo: temas/paralelismo.md
       - Buses: temas/buses.md
       - Von Neumann y pila: temas/von-neumann-y-pila.md
+  - Práctica:
+      - practica/index.md
+      - Simulacro cronometrado: practica/simulacro.md
+      - Fichas de recuperación activa: practica/fichas.md
+      - Quiz conceptual: practica/quiz.md
+      - Detectá la afirmación falsa: practica/afirmaciones.md
+      - Elegí el diagrama correcto: practica/diagramas.md
   - Finales:
       - finales/index.md
       - Frecuencia de temas: finales/frecuencia.md

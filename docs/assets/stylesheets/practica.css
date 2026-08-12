@@ -1,0 +1,412 @@
+/* ------------------------------------------------------------------
+   Widgets de práctica interactiva.
+
+   Todo es CSS plano sobre las variables de Material, así que el modo
+   oscuro sale solo. Mobile-first: los targets táctiles no bajan de
+   44 px y nada depende de :hover, que en el celular no existe.
+   ------------------------------------------------------------------ */
+
+.pract {
+  margin: 1.2rem 0;
+}
+
+/* ---------- Barra de controles (filtros, contadores, botones) ---------- */
+
+.pract-barra {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+  margin-bottom: 0.9rem;
+}
+
+.pract-barra select {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 2.6em;
+  padding: 0.3em 0.6em;
+  font-size: 0.75rem;
+  font-family: inherit;
+  color: var(--md-default-fg-color);
+  background: var(--md-default-bg-color);
+  border: 1px solid var(--md-default-fg-color--lighter);
+  border-radius: 4px;
+}
+
+/* ---------- Botones ---------- */
+
+.pract-btn {
+  min-height: 2.6em;
+  padding: 0.45em 1em;
+  font-size: 0.72rem;
+  font-family: inherit;
+  font-weight: 600;
+  color: var(--md-primary-bg-color);
+  background: var(--md-primary-fg-color);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.pract-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.pract-btn--sec {
+  color: var(--md-default-fg-color);
+  background: transparent;
+  border: 1px solid var(--md-default-fg-color--lighter);
+}
+
+.pract-btn--peligro {
+  color: #fff;
+  background: var(--md-typeset-del-color, #f5504e);
+}
+
+/* ---------- Tarjeta genérica ---------- */
+
+.pract-card {
+  padding: 0.9rem 1rem;
+  background: var(--md-code-bg-color);
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 6px;
+}
+
+.pract-card + .pract-card {
+  margin-top: 0.8rem;
+}
+
+.pract-enunciado {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  margin: 0 0 0.8rem;
+}
+
+.pract-meta {
+  font-size: 0.65rem;
+  opacity: 0.75;
+  margin: 0.5rem 0 0;
+}
+
+.pract-tema {
+  display: inline-block;
+  padding: 0.1em 0.55em;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--md-primary-bg-color);
+  background: var(--md-primary-fg-color);
+  border-radius: 3px;
+}
+
+/* ---------- Reloj del simulacro ---------- */
+
+.pract-reloj {
+  position: sticky;
+  top: 2.4rem;
+  z-index: 3;
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.8rem;
+  margin-bottom: 1rem;
+  font-variant-numeric: tabular-nums;
+  background: var(--md-default-bg-color);
+  border: 1px solid var(--md-default-fg-color--lighter);
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 12%);
+}
+
+.pract-reloj__t {
+  font-size: 1.35rem;
+  font-weight: 700;
+  font-family: var(--md-code-font-family, monospace);
+}
+
+/* Última media hora: el reloj avisa sin ser un susto */
+.pract-reloj--poco .pract-reloj__t {
+  color: #e8590c;
+}
+
+.pract-reloj--fin .pract-reloj__t {
+  color: var(--md-typeset-del-color, #f5504e);
+}
+
+/* ---------- Respuesta escrita del simulacro ---------- */
+
+.pract-resp {
+  display: block;
+  width: 100%;
+  min-height: 8em;
+  padding: 0.6em 0.7em;
+  font-size: 0.8rem;
+  line-height: 1.65;
+  font-family: inherit;
+  color: var(--md-default-fg-color);
+  background: var(--md-default-bg-color);
+  border: 1px solid var(--md-default-fg-color--lighter);
+  border-radius: 4px;
+  resize: vertical;
+}
+
+.pract-resp:focus {
+  outline: 2px solid var(--md-accent-fg-color);
+  outline-offset: -1px;
+}
+
+.pract-punto {
+  margin: 1.4rem 0;
+}
+
+.pract-punto__tit {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 2px solid var(--md-primary-fg-color);
+}
+
+/* ---------- Rúbrica de autocorrección ---------- */
+
+.pract-rubrica {
+  margin-top: 0.9rem;
+  padding: 0.8rem 0.9rem;
+  background: var(--md-default-bg-color);
+  border-left: 4px solid var(--md-accent-fg-color);
+  border-radius: 0 4px 4px 0;
+}
+
+.pract-rubrica__tit {
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin: 0 0 0.6rem;
+}
+
+.pract-clave {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  padding: 0.45rem 0;
+  font-size: 0.76rem;
+  line-height: 1.5;
+  cursor: pointer;
+  border-top: 1px solid var(--md-default-fg-color--lightest);
+}
+
+.pract-clave input {
+  flex: 0 0 auto;
+  width: 1.15em;
+  height: 1.15em;
+  margin-top: 0.2em;
+  accent-color: var(--md-primary-fg-color);
+}
+
+.pract-clave--ok {
+  opacity: 0.6;
+  text-decoration: line-through;
+}
+
+.pract-puntaje {
+  margin-top: 0.7rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+/* ---------- Opciones (quiz, afirmación falsa, diagramas) ---------- */
+
+.pract-op {
+  display: flex;
+  gap: 0.7rem;
+  align-items: flex-start;
+  width: 100%;
+  padding: 0.7rem 0.8rem;
+  margin-top: 0.5rem;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  font-family: inherit;
+  text-align: left;
+  color: var(--md-default-fg-color);
+  background: var(--md-default-bg-color);
+  border: 1px solid var(--md-default-fg-color--lighter);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.pract-op__letra {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 1.7em;
+  height: 1.7em;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border: 1px solid currentcolor;
+  border-radius: 50%;
+}
+
+.pract-op--sel {
+  border-color: var(--md-accent-fg-color);
+  box-shadow: inset 0 0 0 1px var(--md-accent-fg-color);
+}
+
+.pract-op--ok {
+  border-color: #2e7d32;
+  background: rgb(46 125 50 / 12%);
+}
+
+.pract-op--mal {
+  border-color: #c62828;
+  background: rgb(198 40 40 / 12%);
+}
+
+.pract-op--revelada {
+  cursor: default;
+}
+
+.pract-op__exp {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.7rem;
+  opacity: 0.9;
+}
+
+/* ---------- Grilla de diagramas ---------- */
+
+.pract-difs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.6rem;
+  margin-top: 0.7rem;
+}
+
+.pract-dif {
+  padding: 0.4rem;
+  background: #fff;
+  border: 2px solid var(--md-default-fg-color--lighter);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.pract-dif img {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* Miniatura alta: los diagramas son angostos y verticales */
+  max-height: 15rem;
+  object-fit: contain;
+}
+
+.pract-dif__n {
+  display: block;
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: #333;
+  text-align: center;
+  padding-top: 0.25rem;
+}
+
+.pract-dif--sel {
+  border-color: var(--md-accent-fg-color);
+}
+
+.pract-dif--ok {
+  border-color: #2e7d32;
+}
+
+.pract-dif--mal {
+  border-color: #c62828;
+}
+
+@media screen and (max-width: 30em) {
+  .pract-difs {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Barra de progreso / veredicto ---------- */
+
+.pract-prog {
+  height: 5px;
+  margin: 0.7rem 0;
+  overflow: hidden;
+  background: var(--md-default-fg-color--lightest);
+  border-radius: 3px;
+}
+
+.pract-prog__b {
+  height: 100%;
+  background: var(--md-primary-fg-color);
+  transition: width 0.25s;
+}
+
+.pract-veredicto {
+  padding: 0.7rem 0.9rem;
+  margin-top: 0.9rem;
+  font-size: 0.8rem;
+  border-radius: 5px;
+}
+
+.pract-veredicto--ok {
+  background: rgb(46 125 50 / 14%);
+  border-left: 4px solid #2e7d32;
+}
+
+.pract-veredicto--medio {
+  background: rgb(239 154 0 / 16%);
+  border-left: 4px solid #ef9a00;
+}
+
+.pract-veredicto--mal {
+  background: rgb(198 40 40 / 12%);
+  border-left: 4px solid #c62828;
+}
+
+/* ---------- Fichas de recuperación activa ---------- */
+
+.pract-ficha {
+  min-height: 11rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.pract-ficha__dorso {
+  margin-top: 0.8rem;
+  padding-top: 0.7rem;
+  border-top: 1px dashed var(--md-default-fg-color--lighter);
+}
+
+.pract-autoeval {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.4rem;
+  margin-top: 0.9rem;
+}
+
+.pract-autoeval .pract-btn {
+  padding: 0.5em 0.3em;
+  font-size: 0.66rem;
+}
+
+/* ---------- Nota al pie de fuente dentro de un widget ---------- */
+
+.pract-fuente {
+  display: block;
+  margin-top: 0.6rem;
+  font-size: 0.62rem;
+  opacity: 0.75;
+}
+
+/* ---------- Aviso cuando falta el SVG (build local sin PlantUML) ---------- */
+
+.pract-aviso {
+  padding: 0.7rem 0.9rem;
+  font-size: 0.72rem;
+  background: rgb(239 154 0 / 14%);
+  border-left: 4px solid #ef9a00;
+  border-radius: 0 4px 4px 0;
+}

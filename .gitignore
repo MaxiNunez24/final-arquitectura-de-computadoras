@@ -1,6 +1,11 @@
 # ---- Material de cátedra: NO versionar ----
 # PDFs pesados y material propiedad de la cátedra (UNLP).
+# El repo es PÚBLICO: subir esto lo publica.
 fuentes/
+# Los zip con los que se migran las fuentes entre máquinas: un `git add -A`
+# distraído se los lleva puestos (el primero pesaba 26 MB).
+fuentes*.zip
+*.zip
 
 # ---- Build de MkDocs ----
 site/
