@@ -2,7 +2,7 @@
 
 Sitio de estudio para el final de **Arquitectura de Computadoras** (UNLP).
 
-!!! info "Formato del examen"
+!!! danger "Mesa: miércoles 19 de agosto, 10:00, aula 5"
     Final **escrito y teórico**. 5 puntos con subincisos a) y b). **3 horas reloj**.
     Entra todo el programa. **No se toma assembly.**
 

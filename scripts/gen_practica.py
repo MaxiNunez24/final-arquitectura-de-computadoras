@@ -259,7 +259,7 @@ def main() -> int:
         "    El final se pierde por no poder **redactar** en el tiempo, no por no "
         "entender. Hacelo **a mano en papel** si podés, y usá el reloj de acá "
         "sólo para cronometrar. Si escribís en el cuadro de texto, no uses "
-        "corrector ni busques nada: no vas a tener eso el 26/8.\n\n"
+        "corrector ni busques nada: no vas a tener eso el 19/8.\n\n"
         + widget("simulacro", "d-sim", {
             "simulacros": sims,
             "rubricas": dict(rub_por_tema),

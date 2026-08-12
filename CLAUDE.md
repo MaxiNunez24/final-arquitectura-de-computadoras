@@ -8,8 +8,16 @@ Sitio MkDocs Material para estudiar el **final de Arquitectura de Computadoras**
 (UNLP). El material fuente vive en `./fuentes/` y **no está versionado**
 (está en `.gitignore`: son PDFs pesados y material de cátedra).
 
-**Fecha del final: 26/8.** Se lee principalmente desde el celular → el diseño es
-mobile-first y eso no es negociable.
+**Fecha del final: miércoles 19/8/2026, 10:00, aula 5.** Se lee principalmente
+desde el celular → el diseño es mobile-first y eso no es negociable.
+
+!!! danger "La mesa se adelantó del 26/8 al 19/8"
+    Actualizado el 12/8/2026: **queda 1 semana**, no dos. Cualquier trabajo
+    nuevo sobre el sitio compite directamente con el tiempo de estudio, así que
+    la vara para agregar cosas sube: **si no se usa esta semana, no va**.
+    Lo que ya está cubierto (fichas, banco, diagramas, práctica) alcanza para
+    rendir; lo que falta está en `docs/todos.md` y son huecos reales de las
+    fuentes, no del sitio.
 
 ## Contexto del examen
 
