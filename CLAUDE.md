@@ -12,12 +12,19 @@ Sitio MkDocs Material para estudiar el **final de Arquitectura de Computadoras**
 desde el celular → el diseño es mobile-first y eso no es negociable.
 
 !!! danger "La mesa se adelantó del 26/8 al 19/8"
-    Actualizado el 12/8/2026: **queda 1 semana**, no dos. Cualquier trabajo
-    nuevo sobre el sitio compite directamente con el tiempo de estudio, así que
-    la vara para agregar cosas sube: **si no se usa esta semana, no va**.
-    Lo que ya está cubierto (fichas, banco, diagramas, práctica) alcanza para
-    rendir; lo que falta está en `docs/todos.md` y son huecos reales de las
+    Actualizado el **14/8/2026**: quedan **5 días**. Cualquier trabajo nuevo
+    sobre el sitio compite directamente con el tiempo de estudio, así que la
+    vara para agregar cosas sube: **si no se usa esta semana, no va**.
+    Lo que ya está cubierto (fichas, banco, diagramas, práctica, plan) alcanza
+    para rendir; lo que falta está en `docs/todos.md` y son huecos reales de las
     fuentes, no del sitio.
+
+!!! warning "Mirá el reloj, no las notas viejas"
+    El plan de estudio se armó una vez sobre una fecha **supuesta**, sacada de
+    una nota de este mismo archivo en vez del reloj del sistema, y quedó
+    corrido dos días. Antes de tocar `data/plan.yml` o cualquier cosa con
+    fechas: `date`. `scripts/gen_plan.py` ahora **aborta** si el plan arranca
+    antes de hoy.
 
 ## Contexto del examen
 
@@ -177,8 +184,10 @@ No volver a investigar esto, ya está confirmado con `sha256sum` y análisis de 
 data/banco-finales.yml     Fuente de verdad del banco de finales
 data/rubricas.yml          Checklists de autocorrección ("qué tiene que aparecer")
 data/ejercicios.yml        Quiz, afirmaciones falsas y elección de diagrama
+data/plan.yml              Plan de estudio día por día (tiene FECHAS: ver aviso)
 scripts/gen_banco.py       Genera docs/finales/ desde el YAML
 scripts/gen_practica.py    Genera docs/practica/ desde los 3 YAML
+scripts/gen_plan.py        Genera docs/plan.md desde plan.yml + banco-finales.yml
 scripts/render_puml.sh     Pre-renderiza docs/diagramas/*.puml a SVG
 docs/temas/                Las 11 fichas por tema
 docs/finales/              Generado — NO editar a mano
@@ -195,6 +204,7 @@ mkdocs.yml
 ```bash
 python3 scripts/gen_banco.py     # tras editar data/banco-finales.yml
 python3 scripts/gen_practica.py  # tras editar cualquiera de los 3 YAML de data/
+python3 scripts/gen_plan.py      # tras editar data/plan.yml
 bash scripts/render_puml.sh      # tras editar cualquier .puml
 mkdocs build --strict            # tiene que pasar limpio
 mkdocs serve                     # previsualizar

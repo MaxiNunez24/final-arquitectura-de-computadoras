@@ -784,11 +784,163 @@
   // Arranque
   // ---------------------------------------------------------------
 
+  // ---------------------------------------------------------------
+  // 6) Plan de estudio con checklist persistente
+  // ---------------------------------------------------------------
+
+  function montarPlan(raiz, datos) {
+    var estadoClave = "plan";
+    var hechas = leer(estadoClave, {});
+
+    // Fecha local en formato YYYY-MM-DD, para marcar "hoy" sin que el huso
+    // horario corra el día como haría toISOString().
+    var h = new Date();
+    var hoy = h.getFullYear() + "-" +
+      String(h.getMonth() + 1).padStart(2, "0") + "-" +
+      String(h.getDate()).padStart(2, "0");
+
+    var barra = el("div", "pract-barra");
+    var resumen = el("p", "pract-meta");
+    var btnReset = el("button", "pract-btn pract-btn--sec", "Reiniciar el plan");
+    barra.appendChild(btnReset);
+    raiz.appendChild(barra);
+
+    var prog = el("div", "pract-prog");
+    var progB = el("div", "pract-prog__b");
+    prog.appendChild(progB);
+    raiz.appendChild(prog);
+    raiz.appendChild(resumen);
+
+    var zona = el("div");
+    raiz.appendChild(zona);
+
+    function todasLasTareas() {
+      var t = [];
+      datos.dias.forEach(function (d) {
+        (d.tareas || []).forEach(function (x, i) { t.push(d.fecha + "." + i); });
+      });
+      return t;
+    }
+
+    function refrescar() {
+      var todas = todasLasTareas();
+      var n = todas.filter(function (k) { return hechas[k]; }).length;
+      var pct = todas.length ? (100 * n) / todas.length : 0;
+      progB.style.width = pct.toFixed(1) + "%";
+      var faltan = datos.dias.filter(function (d) { return d.fecha >= hoy; }).length;
+      resumen.textContent =
+        n + " de " + todas.length + " tareas hechas · " +
+        (faltan > 0 ? faltan + " día(s) de plan por delante" : "se terminó el plan");
+    }
+
+    function pintar() {
+      zona.textContent = "";
+
+      datos.dias.forEach(function (d) {
+        var card = el("div", "pract-card pract-dia");
+        var esHoy = d.fecha === hoy;
+        var pasado = d.fecha < hoy;
+        if (esHoy) card.classList.add("pract-dia--hoy");
+        if (pasado) card.classList.add("pract-dia--pasado");
+
+        var cab = el("div", "pract-dia__cab");
+        var tit = el("div");
+        tit.appendChild(el("span", "pract-tema", d.etiqueta));
+        tit.appendChild(el("h3", "pract-dia__tit", d.titulo));
+        cab.appendChild(tit);
+        var horas = el("span", "pract-dia__horas", d.horas);
+        cab.appendChild(horas);
+        card.appendChild(cab);
+
+        if (esHoy) {
+          card.appendChild(el("p", "pract-veredicto pract-veredicto--medio", "Es hoy."));
+        }
+
+        card.appendChild(el("p", "pract-enunciado", d.porque));
+
+        var hechasDia = 0;
+        var marcador = el("p", "pract-puntaje");
+
+        (d.tareas || []).forEach(function (t, i) {
+          var k = d.fecha + "." + i;
+          var lab = el("label", "pract-clave");
+          var chk = el("input");
+          chk.type = "checkbox";
+          chk.checked = !!hechas[k];
+          if (chk.checked) { lab.classList.add("pract-clave--ok"); hechasDia++; }
+
+          chk.addEventListener("change", function () {
+            hechas[k] = chk.checked;
+            guardar(estadoClave, hechas);
+            lab.classList.toggle("pract-clave--ok", chk.checked);
+            hechasDia += chk.checked ? 1 : -1;
+            marcador.textContent = hechasDia + " de " + d.tareas.length + " del día";
+            refrescar();
+          });
+
+          var cuerpo = el("span");
+          var linea = el("strong", null, t.titulo);
+          cuerpo.appendChild(linea);
+          if (t.minutos) {
+            cuerpo.appendChild(el("span", "pract-min", "  " + t.minutos + " min"));
+          }
+          if (t.detalle) {
+            cuerpo.appendChild(el("span", "pract-op__exp", t.detalle));
+          }
+          if (t.enlace) {
+            var a = el("a", "pract-op__exp");
+            a.href = t.enlace;
+            a.textContent = "Ir a la ficha →";
+            a.style.display = "block";
+            cuerpo.appendChild(a);
+          }
+          lab.appendChild(chk);
+          lab.appendChild(cuerpo);
+          card.appendChild(lab);
+        });
+
+        marcador.textContent = hechasDia + " de " + (d.tareas || []).length + " del día";
+        card.appendChild(marcador);
+
+        if (d.metas && d.metas.length) {
+          var m = el("div", "pract-rubrica");
+          m.appendChild(el("p", "pract-rubrica__tit", "Metas del día"));
+          d.metas.forEach(function (x) {
+            var p = el("p", "pract-op__exp", "· " + x);
+            m.appendChild(p);
+          });
+          card.appendChild(m);
+        }
+
+        if (d.minimo) {
+          var mm = el("div", "pract-aviso");
+          mm.innerHTML = "<strong>Si el día se complica:</strong> " + d.minimo;
+          card.appendChild(mm);
+        }
+
+        zona.appendChild(card);
+      });
+
+      refrescar();
+    }
+
+    btnReset.addEventListener("click", function () {
+      if (window.confirm("¿Destildar todas las tareas del plan?")) {
+        hechas = {};
+        guardar(estadoClave, hechas);
+        pintar();
+      }
+    });
+
+    pintar();
+  }
+
   var TIPOS = {
     simulacro: montarSimulacro,
     fichas: montarFichas,
     opciones: montarOpciones,
-    diagramas: montarDiagramas
+    diagramas: montarDiagramas,
+    plan: montarPlan
   };
 
   function iniciar() {

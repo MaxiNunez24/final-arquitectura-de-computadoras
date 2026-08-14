@@ -13,6 +13,10 @@ Sitio de estudio para el final de **Arquitectura de Computadoras** (UNLP).
 
 <div class="grid cards" markdown>
 
+- :material-calendar-check: **[Plan de estudio](plan.md)**
+
+    Qué toca hoy, cuánto tiempo lleva y qué metas cumplir. Empezá por acá.
+
 - :material-file-document-multiple: **[Fichas por tema](temas/index.md)**
 
     Los 11 temas del programa, cada uno con definición, desarrollo, diagrama,

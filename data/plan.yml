@@ -1,0 +1,255 @@
+# =============================================================================
+# PLAN DE ESTUDIO — del 14 al 18 de agosto de 2026
+# =============================================================================
+# Genera docs/plan.md con scripts/gen_plan.py.
+#
+# -----------------------------------------------------------------------------
+# QUÉ ES DATO Y QUÉ ES CRITERIO
+# -----------------------------------------------------------------------------
+# El REPARTO de los temas por día NO es criterio propio: sale de la tabla de
+# frecuencia de data/banco-finales.yml, que cuenta apariciones reales en los
+# finales relevados. Los temas que más se tomaron van primero, cuando la cabeza
+# está fresca y todavía queda margen para repasarlos.
+#
+# Los MINUTOS sí son criterio, igual que el campo `extension` de rubricas.yml.
+# Están estimados sobre el tamaño real de cada ficha (docs/temas/*.md, entre
+# 2.000 y 4.100 palabras) más el tiempo de escribir a mano y corregir. Son una
+# guía para no quedarse pegado, no una promesa.
+#
+# Los temas de MENOR frecuencia (DMA, buses, RISC) llevan una rutina comprimida:
+# la ficha es más corta y el banco los toma menos. No es que valgan menos, es
+# que rinden menos por minuto cuando el tiempo es el que es.
+#
+# OJO AL EDITAR: gen_plan.py aborta si el primer día quedó en el pasado. Si
+# retomás esto otro día, hay que recorrer las fechas.
+# =============================================================================
+
+meta:
+  final: "2026-08-19"
+  hora: "10:00"
+  aula: "5"
+  horas_por_dia: "5 a 6 h"
+  horas_minimo: "2 h 30"
+
+# La rutina que se repite en CADA tema. El orden importa: las preguntas van
+# ANTES que la ficha, y la teoría al final y sólo como parche.
+rutina:
+  - paso: "Leé los enunciados reales del tema en el banco"
+    minutos: 5
+    detalle: >-
+      No para contestarlos: para saber qué te van a pedir. Vas a leer distinto
+      sabiendo que el enunciado dice «esquematice la estructura interna del PIC».
+  - paso: "Leé la ficha del tema, entera y de un tirón"
+    minutos: 30
+    detalle: "Sin subrayar media ficha. Una pasada."
+  - paso: "Cerrá todo y escribí UNA respuesta a mano"
+    minutos: 25
+    detalle: >-
+      Sin material, sin buscar nada, cronometrado. Éste es el paso que cuenta y
+      es el que se cae primero cuando falta tiempo. Si un día tenés que recortar,
+      recortá otra cosa.
+  - paso: "Corregite con la rúbrica"
+    minutos: 10
+    detalle: >-
+      Tildá punto por punto lo que sí escribiste. Lo que quedó sin tildar es tu
+      lista de repaso, y casi nunca es lo que esperabas.
+  - paso: "Quiz y afirmaciones falsas del tema"
+    minutos: 10
+    detalle: "Para pescar lo que no sabías que no sabías."
+  - paso: "Parche: abrí las filminas SÓLO de lo que falló"
+    minutos: 15
+    detalle: >-
+      Recién acá se abre el PDF de la teoría, y sólo en los puntos que la rúbrica
+      te marcó. Releer la clase entera a esta altura es tiempo que no tenés.
+
+dias:
+
+  - fecha: "2026-08-14"
+    titulo: "Los dos que más se toman"
+    porque: >-
+      Caché e interrupciones juntos son casi un tercio del banco. Van hoy porque
+      son los que más veces vas a necesitar y porque así te quedan 4 días para
+      que decanten. Es el día más liviano de los cinco: aprovechalo para agarrar
+      ritmo.
+    temas:
+      - slug: memoria-cache
+        minutos: 150
+        nota: >-
+          El tema más tomado de todos, 38 apariciones. Ojo con no mezclar las 5
+          consideraciones de diseño con los 4 puntos a definir: son dos listas
+          distintas y confundirlas es un error clásico. Escribí la respuesta de
+          las 3 correspondencias, que es la que más cae.
+      - slug: interrupciones
+        minutos: 135
+        nota: >-
+          Escribí la del mecanismo completo con múltiples interrupciones. Si te
+          queda energía, dibujá el esquema del PIC a mano: «esquematice»
+          aparece textual en los enunciados.
+    metas:
+      - "2 respuestas completas escritas a mano, cronometradas."
+      - "Quiz de los dos temas al 100 %."
+      - "El esquema del PIC dibujado de memoria, aunque salga feo."
+    minimo: >-
+      Ficha de caché + 1 respuesta a mano + rúbrica. Interrupciones se corre al
+      sábado, pero no más allá: es el cuarto más tomado.
+
+  - fecha: "2026-08-15"
+    titulo: "Entrada/Salida, DMA, buses y RISC"
+    porque: >-
+      E/S es el tercero más tomado y DMA es la misma clase 3, así que rinden
+      juntos. Buses y RISC se suman porque son los de fichas más cortas: cuatro
+      temas suena mucho, pero dos son livianos. Es sábado, hay horas seguidas.
+    temas:
+      - slug: entrada-salida
+        minutos: 150
+        nota: >-
+          Las 3 técnicas de gestión es LA pregunta del tema. Describilas y cerrá
+          comparándolas: eso separa una respuesta aprobada de una buena.
+      - slug: dma
+        minutos: 75
+        nota: >-
+          Ficha corta, se lee rápido porque ya venís de E/S. El punto que más se
+          confunde: el robo de ciclo NO es una interrupción, la CPU no guarda
+          contexto.
+      - slug: buses
+        minutos: 75
+        nota: >-
+          Los 3 buses con su factor clave, tipos, temporización y arbitraje. Si
+          te toman temporización asíncrona, contestá lo que sí está y aclará el
+          límite: la cátedra sólo da el cronograma, sin texto.
+      - slug: risc-cisc
+        minutos: 75
+        nota: >-
+          El menos tomado de los 11, 7 apariciones. Con formato fijo, LOAD-STORE
+          y unidad de control cableada ya tenés lo esencial. No le dediques más.
+    metas:
+      - "1 respuesta a mano de las 3 técnicas de E/S."
+      - "1 respuesta a mano de las características funcionales del DMA."
+      - "Quiz de los cuatro temas al 100 %."
+    minimo: >-
+      E/S completo + DMA leído. Buses y RISC pasan al lunes: entre los dos son
+      el 10 % del banco, es lo más barato de mover.
+
+  - fecha: "2026-08-16"
+    titulo: "Segmentación, sus soluciones y el primer simulacro parcial"
+    porque: >-
+      El bloque más pesado del programa y el segundo más tomado. Van juntos
+      porque las clases 4 y 5 son continuas: los riesgos no se entienden sin las
+      soluciones. A la noche, medio simulacro: ya vas a tener 8 de los 11 temas
+      y es el momento de descubrir el problema de tiempo, no el martes.
+    temas:
+      - slug: segmentacion
+        minutos: 150
+        nota: >-
+          Lo que más se pierde en el examen: la segmentación NO acelera cada
+          instrucción, mejora el throughput. Decilo con esas palabras. Y acordate
+          de que WAR no se puede dar en el cauce simple.
+      - slug: soluciones-segmentacion
+        minutos: 135
+        nota: >-
+          Organizá la respuesta por tipo de riesgo, nunca como lista suelta. El
+          forwarding con el ejemplo LW→SW es el corazón del tema.
+    extra:
+      - titulo: "Medio simulacro: puntos 1 a 3, 90 minutos"
+        minutos: 90
+        detalle: >-
+          A mano y con reloj. No importa el puntaje: importa cuánto llegás a
+          escribir en 90 minutos. Si no llegás a 3 puntos, el problema es de
+          ritmo y no de contenido, y todavía hay margen para corregirlo.
+    metas:
+      - "El cauce de 5 etapas dibujado de memoria con los 3 riesgos marcados."
+      - "1 respuesta a mano de los métodos para evitar las paradas del cauce."
+      - "Medio simulacro terminado y corregido con las rúbricas."
+    minimo: >-
+      Segmentación completo + los 3 riesgos escritos a mano. El medio simulacro
+      es lo primero que se cae, pero entonces el del martes es obligatorio.
+
+  - fecha: "2026-08-17"
+    titulo: "Superescalares, paralelismo y von Neumann"
+    porque: >-
+      Superescalares se apoya en lo de ayer, así que hoy rinde el doble.
+      Paralelismo cierra los MIMD. Von Neumann va último a propósito: es el tema
+      peor cubierto del sitio y conviene encararlo sabiendo ya todo lo demás.
+    temas:
+      - slug: superescalares
+        minutos: 120
+        nota: >-
+          Las 3 políticas de emisión con el conteo de ciclos (8, 7 y 6) es la
+          respuesta completa. Y la ventana de instrucciones NO es una etapa del
+          cauce: es un buffer.
+      - slug: paralelismo
+        minutos: 120
+        nota: >-
+          Flynn entero, con MIMD llevándose la mitad del espacio. Acordate del
+          warning de la ficha: la propia clase se contradice sobre dónde cae el
+          cluster; prevalece memoria distribuida.
+      - slug: von-neumann-y-pila
+        minutos: 105
+        nota: >-
+          ATENCIÓN, es el tema peor cubierto del sitio. No existe la clase 1 en
+          las fuentes: pila y pasaje de parámetros salen de resúmenes de alumnos.
+          Lo que SÍ es cátedra son las máquinas de N direcciones (anexo clase 01)
+          y la Práctica 4. Si tenés Stallings, es el único tema donde vale la
+          pena abrirlo: capítulos 3, 10 y 11.
+    metas:
+      - "1 respuesta a mano de las políticas de emisión."
+      - "La taxonomía de Flynn dibujada de memoria, con SMP/NUMA/cluster."
+      - "1 respuesta a mano del pasaje de parámetros con anidamiento."
+    minimo: >-
+      Superescalares y paralelismo, que son 42 apariciones entre los dos. Von
+      Neumann se repasa mañana con las fichas.
+
+  - fecha: "2026-08-18"
+    titulo: "Simulacro completo y repaso de errores"
+    porque: >-
+      Último día. No se estudia nada nuevo: hoy se comprueba que podés escribir
+      5 puntos en 3 horas, que es exactamente lo que se evalúa.
+    temas: []
+    extra:
+      - titulo: "Simulacro completo, 3 horas, a mano y sin material"
+        minutos: 180
+        detalle: >-
+          Elegí uno que no hayas usado. Papel, reloj, y nada más. Si te trabás en
+          un punto, seguí y volvé: en el final real, perder 40 minutos en un
+          inciso es lo que te deja dos sin contestar.
+      - titulo: "Corrección con las rúbricas"
+        minutos: 60
+        detalle: >-
+          Punto por punto. Anotá en UNA sola hoja todo lo que quedó sin tildar:
+          ésa es tu hoja de repaso de mañana a la mañana.
+      - titulo: "Repaso SÓLO de lo que falló"
+        minutos: 60
+        detalle: >-
+          Nada más. No abras un tema que salió bien: a esta altura eso es
+          ansiedad disfrazada de estudio.
+      - titulo: "Cerrar la carpeta a las 22:00"
+        minutos: 0
+        detalle: >-
+          En serio. Dormir bien rinde más que la última hora de repaso, y mañana
+          rendís a las 10:00 en el aula 5.
+    metas:
+      - "Simulacro completo entregado dentro de las 3 horas."
+      - "Los 5 puntos contestados, ninguno en blanco."
+      - "Una hoja única con los errores del simulacro, lista para mañana."
+    minimo: >-
+      Si no conseguís 3 horas seguidas, hacé 2 puntos cronometrados y dedicá el
+      resto a las fichas de recuperación activa de los 11 temas.
+
+# Lo que se hace todos los días, además del tema del día.
+diario:
+  - titulo: "Fichas de recuperación activa de lo anterior"
+    minutos: 15
+    detalle: >-
+      Arrancá el día con esto, antes del tema nuevo. Filtrá por los temas que ya
+      viste y pasá 15 minutos. Es lo que evita que lo del viernes se te borre
+      para el martes.
+    desde: "2026-08-15"
+
+# Qué NO hacer, que con 5 días pesa tanto como qué hacer.
+no_hacer:
+  - "No releas las teorías completas. Son 12 PDFs de ~50 filminas: no entran en 5 días, y las fichas ya son esa condensación con la cita al pie."
+  - "No dejes «escribir a mano» para el final. Es exactamente el orden que falla: entendés leyendo y no podés redactar."
+  - "No estudies los 4 TODOs como si fueran tuyos. SCSI, temporización asíncrona, Core i7 y el ejemplo numérico de DMA no están en las fuentes de cátedra. Si caen, se contesta lo que sí está y se aclara el límite."
+  - "No hagas el quiz en vez de escribir. Reconocer la opción correcta entre cuatro es mucho más fácil que producirla en una hoja en blanco."
+  - "No arranques un tema nuevo el martes."
+  - "No te quedes hasta las 3 de la mañana. Con 5 días, una noche mal dormida te cuesta más de lo que rinde."
