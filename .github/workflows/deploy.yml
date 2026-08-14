@@ -36,6 +36,16 @@ jobs:
           distribution: temurin
           java-version: "17"
 
+      # PlantUML necesita Graphviz (dot) para todo lo que no sea un diagrama
+      # de secuencia o de actividad. Sin esto NO falla: genera un SVG con el
+      # mensaje "Cannot find Graphviz" dibujado adentro, que se publica como
+      # si fuera el diagrama. Ya pasó una vez con 12 de los 13.
+      - name: Instalar Graphviz
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y graphviz
+          dot -V
+
       - name: Cachear el jar de PlantUML
         uses: actions/cache@v4
         with:

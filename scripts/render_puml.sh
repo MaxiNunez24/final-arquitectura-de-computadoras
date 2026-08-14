@@ -43,6 +43,29 @@ java -Djava.awt.headless=true -jar "$JAR" \
   -o "$(pwd)/${SRC_DIR}" \
   "${puml_files[@]}"
 
+# ---------------------------------------------------------------------------
+# Guardarraíl: PlantUML NO devuelve error cuando le falta Graphviz. Genera un
+# SVG perfectamente válido que dibuja adentro el mensaje "Cannot find Graphviz"
+# y sigue de largo con exit 0. El build pasa, el deploy pasa, y el sitio
+# publica 12 diagramas ilegibles. Por eso hay que mirar el contenido.
+# ---------------------------------------------------------------------------
+rotos=()
+for f in "$SRC_DIR"/*.svg; do
+  if grep -qE "Cannot find Graphviz|Dot executable does not exist|dot: not found" "$f"; then
+    rotos+=("$(basename "$f")")
+  fi
+done
+
+if [ ${#rotos[@]} -gt 0 ]; then
+  echo "ERROR: ${#rotos[@]} diagrama(s) se renderizaron con el error de Graphviz:" >&2
+  printf '   - %s\n' "${rotos[@]}" >&2
+  echo "" >&2
+  echo "PlantUML necesita Graphviz (dot) para estos diagramas y no lo encontró." >&2
+  echo "Instalalo:  apt-get install graphviz  ·  brew install graphviz" >&2
+  echo "Comprobalo: java -jar ${JAR} -testdot" >&2
+  exit 1
+fi
+
 echo ">> Diagramas generados:"
 for f in "$SRC_DIR"/*.svg; do
   printf "   %s (%s bytes)\n" "$(basename "$f")" "$(stat -c%s "$f")"

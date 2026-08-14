@@ -356,6 +356,21 @@ declaradas en el YAML da **44/44** y las afirmaciones **14/14**.
 con `\f` entre filminas. Para ubicar un tema rápido, grepear el texto extraído
 por palabra clave devuelve el número de filmina directamente.
 
+!!! danger "PlantUML necesita Graphviz, y sin él NO falla"
+    Todos los diagramas menos `ciclo-instruccion-interrupcion` necesitan
+    **Graphviz (`dot`)**. Si falta, PlantUML **no devuelve error**: genera un SVG
+    válido con el mensaje *"Cannot find Graphviz"* dibujado adentro y termina con
+    exit 0. El build pasa, el deploy pasa, y el sitio publica los diagramas
+    ilegibles. **Ya pasó: se publicaron 12 de 13 rotos.**
+
+    Por eso `render_puml.sh` ahora **inspecciona el contenido de los SVG
+    generados y aborta** si encuentra el mensaje de error. Verificar que un
+    archivo exista y devuelva HTTP 200 no alcanza — hay que mirar qué tiene
+    adentro.
+
+    En CI se instala con `apt-get install graphviz`, en un paso propio del
+    workflow.
+
 !!! warning "Java 8 no puede renderizar los diagramas en esta máquina"
     `scripts/render_puml.sh` baja PlantUML 1.2026.6, que necesita **Java 11+**.
     Con el Java 8 instalado tira `UnsupportedClassVersionError`. **No afecta al
