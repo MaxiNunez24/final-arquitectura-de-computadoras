@@ -525,6 +525,18 @@ R7 := R3 op R4    (I4)
 
 <p class="fuentes">Fuente: <code>Teorías/08 Arq clase8 Procesadores Superescalares.pdf</code>, fil. 24–31, 33, 37–38, 40, 52–53.</p>
 
+## Repaso de este tema
+
+Terminaste de leer. Ahora **producí**, que es lo que se evalúa:
+
+<ul class="pract-repaso">
+  <li><a href="../../practica/conceptos/?tema=superescalares">Armá la respuesta de Procesadores superescalares</a></li>
+  <li><a href="../../practica/conceptos/?tema=superescalares">Ordená sus secuencias</a></li>
+  <li><a href="../../practica/quiz/?tema=superescalares">Quiz conceptual</a></li>
+  <li><a href="../../practica/juego/?tema=superescalares">Contrarreloj sólo de este tema</a></li>
+  <li><a href="../../practica/fichas/?tema=superescalares">Fichas de recuperación activa</a></li>
+</ul>
+
 ## Preguntas de final sobre este tema
 
 [:material-help-box: Ver el banco de preguntas de superescalares](../finales/temas/superescalares.md)

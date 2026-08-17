@@ -133,12 +133,62 @@ def validar(ejercicios: dict, rubricas: list[dict], temas: dict) -> list[str]:
     return fallos
 
 
+def validar_conceptos(conceptos: dict, temas: dict) -> list[str]:
+    """Chequeos de data/conceptos.yml.
+
+    El fallo grave acá es un chip repetido entre `van` y `no_van`: el mismo
+    concepto marcado como correcto e incorrecto a la vez enseña que algo
+    "depende", cuando en realidad es un error de carga.
+    """
+    fallos: list[str] = []
+    vistos: set[str] = set()
+
+    for a in conceptos["armar"]:
+        ide = a["id"]
+        if ide in vistos:
+            fallos.append(f"{ide}: id repetido")
+        vistos.add(ide)
+        if a["tema"] not in temas:
+            fallos.append(f"{ide}: tema desconocido {a['tema']!r}")
+        if len(a["van"]) < 2:
+            fallos.append(f"{ide}: menos de 2 conceptos correctos")
+        if not a["no_van"]:
+            fallos.append(f"{ide}: sin distractores")
+        if not (a.get("fuente") or "").strip():
+            fallos.append(f"{ide}: sin cita de fuente")
+
+        etiquetas = [c["chip"].strip().lower() for c in a["van"] + a["no_van"]]
+        repetidas = {e for e in etiquetas if etiquetas.count(e) > 1}
+        for e in repetidas:
+            fallos.append(f"{ide}: el chip {e!r} aparece más de una vez")
+        for c in a["van"] + a["no_van"]:
+            if not (c.get("detalle") or "").strip():
+                fallos.append(f"{ide}: el chip {c['chip']!r} no explica qué es")
+
+    for o in conceptos["ordenar"]:
+        ide = o["id"]
+        if ide in vistos:
+            fallos.append(f"{ide}: id repetido")
+        vistos.add(ide)
+        if o["tema"] not in temas:
+            fallos.append(f"{ide}: tema desconocido {o['tema']!r}")
+        if len(o["pasos"]) < 3:
+            fallos.append(f"{ide}: menos de 3 pasos")
+        if len(set(o["pasos"])) != len(o["pasos"]):
+            fallos.append(f"{ide}: hay pasos repetidos")
+        if not (o.get("fuente") or "").strip():
+            fallos.append(f"{ide}: sin cita de fuente")
+
+    return fallos
+
+
 def main() -> int:
     banco = cargar("banco-finales.yml")
     rubricas = cargar("rubricas.yml")["rubricas"]
     ejercicios = cargar("ejercicios.yml")
 
     fallos = validar(ejercicios, rubricas, banco["temas"])
+    fallos += validar_conceptos(cargar("conceptos.yml"), banco["temas"])
     # Se valida también que los aplica_a apunten a preguntas que existan.
     ids_preguntas = {p["id"] for p in banco["preguntas"]}
     for r in rubricas:
@@ -385,6 +435,71 @@ def main() -> int:
     )
 
     # ------------------------------------------------------------------
+    # 7) ¿Qué no puede faltar? — armar respuestas y ordenar secuencias
+    # ------------------------------------------------------------------
+    conceptos = cargar("conceptos.yml")
+
+    def chip(c: dict) -> dict:
+        return {
+            "chip": " ".join(c["chip"].split()),
+            "detalle": " ".join((c.get("detalle") or "").split()),
+        }
+
+    armar = [{
+        "id": a["id"],
+        "tema": a["tema"],
+        "tema_nombre": temas.get(a["tema"], a["tema"]),
+        "pregunta": " ".join(a["pregunta"].split()),
+        "van": [chip(c) for c in a["van"]],
+        "no_van": [chip(c) for c in a["no_van"]],
+        "fuente": a.get("fuente", ""),
+    } for a in conceptos["armar"]]
+
+    ordenar = [{
+        "id": o["id"],
+        "tema": o["tema"],
+        "tema_nombre": temas.get(o["tema"], o["tema"]),
+        "consigna": " ".join(o["consigna"].split()),
+        "pasos": [" ".join(p.split()) for p in o["pasos"]],
+        "fuente": o.get("fuente", ""),
+    } for o in conceptos["ordenar"]]
+
+    n_chips = sum(len(a["van"]) + len(a["no_van"]) for a in armar)
+
+    (OUT / "conceptos.md").write_text(
+        AVISO
+        + "# ¿Qué no puede faltar?\n\n"
+        f"**{len(armar)} respuestas para armar** con {n_chips} conceptos, y "
+        f"**{len(ordenar)} secuencias para ordenar**. Cubre los "
+        f"{len(set(a['tema'] for a in armar))} temas.\n\n"
+        '!!! tip "Para memoria visual y de repetición"\n'
+        "    En vez de leer la respuesta, la **armás**: tocás los conceptos que "
+        "van y dejás afuera los que no. Es lo mismo que te va a pedir la hoja en "
+        "blanco, pero con las piezas a la vista.\n\n"
+        "## Armá la respuesta\n\n"
+        "Tocá los conceptos que **sí tienen que aparecer**. Tocalos de nuevo "
+        "para sacarlos. Con mouse también podés arrastrarlos.\n\n"
+        + widget("armar", "d-armar", {
+            "items": armar,
+            "temas": [t for t in lista_temas(temas)
+                      if t["slug"] in {a["tema"] for a in armar}],
+        })
+        + "\n## Ordená la secuencia\n\n"
+        "Arrastrá desde el `⠿` —anda con el dedo— o usá las flechas.\n\n"
+        + widget("ordenar", "d-ordenar", {"items": ordenar})
+        + "\n"
+        '!!! danger "De dónde salen los que NO van"\n'
+        "    Los conceptos incorrectos **no están inventados**: son reales, de "
+        "otro tema o de otra pregunta del mismo tema, puestos donde no "
+        "corresponden. Por eso confunden, y por eso enseñan: al corregir, cada "
+        "uno te dice a dónde pertenece de verdad.\n\n"
+        '<p class="fuentes">Fuente: <code>data/conceptos.yml</code>, derivado de '
+        "<code>data/rubricas.yml</code>. Cada ejercicio cita al pie la filmina "
+        "de origen.</p>\n",
+        encoding="utf-8",
+    )
+
+    # ------------------------------------------------------------------
     # 6) Contrarreloj — modo arcade sobre las mismas preguntas
     # ------------------------------------------------------------------
     # No agrega contenido: reusa los ítems de quiz y afirmaciones falsas.
@@ -484,6 +599,9 @@ def main() -> int:
         "navegador y el progreso se guarda **en este dispositivo**: si abrís el "
         "sitio en la compu, arrancás de cero.\n\n"
         '<div class="grid cards" markdown>\n\n'
+        "- :material-shape-plus: **[¿Qué no puede faltar?](conceptos.md)**\n\n"
+        f"    {len(armar)} respuestas para armar con chips y {len(ordenar)} "
+        "secuencias para ordenar arrastrando.\n\n"
         "- :material-gamepad-variant: **[Contrarreloj](juego.md)**\n\n"
         f"    Partida de 2 minutos: {len(arcade)} preguntas, 3 vidas y racha. "
         "Para los días en que cuesta arrancar.\n\n"

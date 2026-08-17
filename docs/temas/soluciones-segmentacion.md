@@ -502,6 +502,17 @@ completado la actual**. En el esquema de la teoría se ha segmentado:
 
 <p class="fuentes">Fuente: <code>Teorías/05 Arq clase5 Algunas soluciones.pdf</code>, fil. 55–58, 59–62, 63–68.</p>
 
+## Repaso de este tema
+
+Terminaste de leer. Ahora **producí**, que es lo que se evalúa:
+
+<ul class="pract-repaso">
+  <li><a href="../../practica/conceptos/?tema=soluciones-segmentacion">Armá la respuesta de Soluciones a los riesgos de segmentación</a></li>
+  <li><a href="../../practica/quiz/?tema=soluciones-segmentacion">Quiz conceptual</a></li>
+  <li><a href="../../practica/juego/?tema=soluciones-segmentacion">Contrarreloj sólo de este tema</a></li>
+  <li><a href="../../practica/fichas/?tema=soluciones-segmentacion">Fichas de recuperación activa</a></li>
+</ul>
+
 ## Preguntas de final sobre este tema
 
 [:material-help-box: Ver el banco de preguntas de soluciones a la segmentación](../finales/temas/soluciones-segmentacion.md)

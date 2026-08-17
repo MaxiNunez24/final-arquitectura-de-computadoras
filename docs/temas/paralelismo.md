@@ -449,6 +449,18 @@ dependiendo de las unidades funcionales involucradas**:
 
 <p class="fuentes">Fuente: <code>Teorías/09 Arq clase9 Procesamiento paralelo.pdf</code>, fil. 8, 11, 31, 50, 52, 53–54.</p>
 
+## Repaso de este tema
+
+Terminaste de leer. Ahora **producí**, que es lo que se evalúa:
+
+<ul class="pract-repaso">
+  <li><a href="../../practica/conceptos/?tema=paralelismo">Armá la respuesta de Procesamiento paralelo</a></li>
+  <li><a href="../../practica/conceptos/?tema=paralelismo">Ordená sus secuencias</a></li>
+  <li><a href="../../practica/quiz/?tema=paralelismo">Quiz conceptual</a></li>
+  <li><a href="../../practica/juego/?tema=paralelismo">Contrarreloj sólo de este tema</a></li>
+  <li><a href="../../practica/fichas/?tema=paralelismo">Fichas de recuperación activa</a></li>
+</ul>
+
 ## Preguntas de final sobre este tema
 
 [:material-help-box: Ver el banco de preguntas de paralelismo](../finales/temas/paralelismo.md)

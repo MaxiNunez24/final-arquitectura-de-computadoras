@@ -266,6 +266,17 @@ capacidad de memoria posible en el sistema"*.
 
 <p class="fuentes">Fuente: <code>Teorías/7 anexo clase 07 sobre_buses.pdf</code>, fil. 9, 26–27, 29–30, 32–33, 34–35, 36–37, 41.</p>
 
+## Repaso de este tema
+
+Terminaste de leer. Ahora **producí**, que es lo que se evalúa:
+
+<ul class="pract-repaso">
+  <li><a href="../../practica/conceptos/?tema=buses">Armá la respuesta de Buses</a></li>
+  <li><a href="../../practica/quiz/?tema=buses">Quiz conceptual</a></li>
+  <li><a href="../../practica/juego/?tema=buses">Contrarreloj sólo de este tema</a></li>
+  <li><a href="../../practica/fichas/?tema=buses">Fichas de recuperación activa</a></li>
+</ul>
+
 ## Preguntas de final sobre este tema
 
 [:material-help-box: Ver el banco de preguntas de buses](../finales/temas/buses.md)

@@ -579,6 +579,175 @@
   .pract-reloj-barra__b { transition: none; }
 }
 
+/* ---------- Armá la respuesta: chips y zonas ---------- */
+
+.pract-zona {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-content: flex-start;
+  min-height: 3.4rem;
+  padding: 0.5rem;
+  margin-bottom: 0.7rem;
+  background: var(--md-default-bg-color);
+  border: 1px dashed var(--md-default-fg-color--lighter);
+  border-radius: 6px;
+}
+
+.pract-zona--respuesta {
+  min-height: 5rem;
+  border-style: solid;
+  border-color: var(--md-accent-fg-color);
+}
+
+.pract-zona--sobre {
+  background: var(--md-code-bg-color);
+}
+
+.pract-chip {
+  padding: 0.45em 0.75em;
+  font-size: 0.72rem;
+  font-family: inherit;
+  font-weight: 600;
+  line-height: 1.35;
+  text-align: left;
+  color: var(--md-default-fg-color);
+  background: var(--md-code-bg-color);
+  border: 1px solid var(--md-default-fg-color--lighter);
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.pract-chip--arrastre { opacity: 0.5; }
+
+.pract-chip--ok {
+  color: #1b5e20;
+  background: rgb(46 125 50 / 20%);
+  border-color: #2e7d32;
+}
+
+.pract-chip--mal {
+  color: #b71c1c;
+  background: rgb(198 40 40 / 20%);
+  border-color: #c62828;
+}
+
+/* El que faltaba: quedó en el pool y sí tenía que ir */
+.pract-chip--falta {
+  border-color: #ef9a00;
+  border-style: dashed;
+  background: rgb(239 154 0 / 18%);
+}
+
+.pract-chip--bien-fuera { opacity: 0.45; }
+
+:root:not([data-theme="light"]) .pract-chip--ok,
+[data-md-color-scheme="slate"] .pract-chip--ok { color: #a5d6a7; }
+
+[data-md-color-scheme="slate"] .pract-chip--mal { color: #ef9a9a; }
+
+.pract-op__exp--fuera { opacity: 0.75; }
+
+/* ---------- Ordená la secuencia ---------- */
+
+.pract-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0.6rem 0;
+}
+
+.pract-fila {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.5rem 0.6rem;
+  font-size: 0.74rem;
+  line-height: 1.4;
+  background: var(--md-default-bg-color);
+  border: 1px solid var(--md-default-fg-color--lighter);
+  border-radius: 5px;
+}
+
+.pract-fila__asa {
+  flex: 0 0 auto;
+  padding: 0.2em 0.15em;
+  font-size: 1rem;
+  cursor: grab;
+  opacity: 0.55;
+  /* Sin esto, arrastrar con el dedo scrollea la página en vez de mover */
+  touch-action: none;
+}
+
+.pract-fila__n {
+  flex: 0 0 1.4em;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  opacity: 0.7;
+}
+
+.pract-fila__t { flex: 1 1 auto; }
+
+.pract-fila__btns {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 0.2rem;
+}
+
+.pract-mini {
+  width: 2rem;
+  height: 2rem;
+  font-size: 0.8rem;
+  color: var(--md-default-fg-color);
+  background: transparent;
+  border: 1px solid var(--md-default-fg-color--lighter);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.pract-fila--arrastre {
+  opacity: 0.85;
+  border-color: var(--md-accent-fg-color);
+  box-shadow: 0 3px 10px rgb(0 0 0 / 22%);
+}
+
+.pract-fila--ok { border-color: #2e7d32; background: rgb(46 125 50 / 12%); }
+.pract-fila--mal { border-color: #c62828; background: rgb(198 40 40 / 12%); }
+
+.pract-fila__real {
+  flex: 0 0 auto;
+  font-size: 0.62rem;
+  font-weight: 700;
+  white-space: nowrap;
+  opacity: 0.8;
+}
+
+/* ---------- Bloque de repaso al pie de cada ficha ---------- */
+
+.md-typeset .pract-repaso {
+  display: grid;
+  gap: 0.4rem;
+  padding: 0;
+  margin: 0.6rem 0;
+  list-style: none;
+}
+
+.md-typeset .pract-repaso li {
+  margin: 0;
+}
+
+.md-typeset .pract-repaso a {
+  display: block;
+  padding: 0.65em 0.9em;
+  font-size: 0.76rem;
+  font-weight: 600;
+  background: var(--md-code-bg-color);
+  border: 1px solid var(--md-default-fg-color--lighter);
+  border-left: 3px solid var(--md-accent-fg-color);
+  border-radius: 4px;
+}
+
 /* ---------- Aviso cuando falta el SVG (build local sin PlantUML) ---------- */
 
 .pract-aviso {

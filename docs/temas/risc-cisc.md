@@ -470,6 +470,17 @@ dirección de retorno siempre en R31.* El salto a subrutina es `JAL dir-de-salto
 
 <p class="fuentes">Fuente: <code>Teorías/06 Arq clase6 RISC.pdf</code>, fil. 50–52; <code>Teorías/04 Arq clase4 Segmentación de cauce.pdf</code>, fil. 4–6 y <code>Teorías/6 anexo clase 06 sobre_winmips.pdf</code>, fil. 2–4, 22.</p>
 
+## Repaso de este tema
+
+Terminaste de leer. Ahora **producí**, que es lo que se evalúa:
+
+<ul class="pract-repaso">
+  <li><a href="../../practica/conceptos/?tema=risc-cisc">Armá la respuesta de RISC vs CISC</a></li>
+  <li><a href="../../practica/quiz/?tema=risc-cisc">Quiz conceptual</a></li>
+  <li><a href="../../practica/juego/?tema=risc-cisc">Contrarreloj sólo de este tema</a></li>
+  <li><a href="../../practica/fichas/?tema=risc-cisc">Fichas de recuperación activa</a></li>
+</ul>
+
 ## Preguntas de final sobre este tema
 
 [:material-help-box: Ver el banco de preguntas de RISC vs CISC](../finales/temas/risc-cisc.md)

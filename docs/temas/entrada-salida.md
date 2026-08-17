@@ -495,6 +495,18 @@ aislando el bit de busy, y sólo sale cuando vale 0**. Ése es el *"vuelve al pa
 
 <p class="fuentes">Fuente: <code>Prácticas/Practica 2 - E_S - Resolución - AC25.pdf</code>, p. 1–4.</p>
 
+## Repaso de este tema
+
+Terminaste de leer. Ahora **producí**, que es lo que se evalúa:
+
+<ul class="pract-repaso">
+  <li><a href="../../practica/conceptos/?tema=entrada-salida">Armá la respuesta de Entrada/Salida</a></li>
+  <li><a href="../../practica/conceptos/?tema=entrada-salida">Ordená sus secuencias</a></li>
+  <li><a href="../../practica/quiz/?tema=entrada-salida">Quiz conceptual</a></li>
+  <li><a href="../../practica/juego/?tema=entrada-salida">Contrarreloj sólo de este tema</a></li>
+  <li><a href="../../practica/fichas/?tema=entrada-salida">Fichas de recuperación activa</a></li>
+</ul>
+
 ## Preguntas de final sobre este tema
 
 [:material-help-box: Ver el banco de preguntas de Entrada/Salida](../finales/temas/entrada-salida.md)

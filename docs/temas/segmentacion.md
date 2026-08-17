@@ -458,6 +458,18 @@ Cada tarea sigue llevando 90 minutos: **la mejora es puramente por solapamiento*
 
 <p class="fuentes">Fuente: <code>Teorías/04 Arq clase4 Segmentación de cauce.pdf</code>, fil. 32–36, 39, 42, 50, 59–66.</p>
 
+## Repaso de este tema
+
+Terminaste de leer. Ahora **producí**, que es lo que se evalúa:
+
+<ul class="pract-repaso">
+  <li><a href="../../practica/conceptos/?tema=segmentacion">Armá la respuesta de Segmentación de cauce</a></li>
+  <li><a href="../../practica/conceptos/?tema=segmentacion">Ordená sus secuencias</a></li>
+  <li><a href="../../practica/quiz/?tema=segmentacion">Quiz conceptual</a></li>
+  <li><a href="../../practica/juego/?tema=segmentacion">Contrarreloj sólo de este tema</a></li>
+  <li><a href="../../practica/fichas/?tema=segmentacion">Fichas de recuperación activa</a></li>
+</ul>
+
 ## Preguntas de final sobre este tema
 
 [:material-help-box: Ver el banco de preguntas de segmentación](../finales/temas/segmentacion.md)

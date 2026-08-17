@@ -85,6 +85,21 @@
     return s;
   }
 
+  /**
+   * Tema pedido por la URL (?tema=memoria-cache).
+   *
+   * Permite que cada ficha cierre con un enlace de repaso que abre la práctica
+   * ya filtrada, sin que haya que buscar el tema en el desplegable.
+   */
+  function temaDeLaUrl() {
+    try {
+      var t = new URLSearchParams(window.location.search).get("tema");
+      return t || "*";
+    } catch (e) {
+      return "*";
+    }
+  }
+
   // ---------------------------------------------------------------
   // Bloque de rúbrica reutilizable (simulacro y fichas)
   // ---------------------------------------------------------------
@@ -346,7 +361,7 @@
     var todas = datos.fichas;
     var estadoClave = "fichas";
     var cajones = leer(estadoClave, {}); // qid -> 0 (no) | 1 (a medias) | 2 (sabía)
-    var temaActual = "*";
+    var temaActual = temaDeLaUrl();
     var mazo = [];
     var pos = 0;
 
@@ -358,6 +373,7 @@
     datos.temas.forEach(function (t) {
       var o = el("option", null, t.nombre);
       o.value = t.slug;
+      if (t.slug === temaActual) o.selected = true;
       sel.appendChild(o);
     });
     var btnReset = el("button", "pract-btn pract-btn--sec", "Reiniciar progreso");
@@ -507,7 +523,7 @@
    */
   function montarOpciones(raiz, datos) {
     var items = datos.items;
-    var temaActual = "*";
+    var temaActual = temaDeLaUrl();
     var vivos = [];
     var pos = 0;
     var aciertos = 0;
@@ -521,6 +537,7 @@
     datos.temas.forEach(function (t) {
       var o = el("option", null, t.nombre);
       o.value = t.slug;
+      if (t.slug === temaActual) o.selected = true;
       sel.appendChild(o);
     });
     barra.appendChild(sel);
@@ -958,7 +975,7 @@
       porTema: {}, ultimoDia: "", rachaDias: 0
     });
 
-    var temaFiltro = "*";
+    var temaFiltro = temaDeLaUrl();
     var mazo = [], pos = 0, vidas = VIDAS, puntos = 0, racha = 0, mejorRachaPartida = 0;
     var erroresPartida = {}, timerId = null, quedan = 0, jugando = false;
 
@@ -1278,13 +1295,398 @@
     pintarInicio();
   }
 
+  // ---------------------------------------------------------------
+  // 8) Armá la respuesta — ¿qué conceptos no pueden faltar?
+  // ---------------------------------------------------------------
+
+  /**
+   * Chips que se mueven entre "disponibles" y "mi respuesta".
+   *
+   * En el celular se resuelve TOCANDO: el arrastre HTML5 no existe en touch,
+   * y esta página se lee sobre todo desde el teléfono. El arrastre queda
+   * disponible con mouse, como atajo, no como única vía.
+   */
+  function montarArmar(raiz, datos) {
+    var items = datos.items;
+    var vivos = [], pos = 0, aciertos = 0, respondidas = 0;
+    var temaActual = temaDeLaUrl();
+
+    var barra = el("div", "pract-barra");
+    var sel = el("select");
+    var op = el("option", null, "Todos los temas");
+    op.value = "*";
+    sel.appendChild(op);
+    datos.temas.forEach(function (t) {
+      var o = el("option", null, t.nombre);
+      o.value = t.slug;
+      if (t.slug === temaActual) o.selected = true;
+      sel.appendChild(o);
+    });
+    barra.appendChild(sel);
+    raiz.appendChild(barra);
+
+    var marcador = el("p", "pract-meta");
+    raiz.appendChild(marcador);
+    var zona = el("div");
+    raiz.appendChild(zona);
+
+    function armarMazo() {
+      vivos = barajar(items.filter(function (x) {
+        return temaActual === "*" || x.tema === temaActual;
+      }).slice());
+      pos = 0; aciertos = 0; respondidas = 0;
+    }
+
+    function pintar() {
+      zona.textContent = "";
+      marcador.textContent = vivos.length
+        ? "Ejercicio " + Math.min(pos + 1, vivos.length) + " de " + vivos.length +
+          (respondidas ? " · " + aciertos + "/" + respondidas + " sin errores" : "")
+        : "";
+
+      if (!vivos.length) {
+        zona.appendChild(el("div", "pract-aviso", "No hay ejercicios para este tema."));
+        return;
+      }
+      if (pos >= vivos.length) {
+        var v = el("div", "pract-veredicto pract-veredicto--ok");
+        v.textContent = "Terminaste: " + aciertos + " de " + respondidas +
+          " armadas sin ningún error.";
+        zona.appendChild(v);
+        var otra = el("button", "pract-btn", "Otra vuelta");
+        otra.addEventListener("click", function () { armarMazo(); pintar(); });
+        zona.appendChild(otra);
+        return;
+      }
+
+      var it = vivos[pos];
+      var card = el("div", "pract-card");
+      card.appendChild(el("span", "pract-tema", it.tema_nombre));
+      card.appendChild(el("p", "pract-enunciado", it.pregunta));
+      card.appendChild(el("p", "pract-meta",
+        "Tocá los conceptos que SÍ tienen que aparecer. Tocalos de nuevo para " +
+        "sacarlos. Con mouse también podés arrastrarlos."));
+
+      var cajaTit = el("p", "pract-rubrica__tit", "Mi respuesta");
+      card.appendChild(cajaTit);
+      var caja = el("div", "pract-zona pract-zona--respuesta");
+      caja.dataset.destino = "1";
+      card.appendChild(caja);
+
+      card.appendChild(el("p", "pract-rubrica__tit", "Disponibles"));
+      var pool = el("div", "pract-zona");
+      card.appendChild(pool);
+
+      var todos = barajar(
+        it.van.map(function (c) { return { c: c, va: true }; })
+          .concat(it.no_van.map(function (c) { return { c: c, va: false }; }))
+      );
+
+      var corregido = false;
+
+      function mover(chip) {
+        if (corregido) return;
+        var destino = chip.parentNode === caja ? pool : caja;
+        destino.appendChild(chip);
+      }
+
+      todos.forEach(function (x, i) {
+        var chip = el("button", "pract-chip", x.c.chip);
+        chip.dataset.va = x.va ? "1" : "0";
+        chip.dataset.detalle = x.c.detalle || "";
+        chip.dataset.i = String(i);
+        chip.draggable = true;
+        chip.addEventListener("click", function () { mover(chip); });
+        chip.addEventListener("dragstart", function (e) {
+          if (corregido) return e.preventDefault();
+          e.dataTransfer.setData("text/plain", chip.dataset.i);
+          chip.classList.add("pract-chip--arrastre");
+        });
+        chip.addEventListener("dragend", function () {
+          chip.classList.remove("pract-chip--arrastre");
+        });
+        pool.appendChild(chip);
+      });
+
+      [caja, pool].forEach(function (z) {
+        z.addEventListener("dragover", function (e) {
+          if (corregido) return;
+          e.preventDefault();
+          z.classList.add("pract-zona--sobre");
+        });
+        z.addEventListener("dragleave", function () {
+          z.classList.remove("pract-zona--sobre");
+        });
+        z.addEventListener("drop", function (e) {
+          e.preventDefault();
+          z.classList.remove("pract-zona--sobre");
+          if (corregido) return;
+          var i = e.dataTransfer.getData("text/plain");
+          var chip = card.querySelector('.pract-chip[data-i="' + i + '"]');
+          if (chip) z.appendChild(chip);
+        });
+      });
+
+      var btn = el("button", "pract-btn", "Corregir");
+      card.appendChild(btn);
+
+      btn.addEventListener("click", function () {
+        if (corregido) return;
+        corregido = true;
+        btn.remove();
+        respondidas++;
+
+        var puestos = [].slice.call(caja.querySelectorAll(".pract-chip"));
+        var sobran = 0, faltan = 0;
+
+        puestos.forEach(function (chip) {
+          var ok = chip.dataset.va === "1";
+          chip.classList.add(ok ? "pract-chip--ok" : "pract-chip--mal");
+          if (!ok) sobran++;
+        });
+
+        [].slice.call(pool.querySelectorAll(".pract-chip")).forEach(function (chip) {
+          if (chip.dataset.va === "1") {
+            chip.classList.add("pract-chip--falta");
+            faltan++;
+          } else {
+            chip.classList.add("pract-chip--bien-fuera");
+          }
+        });
+
+        var perfecto = sobran === 0 && faltan === 0;
+        if (perfecto) aciertos++;
+
+        var v = el("div", "pract-veredicto pract-veredicto--" +
+          (perfecto ? "ok" : faltan + sobran <= 2 ? "medio" : "mal"));
+        v.textContent = perfecto
+          ? "Perfecto: están todos los que van y ninguno de los que no."
+          : "Te faltaron " + faltan + " y pusiste " + sobran + " que no van.";
+        card.appendChild(v);
+
+        // El detalle de cada chip: acá es donde el ejercicio enseña
+        var det = el("div", "pract-rubrica");
+        det.appendChild(el("p", "pract-rubrica__tit", "Qué es cada uno"));
+        todos.forEach(function (x, i) {
+          var chip = card.querySelector('.pract-chip[data-i="' + i + '"]');
+          var p = el("p", "pract-op__exp");
+          p.innerHTML = "<strong>" + (x.va ? "✓ " : "✗ ") + x.c.chip +
+            "</strong> — " + (x.c.detalle || "");
+          if (!x.va) p.classList.add("pract-op__exp--fuera");
+          det.appendChild(p);
+        });
+        card.appendChild(det);
+
+        if (it.fuente) card.appendChild(fuenteAlPie(it.fuente));
+
+        var sig = el("button", "pract-btn", "Siguiente");
+        sig.addEventListener("click", function () { pos++; pintar(); });
+        card.appendChild(sig);
+        marcador.textContent = "Ejercicio " + (pos + 1) + " de " + vivos.length +
+          " · " + aciertos + "/" + respondidas + " sin errores";
+      });
+
+      zona.appendChild(card);
+    }
+
+    sel.addEventListener("change", function () {
+      temaActual = sel.value;
+      armarMazo();
+      pintar();
+    });
+
+    armarMazo();
+    pintar();
+  }
+
+  // ---------------------------------------------------------------
+  // 9) Ordená la secuencia — arrastre que funciona en el celular
+  // ---------------------------------------------------------------
+
+  function montarOrdenar(raiz, datos) {
+    var items = datos.items;
+    var vivos = [], pos = 0, aciertos = 0, respondidas = 0;
+
+    var marcador = el("p", "pract-meta");
+    raiz.appendChild(marcador);
+    var zona = el("div");
+    raiz.appendChild(zona);
+
+    function armarMazo() {
+      vivos = barajar(items.slice());
+      pos = 0; aciertos = 0; respondidas = 0;
+    }
+
+    function pintar() {
+      zona.textContent = "";
+      marcador.textContent = vivos.length
+        ? "Secuencia " + Math.min(pos + 1, vivos.length) + " de " + vivos.length +
+          (respondidas ? " · " + aciertos + "/" + respondidas + " bien" : "")
+        : "";
+
+      if (pos >= vivos.length) {
+        var v = el("div", "pract-veredicto pract-veredicto--ok");
+        v.textContent = "Terminaste: " + aciertos + " de " + respondidas + ".";
+        zona.appendChild(v);
+        var otra = el("button", "pract-btn", "Otra vuelta");
+        otra.addEventListener("click", function () { armarMazo(); pintar(); });
+        zona.appendChild(otra);
+        return;
+      }
+
+      var it = vivos[pos];
+      var card = el("div", "pract-card");
+      card.appendChild(el("span", "pract-tema", it.tema_nombre));
+      card.appendChild(el("p", "pract-enunciado", it.consigna));
+      card.appendChild(el("p", "pract-meta",
+        "Arrastrá desde el ⠿ para reordenar, o usá las flechas."));
+
+      var lista = el("div", "pract-lista");
+      card.appendChild(lista);
+
+      // Se baraja hasta que quede distinto del original: un ejercicio que
+      // arranca resuelto no ejercita nada.
+      var orden = it.pasos.map(function (_, i) { return i; });
+      var intentos = 0;
+      do {
+        barajar(orden);
+        intentos++;
+      } while (intentos < 20 && orden.every(function (v, i) { return v === i; }));
+
+      var corregido = false;
+
+      function repintarNumeros() {
+        [].slice.call(lista.children).forEach(function (fila, i) {
+          fila.querySelector(".pract-fila__n").textContent = String(i + 1);
+        });
+      }
+
+      orden.forEach(function (idx) {
+        var fila = el("div", "pract-fila");
+        fila.dataset.idx = String(idx);
+
+        var asa = el("span", "pract-fila__asa", "⠿");
+        asa.setAttribute("aria-hidden", "true");
+        fila.appendChild(asa);
+        fila.appendChild(el("span", "pract-fila__n", "1"));
+        fila.appendChild(el("span", "pract-fila__t", it.pasos[idx]));
+
+        var btns = el("span", "pract-fila__btns");
+        var arriba = el("button", "pract-mini", "↑");
+        arriba.setAttribute("aria-label", "Subir");
+        var abajo = el("button", "pract-mini", "↓");
+        abajo.setAttribute("aria-label", "Bajar");
+        arriba.addEventListener("click", function () {
+          if (corregido) return;
+          var p = fila.previousElementSibling;
+          if (p) { lista.insertBefore(fila, p); repintarNumeros(); }
+        });
+        abajo.addEventListener("click", function () {
+          if (corregido) return;
+          var n = fila.nextElementSibling;
+          if (n) { lista.insertBefore(n, fila); repintarNumeros(); }
+        });
+        btns.appendChild(arriba);
+        btns.appendChild(abajo);
+        fila.appendChild(btns);
+
+        // --- Arrastre con pointer events: anda con dedo y con mouse ---
+        asa.addEventListener("pointerdown", function (e) {
+          if (corregido) return;
+          e.preventDefault();
+          asa.setPointerCapture(e.pointerId);
+          fila.classList.add("pract-fila--arrastre");
+
+          function mover(ev) {
+            var bajo = document.elementFromPoint(ev.clientX, ev.clientY);
+            if (!bajo) return;
+            var otra = bajo.closest ? bajo.closest(".pract-fila") : null;
+            if (!otra || otra === fila || otra.parentNode !== lista) return;
+            var r = otra.getBoundingClientRect();
+            var despues = ev.clientY > r.top + r.height / 2;
+            lista.insertBefore(fila, despues ? otra.nextSibling : otra);
+            repintarNumeros();
+          }
+          function soltar(ev) {
+            fila.classList.remove("pract-fila--arrastre");
+            asa.releasePointerCapture(ev.pointerId);
+            asa.removeEventListener("pointermove", mover);
+            asa.removeEventListener("pointerup", soltar);
+            asa.removeEventListener("pointercancel", soltar);
+          }
+          asa.addEventListener("pointermove", mover);
+          asa.addEventListener("pointerup", soltar);
+          asa.addEventListener("pointercancel", soltar);
+        });
+
+        lista.appendChild(fila);
+      });
+      repintarNumeros();
+
+      var btn = el("button", "pract-btn", "Corregir");
+      card.appendChild(btn);
+
+      btn.addEventListener("click", function () {
+        if (corregido) return;
+        corregido = true;
+        btn.remove();
+        respondidas++;
+
+        var filas = [].slice.call(lista.children);
+        var bien = 0;
+        filas.forEach(function (fila, i) {
+          var ok = Number(fila.dataset.idx) === i;
+          fila.classList.add(ok ? "pract-fila--ok" : "pract-fila--mal");
+          if (ok) bien++;
+          if (!ok) {
+            var n = el("span", "pract-fila__real", "va " + (Number(fila.dataset.idx) + 1) + "º");
+            fila.appendChild(n);
+          }
+        });
+
+        var perfecto = bien === filas.length;
+        if (perfecto) aciertos++;
+
+        var v = el("div", "pract-veredicto pract-veredicto--" +
+          (perfecto ? "ok" : bien >= filas.length - 2 ? "medio" : "mal"));
+        v.textContent = perfecto
+          ? "Orden correcto, los " + filas.length + " pasos."
+          : bien + " de " + filas.length + " en su lugar.";
+        card.appendChild(v);
+
+        if (!perfecto) {
+          var r = el("div", "pract-rubrica");
+          r.appendChild(el("p", "pract-rubrica__tit", "El orden correcto"));
+          it.pasos.forEach(function (p, i) {
+            r.appendChild(el("p", "pract-op__exp", (i + 1) + ". " + p));
+          });
+          card.appendChild(r);
+        }
+
+        if (it.fuente) card.appendChild(fuenteAlPie(it.fuente));
+        var sig = el("button", "pract-btn", "Siguiente");
+        sig.addEventListener("click", function () { pos++; pintar(); });
+        card.appendChild(sig);
+        marcador.textContent = "Secuencia " + (pos + 1) + " de " + vivos.length +
+          " · " + aciertos + "/" + respondidas + " bien";
+      });
+
+      zona.appendChild(card);
+    }
+
+    armarMazo();
+    pintar();
+  }
+
   var TIPOS = {
     simulacro: montarSimulacro,
     fichas: montarFichas,
     opciones: montarOpciones,
     diagramas: montarDiagramas,
     plan: montarPlan,
-    juego: montarJuego
+    juego: montarJuego,
+    armar: montarArmar,
+    ordenar: montarOrdenar
   };
 
   function iniciar() {

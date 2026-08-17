@@ -266,6 +266,18 @@ la más eficiente**.
     (`Teorías/02 Arq clase2 Interrupciones.pdf`, fil. 45). Ninguna de las dos
     trae un desarrollo que se pueda transcribir como "ejemplo del curso".
 
+## Repaso de este tema
+
+Terminaste de leer. Ahora **producí**, que es lo que se evalúa:
+
+<ul class="pract-repaso">
+  <li><a href="../../practica/conceptos/?tema=dma">Armá la respuesta de DMA — Acceso Directo a Memoria</a></li>
+  <li><a href="../../practica/conceptos/?tema=dma">Ordená sus secuencias</a></li>
+  <li><a href="../../practica/quiz/?tema=dma">Quiz conceptual</a></li>
+  <li><a href="../../practica/juego/?tema=dma">Contrarreloj sólo de este tema</a></li>
+  <li><a href="../../practica/fichas/?tema=dma">Fichas de recuperación activa</a></li>
+</ul>
+
 ## Preguntas de final sobre este tema
 
 [:material-help-box: Ver el banco de preguntas de DMA](../finales/temas/dma.md)

@@ -457,6 +457,18 @@ direcciones más bajas** y **`$sp` apunta al tope**.
 
 <p class="fuentes">Fuente: <code>Prácticas/Practica 4 - Resolución - AC2025.pdf</code>, p. 5–13.</p>
 
+## Repaso de este tema
+
+Terminaste de leer. Ahora **producí**, que es lo que se evalúa:
+
+<ul class="pract-repaso">
+  <li><a href="../../practica/conceptos/?tema=von-neumann-y-pila">Armá la respuesta de Von Neumann y pila</a></li>
+  <li><a href="../../practica/conceptos/?tema=von-neumann-y-pila">Ordená sus secuencias</a></li>
+  <li><a href="../../practica/quiz/?tema=von-neumann-y-pila">Quiz conceptual</a></li>
+  <li><a href="../../practica/juego/?tema=von-neumann-y-pila">Contrarreloj sólo de este tema</a></li>
+  <li><a href="../../practica/fichas/?tema=von-neumann-y-pila">Fichas de recuperación activa</a></li>
+</ul>
+
 ## Preguntas de final sobre este tema
 
 [:material-help-box: Ver el banco de preguntas de von Neumann y pila](../finales/temas/von-neumann-y-pila.md)

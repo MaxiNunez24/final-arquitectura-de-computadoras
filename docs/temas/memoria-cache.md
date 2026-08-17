@@ -490,6 +490,17 @@ de 64 KB con bloques de 4 bytes** (24 bits de dirección):
 
 <p class="fuentes">Fuente: <code>Teorías/07 Arq clase7 Memoria.pdf</code>, fil. 33–40, 44, 48, 52, 55, 65–69.</p>
 
+## Repaso de este tema
+
+Terminaste de leer. Ahora **producí**, que es lo que se evalúa:
+
+<ul class="pract-repaso">
+  <li><a href="../../practica/conceptos/?tema=memoria-cache">Armá la respuesta de Memoria caché</a></li>
+  <li><a href="../../practica/quiz/?tema=memoria-cache">Quiz conceptual</a></li>
+  <li><a href="../../practica/juego/?tema=memoria-cache">Contrarreloj sólo de este tema</a></li>
+  <li><a href="../../practica/fichas/?tema=memoria-cache">Fichas de recuperación activa</a></li>
+</ul>
+
 ## Preguntas de final sobre este tema
 
 [:material-help-box: Ver el banco de preguntas de memoria caché](../finales/temas/memoria-cache.md)
