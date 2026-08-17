@@ -935,12 +935,356 @@
     pintar();
   }
 
+  // ---------------------------------------------------------------
+  // 7) Contrarreloj — modo arcade
+  // ---------------------------------------------------------------
+
+  /**
+   * Partida corta: 3 vidas, reloj por pregunta, racha con multiplicador.
+   *
+   * El objetivo no es el puntaje, es bajar el costo de arrancar: una partida
+   * dura 2-3 minutos y se empieza sin decidir nada. Al terminar, el resumen
+   * apunta a las fichas de los temas que costaron vidas, para que el impulso
+   * se convierta en dirección y no en otra partida.
+   */
+  function montarJuego(raiz, datos) {
+    var VIDAS = 3;
+    var SEG = 25;          // por pregunta simple
+    var SEG_MULTI = 35;    // con más de una correcta hay que leer todo
+    var estadoClave = "juego";
+
+    var hist = leer(estadoClave, {
+      record: 0, mejorRacha: 0, partidas: 0,
+      porTema: {}, ultimoDia: "", rachaDias: 0
+    });
+
+    var temaFiltro = "*";
+    var mazo = [], pos = 0, vidas = VIDAS, puntos = 0, racha = 0, mejorRachaPartida = 0;
+    var erroresPartida = {}, timerId = null, quedan = 0, jugando = false;
+
+    function hoyStr() {
+      var d = new Date();
+      return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") +
+        "-" + String(d.getDate()).padStart(2, "0");
+    }
+
+    function multiplicador() {
+      if (racha >= 10) return 4;
+      if (racha >= 6) return 3;
+      if (racha >= 3) return 2;
+      return 1;
+    }
+
+    var zona = el("div");
+    raiz.appendChild(zona);
+
+    // ---------- Portada ----------
+    function pintarInicio() {
+      if (timerId) { clearInterval(timerId); timerId = null; }
+      jugando = false;
+      zona.textContent = "";
+
+      var card = el("div", "pract-card");
+      card.appendChild(el("h3", "pract-juego__tit", "Contrarreloj"));
+      card.appendChild(el("p", "pract-enunciado",
+        "3 vidas. Reloj por pregunta. Cada acierto seguido sube el multiplicador. " +
+        "Una partida dura 2 o 3 minutos."));
+
+      var marcas = el("div", "pract-marcas");
+      [["Récord", hist.record], ["Mejor racha", hist.mejorRacha],
+       ["Partidas", hist.partidas], ["Días seguidos", hist.rachaDias]
+      ].forEach(function (m) {
+        var b = el("div", "pract-marca");
+        b.appendChild(el("span", "pract-marca__n", String(m[1])));
+        b.appendChild(el("span", "pract-marca__t", m[0]));
+        marcas.appendChild(b);
+      });
+      card.appendChild(marcas);
+
+      var barra = el("div", "pract-barra");
+      var sel = el("select");
+      var o = el("option", null, "Todos los temas");
+      o.value = "*";
+      sel.appendChild(o);
+      datos.temas.forEach(function (t) {
+        var op = el("option", null, t.nombre);
+        op.value = t.slug;
+        if (t.slug === temaFiltro) op.selected = true;
+        sel.appendChild(op);
+      });
+      sel.addEventListener("change", function () { temaFiltro = sel.value; });
+      var btn = el("button", "pract-btn pract-btn--grande", "Jugar");
+      btn.addEventListener("click", empezar);
+      barra.appendChild(sel);
+      barra.appendChild(btn);
+      card.appendChild(barra);
+      zona.appendChild(card);
+
+      // Dominio acumulado por tema: la parte que "cubre todos los temas"
+      var dom = el("div", "pract-card");
+      dom.appendChild(el("p", "pract-rubrica__tit", "Tu dominio por tema"));
+      dom.appendChild(el("p", "pract-meta",
+        "Acumulado de todas tus partidas. Los que están en rojo son los que te " +
+        "hacen perder vidas."));
+
+      datos.temas.forEach(function (t) {
+        var s = hist.porTema[t.slug] || { ok: 0, mal: 0 };
+        var tot = s.ok + s.mal;
+        var pct = tot ? Math.round((100 * s.ok) / tot) : 0;
+        var fila = el("div", "pract-dom");
+        var cab = el("div", "pract-dom__cab");
+        cab.appendChild(el("span", null, t.nombre));
+        cab.appendChild(el("span", "pract-min",
+          tot ? pct + "% (" + tot + ")" : "sin jugar"));
+        fila.appendChild(cab);
+        var b = el("div", "pract-prog");
+        var bi = el("div", "pract-prog__b");
+        bi.style.width = pct + "%";
+        if (tot) {
+          bi.style.background = pct >= 80 ? "#2e7d32" : pct >= 55 ? "#ef9a00" : "#c62828";
+        }
+        b.appendChild(bi);
+        fila.appendChild(b);
+        dom.appendChild(fila);
+      });
+      zona.appendChild(dom);
+    }
+
+    // ---------- Partida ----------
+    function empezar() {
+      mazo = barajar(datos.items.filter(function (x) {
+        return temaFiltro === "*" || x.tema === temaFiltro;
+      }).slice());
+      if (!mazo.length) return;
+      pos = 0; vidas = VIDAS; puntos = 0; racha = 0;
+      mejorRachaPartida = 0; erroresPartida = {}; jugando = true;
+
+      var h = hoyStr();
+      if (hist.ultimoDia !== h) {
+        var ayer = new Date(Date.now() - 864e5);
+        var ayerStr = ayer.getFullYear() + "-" +
+          String(ayer.getMonth() + 1).padStart(2, "0") + "-" +
+          String(ayer.getDate()).padStart(2, "0");
+        hist.rachaDias = hist.ultimoDia === ayerStr ? (hist.rachaDias || 0) + 1 : 1;
+        hist.ultimoDia = h;
+      }
+      pintarPregunta();
+    }
+
+    function pintarPregunta() {
+      if (timerId) { clearInterval(timerId); timerId = null; }
+      zona.textContent = "";
+
+      if (vidas <= 0 || pos >= mazo.length) return terminar();
+
+      var it = mazo[pos];
+      var multiple = it.correctas.length > 1;
+
+      // Marcador pegajoso
+      var hud = el("div", "pract-hud");
+      var vidasEl = el("span", "pract-hud__vidas",
+        "♥".repeat(vidas) + "♡".repeat(VIDAS - vidas));
+      var puntosEl = el("span", "pract-hud__pts", String(puntos));
+      var comboEl = el("span", "pract-hud__combo");
+      comboEl.textContent = racha > 0 ? "x" + multiplicador() + "  racha " + racha : "";
+      hud.appendChild(vidasEl);
+      hud.appendChild(comboEl);
+      hud.appendChild(puntosEl);
+      zona.appendChild(hud);
+
+      var reloj = el("div", "pract-reloj-barra");
+      var relojB = el("div", "pract-reloj-barra__b");
+      reloj.appendChild(relojB);
+      zona.appendChild(reloj);
+
+      var card = el("div", "pract-card");
+      card.appendChild(el("span", "pract-tema", it.tema_nombre));
+      card.appendChild(el("p", "pract-enunciado", it.consigna));
+      if (multiple) {
+        card.appendChild(el("p", "pract-meta", "Más de una correcta."));
+      }
+
+      var elegidas = {}, revelado = false, botones = [];
+      var total = (multiple ? SEG_MULTI : SEG) * 1000;
+      quedan = total;
+
+      timerId = setInterval(function () {
+        quedan -= 100;
+        var pct = Math.max(0, (100 * quedan) / total);
+        relojB.style.width = pct + "%";
+        relojB.classList.toggle("pract-reloj-barra__b--poco", pct < 30);
+        if (quedan <= 0) { clearInterval(timerId); timerId = null; revelar(true); }
+      }, 100);
+
+      function revelar(porTiempo) {
+        if (revelado) return;
+        revelado = true;
+        if (timerId) { clearInterval(timerId); timerId = null; }
+
+        var bien = !porTiempo &&
+          it.correctas.length === Object.keys(elegidas).length &&
+          it.correctas.every(function (i) { return elegidas[i]; });
+
+        var st = hist.porTema[it.tema] || { ok: 0, mal: 0 };
+        var ganados = 0;
+        if (bien) {
+          st.ok++;
+          racha++;
+          if (racha > mejorRachaPartida) mejorRachaPartida = racha;
+          // El multiplicador se aplica con la racha YA incrementada: el
+          // acierto que te lleva a 3 seguidas es el que empieza a pagar x2.
+          ganados = (100 + Math.round(100 * (quedan / total))) * multiplicador();
+          puntos += ganados;
+          puntosEl.textContent = String(puntos);
+        } else {
+          st.mal++;
+          racha = 0;
+          vidas--;
+          erroresPartida[it.tema] = (erroresPartida[it.tema] || 0) + 1;
+          vidasEl.textContent = "♥".repeat(Math.max(0, vidas)) +
+            "♡".repeat(VIDAS - Math.max(0, vidas));
+          vidasEl.classList.add("pract-hud__vidas--golpe");
+        }
+        // El HUD tiene que reflejar el resultado de ESTA respuesta, no el
+        // estado con el que se dibujó la pregunta: si no, perdés una vida y
+        // el combo sigue anunciando la racha que acabás de cortar.
+        comboEl.textContent = racha > 0
+          ? "x" + multiplicador() + "  racha " + racha
+          : "";
+        hist.porTema[it.tema] = st;
+        guardar(estadoClave, hist);
+
+        botones.forEach(function (b) {
+          var i = Number(b.dataset.i);
+          var esOk = it.correctas.indexOf(i) >= 0;
+          b.disabled = true;
+          b.classList.add("pract-op--revelada");
+          b.classList.remove("pract-op--sel");
+          if (esOk) b.classList.add("pract-op--ok");
+          else if (elegidas[i]) b.classList.add("pract-op--mal");
+        });
+
+        var v = el("div", "pract-veredicto pract-veredicto--" + (bien ? "ok" : "mal"));
+        v.textContent = porTiempo
+          ? "Se acabó el tiempo."
+          : bien
+          ? "Bien. +" + ganados + " puntos." +
+            (multiplicador() > 1 ? "  (x" + multiplicador() + " por racha de " + racha + ")" : "")
+          : "No.";
+        card.appendChild(v);
+
+        // La explicación de la correcta, siempre: la partida tiene que enseñar
+        var exp = it.opciones[it.correctas[0]].explicacion;
+        if (exp) card.appendChild(el("p", "pract-op__exp", exp));
+        if (it.fuente) card.appendChild(fuenteAlPie(it.fuente));
+
+        var sig = el("button", "pract-btn", vidas > 0 ? "Seguir" : "Ver resultado");
+        sig.addEventListener("click", function () { pos++; pintarPregunta(); });
+        card.appendChild(sig);
+      }
+
+      var orden = barajar(it.opciones.map(function (_, i) { return i; }));
+      orden.forEach(function (i, n) {
+        var b = el("button", "pract-op");
+        b.dataset.i = String(i);
+        b.appendChild(el("span", "pract-op__letra", letra(n)));
+        b.appendChild(el("span", null, it.opciones[i].texto));
+        b.addEventListener("click", function () {
+          if (revelado) return;
+          if (multiple) {
+            elegidas[i] = !elegidas[i];
+            if (!elegidas[i]) delete elegidas[i];
+            b.classList.toggle("pract-op--sel", !!elegidas[i]);
+          } else {
+            elegidas = {};
+            elegidas[i] = true;
+            revelar(false);
+          }
+        });
+        botones.push(b);
+        card.appendChild(b);
+      });
+
+      if (multiple) {
+        var conf = el("button", "pract-btn", "Confirmar");
+        conf.addEventListener("click", function () {
+          if (!Object.keys(elegidas).length) return;
+          conf.remove();
+          revelar(false);
+        });
+        card.appendChild(conf);
+      }
+
+      zona.appendChild(card);
+    }
+
+    // ---------- Resultado ----------
+    function terminar() {
+      jugando = false;
+      hist.partidas++;
+      var recordNuevo = puntos > hist.record;
+      if (recordNuevo) hist.record = puntos;
+      if (mejorRachaPartida > hist.mejorRacha) hist.mejorRacha = mejorRachaPartida;
+      guardar(estadoClave, hist);
+
+      zona.textContent = "";
+      var card = el("div", "pract-card");
+      card.appendChild(el("h3", "pract-juego__tit",
+        recordNuevo ? "¡Récord nuevo!" : "Fin de la partida"));
+
+      var marcas = el("div", "pract-marcas");
+      [["Puntos", puntos], ["Mejor racha", mejorRachaPartida],
+       ["Récord", hist.record]].forEach(function (m) {
+        var b = el("div", "pract-marca");
+        b.appendChild(el("span", "pract-marca__n", String(m[1])));
+        b.appendChild(el("span", "pract-marca__t", m[0]));
+        marcas.appendChild(b);
+      });
+      card.appendChild(marcas);
+
+      var temasMal = Object.keys(erroresPartida).sort(function (a, b) {
+        return erroresPartida[b] - erroresPartida[a];
+      });
+      if (temasMal.length) {
+        var r = el("div", "pract-rubrica");
+        r.appendChild(el("p", "pract-rubrica__tit", "Lo que te costó vidas"));
+        temasMal.forEach(function (slug) {
+          var nom = (datos.temas.filter(function (t) { return t.slug === slug; })[0] || {}).nombre || slug;
+          var p = el("p", "pract-op__exp");
+          var a = el("a", null, nom);
+          a.href = datos.base + "temas/" + slug + "/";
+          p.appendChild(a);
+          p.appendChild(document.createTextNode(
+            " — " + erroresPartida[slug] + " error(es). Abrí la ficha antes de la próxima partida."));
+          r.appendChild(p);
+        });
+        card.appendChild(r);
+      } else {
+        card.appendChild(el("div", "pract-veredicto pract-veredicto--ok",
+          "Sin errores. Andá a escribir una respuesta a mano, que es lo que esto no entrena."));
+      }
+
+      var barra = el("div", "pract-barra");
+      var otra = el("button", "pract-btn pract-btn--grande", "Otra partida");
+      otra.addEventListener("click", empezar);
+      var volver = el("button", "pract-btn pract-btn--sec", "Volver");
+      volver.addEventListener("click", pintarInicio);
+      barra.appendChild(otra);
+      barra.appendChild(volver);
+      card.appendChild(barra);
+      zona.appendChild(card);
+    }
+
+    pintarInicio();
+  }
+
   var TIPOS = {
     simulacro: montarSimulacro,
     fichas: montarFichas,
     opciones: montarOpciones,
     diagramas: montarDiagramas,
-    plan: montarPlan
+    plan: montarPlan,
+    juego: montarJuego
   };
 
   function iniciar() {

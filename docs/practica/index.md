@@ -6,6 +6,10 @@ La parte del sitio donde **producís** en vez de leer. Todo corre en el navegado
 
 <div class="grid cards" markdown>
 
+- :material-gamepad-variant: **[Contrarreloj](juego.md)**
+
+    Partida de 2 minutos: 58 preguntas, 3 vidas y racha. Para los días en que cuesta arrancar.
+
 - :material-timer: **[Simulacro cronometrado](simulacro.md)**
 
     12 finales completos, 3 horas reloj, rúbrica al entregar.

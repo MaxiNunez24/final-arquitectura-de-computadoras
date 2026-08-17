@@ -445,6 +445,140 @@
   white-space: nowrap;
 }
 
+/* ---------- Contrarreloj (modo arcade) ---------- */
+
+.pract-juego__tit {
+  margin: 0 0 0.5rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.pract-btn--grande {
+  flex: 1 1 auto;
+  min-height: 3.1em;
+  font-size: 0.82rem;
+}
+
+/* Marcador de récords / resultado */
+.pract-marcas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(4.6rem, 1fr));
+  gap: 0.5rem;
+  margin: 0.8rem 0;
+}
+
+.pract-marca {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.5rem 0.3rem;
+  background: var(--md-default-bg-color);
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 5px;
+}
+
+.pract-marca__n {
+  font-size: 1.25rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+.pract-marca__t {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  opacity: 0.75;
+  text-align: center;
+}
+
+/* HUD pegajoso durante la partida */
+.pract-hud {
+  position: sticky;
+  top: 2.4rem;
+  z-index: 3;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.45rem 0.8rem;
+  background: var(--md-default-bg-color);
+  border: 1px solid var(--md-default-fg-color--lighter);
+  border-radius: 6px 6px 0 0;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 12%);
+}
+
+.pract-hud__vidas {
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  color: #e5484d;
+}
+
+/* Sacudida corta al perder una vida: el golpe se siente sin marear */
+.pract-hud__vidas--golpe {
+  animation: pract-golpe 0.35s ease;
+}
+
+@keyframes pract-golpe {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+.pract-hud__combo {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--md-accent-fg-color);
+}
+
+.pract-hud__pts {
+  font-size: 1.05rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Reloj de la pregunta, pegado abajo del HUD */
+.pract-reloj-barra {
+  position: sticky;
+  top: 4.55rem;
+  z-index: 3;
+  height: 5px;
+  overflow: hidden;
+  background: var(--md-default-fg-color--lightest);
+}
+
+.pract-reloj-barra__b {
+  width: 100%;
+  height: 100%;
+  background: var(--md-accent-fg-color);
+  transition: width 0.1s linear;
+}
+
+.pract-reloj-barra__b--poco {
+  background: #e5484d;
+}
+
+/* Dominio acumulado por tema */
+.pract-dom {
+  margin-bottom: 0.55rem;
+}
+
+.pract-dom__cab {
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  margin-bottom: 0.15rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pract-hud__vidas--golpe { animation: none; }
+  .pract-reloj-barra__b { transition: none; }
+}
+
 /* ---------- Aviso cuando falta el SVG (build local sin PlantUML) ---------- */
 
 .pract-aviso {

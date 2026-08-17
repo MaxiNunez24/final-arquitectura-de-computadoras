@@ -114,6 +114,7 @@ nav:
       - Von Neumann y pila: temas/von-neumann-y-pila.md
   - Práctica:
       - practica/index.md
+      - Contrarreloj: practica/juego.md
       - Simulacro cronometrado: practica/simulacro.md
       - Fichas de recuperación activa: practica/fichas.md
       - Quiz conceptual: practica/quiz.md

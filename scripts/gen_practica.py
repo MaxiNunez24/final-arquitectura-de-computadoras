@@ -385,6 +385,44 @@ def main() -> int:
     )
 
     # ------------------------------------------------------------------
+    # 6) Contrarreloj — modo arcade sobre las mismas preguntas
+    # ------------------------------------------------------------------
+    # No agrega contenido: reusa los ítems de quiz y afirmaciones falsas.
+    # Lo único que cambia es el envoltorio —vidas, reloj, racha— porque el
+    # problema que resuelve no es de material sino de arrancar.
+    arcade = multiples + falsas
+
+    (OUT / "juego.md").write_text(
+        AVISO
+        + "# Contrarreloj\n\n"
+        f"**{len(arcade)} preguntas**, 3 vidas y reloj. Cada acierto seguido sube "
+        "el multiplicador; cada error te saca una vida. Una partida dura **2 o 3 "
+        "minutos**.\n\n"
+        '!!! tip "Para qué está esto"\n'
+        "    Para los días en que **cuesta arrancar**. Sentarse a estudiar caché "
+        "es una decisión; apretar «Jugar» no. Sirve para los ratos muertos, para "
+        "entrar en calor antes del bloque largo, y para descubrir qué tema te "
+        "hace perder vidas.\n\n"
+        '!!! warning "Lo que este juego NO entrena"\n'
+        "    **Redactar.** Reconocer la opción correcta entre cuatro, contra "
+        "reloj, es un músculo distinto del de escribir una carilla a mano. El "
+        "final se aprueba con lo segundo. Si el juego te saca tiempo de "
+        "[escribir respuestas](simulacro.md), está jugando en contra.\n\n"
+        "    Regla simple: **jugá antes de estudiar, no en lugar de estudiar**.\n\n"
+        + widget("juego", "d-juego", {
+            "items": arcade,
+            "temas": temas_cubiertos(arcade),
+            "base": "../../",
+        })
+        + "\n"
+        '<p class="fuentes">Fuente: <code>data/ejercicios.yml</code>, los mismos '
+        "ítems de <a href=\"quiz/\">quiz</a> y "
+        "<a href=\"afirmaciones/\">afirmaciones falsas</a>, con cita al pie en "
+        "cada uno.</p>\n",
+        encoding="utf-8",
+    )
+
+    # ------------------------------------------------------------------
     # 5) Elegí el diagrama correcto
     # ------------------------------------------------------------------
     # docs/practica/diagramas.md se sirve en /practica/diagramas/, así que
@@ -446,6 +484,9 @@ def main() -> int:
         "navegador y el progreso se guarda **en este dispositivo**: si abrís el "
         "sitio en la compu, arrancás de cero.\n\n"
         '<div class="grid cards" markdown>\n\n'
+        "- :material-gamepad-variant: **[Contrarreloj](juego.md)**\n\n"
+        f"    Partida de 2 minutos: {len(arcade)} preguntas, 3 vidas y racha. "
+        "Para los días en que cuesta arrancar.\n\n"
         "- :material-timer: **[Simulacro cronometrado](simulacro.md)**\n\n"
         f"    {len(sims)} finales completos, 3 horas reloj, rúbrica al entregar.\n\n"
         "- :material-cards: **[Fichas de recuperación activa](fichas.md)**\n\n"
