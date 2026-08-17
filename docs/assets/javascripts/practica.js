@@ -1506,6 +1506,9 @@
   function montarOrdenar(raiz, datos) {
     var items = datos.items;
     var vivos = [], pos = 0, aciertos = 0, respondidas = 0;
+    // Respeta ?tema= igual que el resto: la ficha enlaza "Ordená SUS
+    // secuencias", así que tiene que traer sólo las de ese tema.
+    var temaActual = temaDeLaUrl();
 
     var marcador = el("p", "pract-meta");
     raiz.appendChild(marcador);
@@ -1513,7 +1516,9 @@
     raiz.appendChild(zona);
 
     function armarMazo() {
-      vivos = barajar(items.slice());
+      vivos = barajar(items.filter(function (x) {
+        return temaActual === "*" || x.tema === temaActual;
+      }).slice());
       pos = 0; aciertos = 0; respondidas = 0;
     }
 
@@ -1523,6 +1528,13 @@
         ? "Secuencia " + Math.min(pos + 1, vivos.length) + " de " + vivos.length +
           (respondidas ? " · " + aciertos + "/" + respondidas + " bien" : "")
         : "";
+
+      if (!vivos.length) {
+        zona.appendChild(el("div", "pract-aviso",
+          "Este tema no tiene secuencias para ordenar. Probá con las de otros " +
+          "temas desde la página completa."));
+        return;
+      }
 
       if (pos >= vivos.length) {
         var v = el("div", "pract-veredicto pract-veredicto--ok");
