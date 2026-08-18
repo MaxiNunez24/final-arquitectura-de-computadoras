@@ -809,13 +809,6 @@
     var estadoClave = "plan";
     var hechas = leer(estadoClave, {});
 
-    // Fecha local en formato YYYY-MM-DD, para marcar "hoy" sin que el huso
-    // horario corra el día como haría toISOString().
-    var h = new Date();
-    var hoy = h.getFullYear() + "-" +
-      String(h.getMonth() + 1).padStart(2, "0") + "-" +
-      String(h.getDate()).padStart(2, "0");
-
     var barra = el("div", "pract-barra");
     var resumen = el("p", "pract-meta");
     var btnReset = el("button", "pract-btn pract-btn--sec", "Reiniciar el plan");
@@ -833,8 +826,8 @@
 
     function todasLasTareas() {
       var t = [];
-      datos.dias.forEach(function (d) {
-        (d.tareas || []).forEach(function (x, i) { t.push(d.fecha + "." + i); });
+      datos.bloques.forEach(function (b) {
+        (b.tareas || []).forEach(function (x, i) { t.push(b.id + "." + i); });
       });
       return t;
     }
@@ -844,70 +837,62 @@
       var n = todas.filter(function (k) { return hechas[k]; }).length;
       var pct = todas.length ? (100 * n) / todas.length : 0;
       progB.style.width = pct.toFixed(1) + "%";
-      var faltan = datos.dias.filter(function (d) { return d.fecha >= hoy; }).length;
+      var quedan = datos.bloques.filter(function (b) { return !b.vencido; }).length;
       resumen.textContent =
         n + " de " + todas.length + " tareas hechas · " +
-        (faltan > 0 ? faltan + " día(s) de plan por delante" : "se terminó el plan");
+        (quedan ? quedan + " semana(s) por delante" : "se terminó el plan");
     }
 
     function pintar() {
       zona.textContent = "";
 
-      datos.dias.forEach(function (d) {
+      datos.bloques.forEach(function (b) {
         var card = el("div", "pract-card pract-dia");
-        var esHoy = d.fecha === hoy;
-        var pasado = d.fecha < hoy;
-        if (esHoy) card.classList.add("pract-dia--hoy");
-        if (pasado) card.classList.add("pract-dia--pasado");
+        if (b.actual) card.classList.add("pract-dia--hoy");
+        if (b.vencido) card.classList.add("pract-dia--pasado");
 
         var cab = el("div", "pract-dia__cab");
         var tit = el("div");
-        tit.appendChild(el("span", "pract-tema", d.etiqueta));
-        tit.appendChild(el("h3", "pract-dia__tit", d.titulo));
+        tit.appendChild(el("span", "pract-tema", b.rango));
+        tit.appendChild(el("h3", "pract-dia__tit", b.titulo));
         cab.appendChild(tit);
-        var horas = el("span", "pract-dia__horas", d.horas);
-        cab.appendChild(horas);
         card.appendChild(cab);
 
-        if (esHoy) {
-          card.appendChild(el("p", "pract-veredicto pract-veredicto--medio", "Es hoy."));
+        if (b.actual) {
+          card.appendChild(
+            el("p", "pract-veredicto pract-veredicto--medio", "Es esta semana.")
+          );
         }
 
-        card.appendChild(el("p", "pract-enunciado", d.porque));
+        card.appendChild(el("p", "pract-enunciado", b.porque));
 
-        var hechasDia = 0;
+        var hechasBloque = 0;
         var marcador = el("p", "pract-puntaje");
 
-        (d.tareas || []).forEach(function (t, i) {
-          var k = d.fecha + "." + i;
+        (b.tareas || []).forEach(function (t, i) {
+          var k = b.id + "." + i;
           var lab = el("label", "pract-clave");
           var chk = el("input");
           chk.type = "checkbox";
           chk.checked = !!hechas[k];
-          if (chk.checked) { lab.classList.add("pract-clave--ok"); hechasDia++; }
+          if (chk.checked) { lab.classList.add("pract-clave--ok"); hechasBloque++; }
 
           chk.addEventListener("change", function () {
             hechas[k] = chk.checked;
             guardar(estadoClave, hechas);
             lab.classList.toggle("pract-clave--ok", chk.checked);
-            hechasDia += chk.checked ? 1 : -1;
-            marcador.textContent = hechasDia + " de " + d.tareas.length + " del día";
+            hechasBloque += chk.checked ? 1 : -1;
+            marcador.textContent = hechasBloque + " de " + b.tareas.length + " de la semana";
             refrescar();
           });
 
           var cuerpo = el("span");
-          var linea = el("strong", null, t.titulo);
-          cuerpo.appendChild(linea);
-          if (t.minutos) {
-            cuerpo.appendChild(el("span", "pract-min", "  " + t.minutos + " min"));
-          }
-          if (t.detalle) {
-            cuerpo.appendChild(el("span", "pract-op__exp", t.detalle));
-          }
+          cuerpo.appendChild(el("strong", null, t.titulo));
+          if (t.detalle) cuerpo.appendChild(el("span", "pract-op__exp", t.detalle));
           if (t.enlace) {
             var a = el("a", "pract-op__exp");
             a.href = t.enlace;
-            a.textContent = "Ir a la ficha →";
+            a.textContent = "Abrir →";
             a.style.display = "block";
             cuerpo.appendChild(a);
           }
@@ -916,23 +901,22 @@
           card.appendChild(lab);
         });
 
-        marcador.textContent = hechasDia + " de " + (d.tareas || []).length + " del día";
+        marcador.textContent = hechasBloque + " de " + (b.tareas || []).length + " de la semana";
         card.appendChild(marcador);
 
-        if (d.metas && d.metas.length) {
+        if (b.metas && b.metas.length) {
           var m = el("div", "pract-rubrica");
-          m.appendChild(el("p", "pract-rubrica__tit", "Metas del día"));
-          d.metas.forEach(function (x) {
-            var p = el("p", "pract-op__exp", "· " + x);
-            m.appendChild(p);
+          m.appendChild(el("p", "pract-rubrica__tit", "Metas de la semana"));
+          b.metas.forEach(function (x) {
+            m.appendChild(el("p", "pract-op__exp", "· " + x));
           });
           card.appendChild(m);
         }
 
-        if (d.minimo) {
-          var mm = el("div", "pract-aviso");
-          mm.innerHTML = "<strong>Si el día se complica:</strong> " + d.minimo;
-          card.appendChild(mm);
+        if (b.aviso) {
+          var av = el("div", "pract-aviso");
+          av.textContent = b.aviso;
+          card.appendChild(av);
         }
 
         zona.appendChild(card);
@@ -951,7 +935,6 @@
 
     pintar();
   }
-
   // ---------------------------------------------------------------
   // 7) Contrarreloj — modo arcade
   // ---------------------------------------------------------------
