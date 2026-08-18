@@ -86,6 +86,15 @@ Del bus del sistema entran el **bus de datos**, las **líneas de dirección** y 
 control** hacia el dispositivo externo, manejadas por la **lógica del interfaz a
 dispositivo externo**.
 
+
+<!-- practica:inicio INL-ES-01 -->
+!!! question "Comprobación rápida"
+    Antes de seguir leyendo, contestá esto. Si fallás, releé la sección de arriba: es más barato ahora que en el examen.
+
+<div class="pract pract--inline" data-tipo="opciones" data-datos="in-INL-ES-01"></div>
+<script type="application/json" id="in-INL-ES-01">{"items":[{"id":"INL-ES-01","tema":"entrada-salida","tema_nombre":"Entrada/Salida","consigna":"¿Qué ve la CPU del módulo de E/S?","opciones":[{"texto":"Las líneas hacia el dispositivo externo.","explicacion":"Ésa es la otra cara del módulo, la que da al periférico."},{"texto":"La lógica de E/S que une ambas interfaces.","explicacion":"Es interna al módulo: la CPU no la accede."},{"texto":"Registros: de datos, y de control y estado.","explicacion":"Correcto. Son los recursos «visibles» a la CPU y al programador."},{"texto":"El buffer y el transductor del periférico.","explicacion":"Son bloques funcionales del periférico, del otro lado del módulo."}],"correctas":[2],"fuente":"Teorías/03 Arq clase3 EntradaSalida.pdf, fil. 14–16."}],"temas":[]}</script>
+<!-- practica:fin INL-ES-01 -->
+
 ### El periférico del otro lado
 
 Un periférico tiene **2 bloques funcionales** que manejan la comunicación con el
@@ -174,6 +183,15 @@ salida. Existen **2 técnicas de acceso** a estos registros:
         - **Salida:** `OUT dest, fuente` — `fuente` es AL o AX (8 o 16 bits) y
           `dest` un número de 8 bits sin signo (0 a 255) o DX (0 a 65535).
 
+
+<!-- practica:inicio INL-ES-02 -->
+!!! question "Comprobación rápida"
+    Antes de seguir leyendo, contestá esto. Si fallás, releé la sección de arriba: es más barato ahora que en el examen.
+
+<div class="pract pract--inline" data-tipo="opciones" data-datos="in-INL-ES-02"></div>
+<script type="application/json" id="in-INL-ES-02">{"items":[{"id":"INL-ES-02","tema":"entrada-salida","tema_nombre":"Entrada/Salida","consigna":"En E/S separada de memoria, ¿por qué hacen falta señales de control extra?","opciones":[{"texto":"Porque IN y OUT no alcanzan para direccionar toda la memoria.","explicacion":"El alcance de IN/OUT no es el motivo."},{"texto":"Porque el bus de direcciones es compartido y hay que decir si se accede a memoria o a E/S.","explicacion":"Correcto. Los espacios de direcciones son distintos, pero el bus es el mismo."},{"texto":"Porque los registros de E/S se comportan como memoria de lectura/escritura.","explicacion":"Eso es lo que pasa en memory-mapped, que es la técnica opuesta."},{"texto":"Porque hay que avisar cuándo termina la transferencia.","explicacion":"Ese aviso es el pedido de interrupción, que pertenece a la gestión de la transferencia."}],"correctas":[1],"fuente":"Teorías/03 Arq clase3 EntradaSalida.pdf, fil. 20–23."}],"temas":[]}</script>
+<!-- practica:fin INL-ES-02 -->
+
 ### Gestión de la transferencia: las 3 técnicas
 
 Desde el punto de vista de la gestión para transferir datos entre el sistema de
@@ -245,6 +263,15 @@ Es la tercera técnica, en la que la CPU **no interviene** en la transferencia d
 cada dato.
 
 [:material-arrow-right-circle: Ver la ficha completa de DMA](dma.md)
+
+
+<!-- practica:inicio INL-ES-03 -->
+!!! question "Comprobación rápida"
+    Antes de seguir leyendo, contestá esto. Si fallás, releé la sección de arriba: es más barato ahora que en el examen.
+
+<div class="pract pract--inline" data-tipo="opciones" data-datos="in-INL-ES-03"></div>
+<script type="application/json" id="in-INL-ES-03">{"items":[{"id":"INL-ES-03","tema":"entrada-salida","tema_nombre":"Entrada/Salida","consigna":"¿Qué cambia al pasar de E/S con espera a E/S por interrupción?","opciones":[{"texto":"Desaparece el lazo de comprobación del estado del módulo.","explicacion":"Correcto: se saltean los pasos 1, 2 y 3 de la técnica con espera."},{"texto":"La CPU deja de intervenir en la transferencia de cada dato.","explicacion":"No. Sigue interviniendo en cada dato; la que deja de intervenir es el DMA."},{"texto":"Mientras el periférico no está listo, la CPU puede hacer otra tarea.","explicacion":"Correcto. Es exactamente la ganancia de la técnica."},{"texto":"Se elimina el problema de identificar qué dispositivo pidió atención.","explicacion":"Al contrario: aparece, y por eso se desarrollan polling, daisy chain y vectorizado."}],"correctas":[0,2],"fuente":"Teorías/03 Arq clase3 EntradaSalida.pdf, fil. 24–32."}],"temas":[]}</script>
+<!-- practica:fin INL-ES-03 -->
 
 ### Identificación de la fuente de interrupción en E/S
 

@@ -1,0 +1,587 @@
+# =============================================================================
+# CHECKPOINTS DENTRO DE LAS FICHAS
+# =============================================================================
+# scripts/gen_inline.py inyecta cada bloque al final de la sección indicada en
+# `despues_de`, entre marcas HTML. El script es idempotente: borra lo que
+# inyectó antes y lo reescribe, así que se puede correr las veces que haga
+# falta. `python3 scripts/gen_inline.py --quitar` deja las fichas limpias.
+#
+# `despues_de` es el TEXTO EXACTO del encabezado, sin los ###.
+#
+# REGLA NÚMERO UNO: igual que en ejercicios.yml, los distractores son
+# afirmaciones que la teoría sí hace, puestas donde no corresponden. Cada
+# pregunta cita la filmina de la sección a la que pertenece.
+# =============================================================================
+
+checkpoints:
+
+  # =========================== INTERRUPCIONES ================================
+
+  - id: INL-INT-01
+    tema: interrupciones
+    despues_de: "Operación de una interrupción, paso a paso"
+    preguntas:
+      - consigna: "Recién leíste los 5 pasos. ¿Qué salva la CPU como mínimo, y dónde?"
+        correctas: [1]
+        fuente: "Teorías/02 Arq clase2 Interrupciones.pdf, fil. 6–7."
+        opciones:
+          - texto: "Todos los registros del procesador, en el área de vectores."
+            explicacion: "Guardar todos los registros es una de las 2 estrategias posibles, no el mínimo. Y el área de vectores guarda direcciones de servicios, no el estado."
+          - texto: "El PC y el registro de estado (PSW), típicamente en la pila del sistema."
+            explicacion: "Correcto. La teoría dice «al menos salva el PC y el PSW». Los necesita para restaurar la tarea suspendida."
+          - texto: "Sólo el PC, porque el PSW lo reconstruye el servicio."
+            explicacion: "El PSW también se salva: sin él no se puede restaurar el estado en que estaba la tarea."
+          - texto: "El vector de la interrupción, para saber a dónde volver."
+            explicacion: "El vector indica a dónde IR, no a dónde volver. La dirección de retorno es el PC apilado."
+
+  - id: INL-INT-02
+    tema: interrupciones
+    despues_de: "Clasificación de las interrupciones"
+    preguntas:
+      - consigna: "¿Cuáles de estas afirmaciones sobre la clasificación son correctas?"
+        correctas: [0, 2]
+        fuente: "Teorías/02 Arq clase2 Interrupciones.pdf, fil. 21–31."
+        opciones:
+          - texto: "Las externas por hardware son aleatorias respecto del proceso en ejecución."
+            explicacion: "Correcto. Por eso la teoría las llama las «verdaderas» interrupciones: son asincrónicas."
+          - texto: "Las no enmascarables son siempre internas."
+            explicacion: "Enmascarable o no es independiente de si el origen es interno o externo."
+          - texto: "Los trap no son estrictamente aleatorios porque dependen del proceso en ejecución."
+            explicacion: "Correcto. Son señales creadas dentro del sistema, no vinculadas a operaciones de E/S."
+          - texto: "Las interrupciones por software las genera el PIC."
+            explicacion: "Son instrucciones explícitas del programa. El PIC administra pedidos externos de periféricos."
+
+  - id: INL-INT-03
+    tema: interrupciones
+    despues_de: "Interrupciones múltiples y prioridades"
+    preguntas:
+      - consigna: "Con IGUAL prioridad, llega un pedido mientras se atiende otro. ¿Qué pasa?"
+        correctas: [2]
+        fuente: "Teorías/02 Arq clase2 Interrupciones.pdf, fil. 21–31."
+        opciones:
+          - texto: "Interrumpe al servicio en curso."
+            explicacion: "Eso pasa sólo si la que llega es de MAYOR prioridad."
+          - texto: "Se descarta."
+            explicacion: "Se inhabilitan las de igual o menor nivel, pero el pedido no se pierde: queda pendiente."
+          - texto: "Queda pendiente y se atiende al terminar el servicio en curso."
+            explicacion: "Correcto. Con igual prioridad se procesan en el orden en que llegan."
+          - texto: "Se atiende en paralelo en otro núcleo."
+            explicacion: "La teoría no plantea eso: es un único procesador atendiendo de a una."
+
+  - id: INL-INT-04
+    tema: interrupciones
+    despues_de: "El PIC — Controlador Programable de Interrupciones"
+    preguntas:
+      - consigna: "¿Cuál de los registros del PIC contiene los PEDIDOS de los periféricos?"
+        correctas: [1]
+        fuente: "Teorías/02 Arq clase2 Interrupciones.pdf, fil. 43."
+        opciones:
+          - texto: "ISR"
+            explicacion: "El ISR identifica la interrupción EN SERVICIO."
+          - texto: "IRR"
+            explicacion: "Correcto. Contiene los pedidos provenientes de los periféricos, e indica con bit en 1."
+          - texto: "IMR"
+            explicacion: "El IMR habilita o deshabilita los pedidos: enmascara con 1."
+          - texto: "INT0…INT7"
+            explicacion: "Guardan el vector de cada interrupción."
+      - consigna: "¿En qué orden ocurren IntR e IntA?"
+        correctas: [0]
+        fuente: "Teorías/02 Arq clase2 Interrupciones.pdf, fil. 32–36."
+        opciones:
+          - texto: "Primero IntR (el PIC pide), después IntA (la CPU reconoce)."
+            explicacion: "Correcto. Recién tras el IntA el PIC pone el vector en el bus de datos."
+          - texto: "Primero IntA, después IntR."
+            explicacion: "Al revés: la CPU no reconoce algo que todavía no le pidieron."
+          - texto: "Son simultáneas, viajan por la misma línea."
+            explicacion: "Son dos señales distintas y en sentidos opuestos."
+
+
+  # ============================== MEMORIA CACHÉ ==============================
+
+  - id: INL-CAC-01
+    tema: memoria-cache
+    despues_de: "Funcionamiento: acierto y fallo"
+    preguntas:
+      - consigna: "Ante un FALLO, ¿qué se trae desde la memoria principal?"
+        correctas: [1]
+        fuente: "Teorías/07 Arq clase7 Memoria.pdf, fil. 17–27."
+        opciones:
+          - texto: "Sólo la palabra pedida, para no desperdiciar espacio."
+            explicacion: "Se trae el BLOQUE completo. Traer sólo la palabra desaprovecharía la localidad espacial."
+          - texto: "El bloque completo que contiene esa dirección."
+            explicacion: "Correcto, y después la caché entrega el dato requerido a la CPU."
+          - texto: "Todo el grupo de la memoria principal."
+            explicacion: "El grupo es una noción de la correspondencia directa para armar el tag, no la unidad de transferencia."
+          - texto: "Nada: el dato se lee directo de la MP sin pasar por la caché."
+            explicacion: "Eso ocurre en escritura con no-write allocate, no en una lectura con fallo."
+
+  - id: INL-CAC-02
+    tema: memoria-cache
+    despues_de: "Los 2 principios en que se basa la caché"
+    preguntas:
+      - consigna: "¿Cuál de los 2 principios justifica traer un bloque entero y no sólo la palabra?"
+        correctas: [1]
+        fuente: "Teorías/07 Arq clase7 Memoria.pdf, fil. 28–32."
+        opciones:
+          - texto: "Localidad temporal."
+            explicacion: "La temporal dice que lo referenciado recientemente vuelve a referenciarse pronto: justifica RETENER, no traer vecinos."
+          - texto: "Localidad espacial."
+            explicacion: "Correcto: es altamente probable que los próximos elementos estén en las proximidades de los últimos referenciados."
+          - texto: "Ninguno: es por el ancho del bus."
+            explicacion: "El ancho de banda influye en la penalización por fallo, pero el fundamento del bloque es la localidad espacial."
+          - texto: "Los dos por igual, son intercambiables."
+            explicacion: "Son distintos, y la teoría los enuncia por separado como principios empíricos."
+
+  - id: INL-CAC-03
+    tema: memoria-cache
+    despues_de: "Políticas de asignación — las 3 correspondencias"
+    preguntas:
+      - consigna: "¿Cuántos campos tiene la dirección en cada correspondencia?"
+        correctas: [2]
+        fuente: "Teorías/07 Arq clase7 Memoria.pdf, fil. 42–55."
+        opciones:
+          - texto: "Asociativa 3, directa 2, por conjuntos 3."
+            explicacion: "Invertido: la asociativa es la que tiene 2 (tag y word)."
+          - texto: "Las tres tienen 3 campos."
+            explicacion: "La totalmente asociativa tiene 2: como el bloque va a cualquier lado, no hace falta un campo que fije la posición."
+          - texto: "Asociativa 2, directa 3, por conjuntos 3."
+            explicacion: "Correcto. Asociativa: tag + word. Directa: tag + line + word. Conjuntos: tag + conjunto + palabra."
+          - texto: "Asociativa 2, directa 2, por conjuntos 3."
+            explicacion: "La directa tiene 3: necesita el campo line para saber en qué línea fija va el bloque."
+      - consigna: "¿Por qué la correspondencia directa NO necesita política de reemplazo?"
+        correctas: [0]
+        fuente: "Teorías/07 Arq clase7 Memoria.pdf, fil. 56–60."
+        opciones:
+          - texto: "Porque hay una sola línea posible para cada bloque: no hay elección que hacer."
+            explicacion: "Correcto. La asignación es fija, así que indefectiblemente se reemplaza el que está en esa ranura."
+          - texto: "Porque en la directa no se producen fallos."
+            explicacion: "Sí se producen, y pueden ser muchísimos si dos bloques caen en la misma línea."
+          - texto: "Porque usa LRU por defecto."
+            explicacion: "LRU es para la asociativa y la de conjuntos, donde sí hay varias líneas candidatas."
+
+  - id: INL-CAC-04
+    tema: memoria-cache
+    despues_de: "Políticas de escritura"
+    preguntas:
+      - consigna: "¿Cuál es el inconveniente de write-back, y con qué política de fallo se combina?"
+        correctas: [3]
+        fuente: "Teorías/07 Arq clase7 Memoria.pdf, fil. 61–64."
+        opciones:
+          - texto: "Aumenta el tráfico con la MP; se combina con no-write allocate."
+            explicacion: "Las dos mitades son de write-through."
+          - texto: "Aumenta el tráfico con la MP; se combina con write allocate."
+            explicacion: "El aumento de tráfico es de write-through, no de write-back."
+          - texto: "La MP puede quedar desactualizada; se combina con no-write allocate."
+            explicacion: "El inconveniente está bien, pero no-write allocate se combina con write-through."
+          - texto: "La MP puede quedar desactualizada; se combina con write allocate."
+            explicacion: "Correcto. Como la MP se actualiza recién al reemplazar el bloque, puede contener información errónea en algún momento."
+
+  # ============================= ENTRADA/SALIDA ==============================
+
+  - id: INL-ES-01
+    tema: entrada-salida
+    despues_de: "Estructura interna del módulo de E/S"
+    preguntas:
+      - consigna: "¿Qué ve la CPU del módulo de E/S?"
+        correctas: [2]
+        fuente: "Teorías/03 Arq clase3 EntradaSalida.pdf, fil. 14–16."
+        opciones:
+          - texto: "Las líneas hacia el dispositivo externo."
+            explicacion: "Ésa es la otra cara del módulo, la que da al periférico."
+          - texto: "La lógica de E/S que une ambas interfaces."
+            explicacion: "Es interna al módulo: la CPU no la accede."
+          - texto: "Registros: de datos, y de control y estado."
+            explicacion: "Correcto. Son los recursos «visibles» a la CPU y al programador."
+          - texto: "El buffer y el transductor del periférico."
+            explicacion: "Son bloques funcionales del periférico, del otro lado del módulo."
+
+  - id: INL-ES-02
+    tema: entrada-salida
+    despues_de: "Acceso al subsistema de E/S"
+    preguntas:
+      - consigna: "En E/S separada de memoria, ¿por qué hacen falta señales de control extra?"
+        correctas: [1]
+        fuente: "Teorías/03 Arq clase3 EntradaSalida.pdf, fil. 20–23."
+        opciones:
+          - texto: "Porque IN y OUT no alcanzan para direccionar toda la memoria."
+            explicacion: "El alcance de IN/OUT no es el motivo."
+          - texto: "Porque el bus de direcciones es compartido y hay que decir si se accede a memoria o a E/S."
+            explicacion: "Correcto. Los espacios de direcciones son distintos, pero el bus es el mismo."
+          - texto: "Porque los registros de E/S se comportan como memoria de lectura/escritura."
+            explicacion: "Eso es lo que pasa en memory-mapped, que es la técnica opuesta."
+          - texto: "Porque hay que avisar cuándo termina la transferencia."
+            explicacion: "Ese aviso es el pedido de interrupción, que pertenece a la gestión de la transferencia."
+
+  - id: INL-ES-03
+    tema: entrada-salida
+    despues_de: "Gestión de la transferencia: las 3 técnicas"
+    preguntas:
+      - consigna: "¿Qué cambia al pasar de E/S con espera a E/S por interrupción?"
+        correctas: [0, 2]
+        fuente: "Teorías/03 Arq clase3 EntradaSalida.pdf, fil. 24–32."
+        opciones:
+          - texto: "Desaparece el lazo de comprobación del estado del módulo."
+            explicacion: "Correcto: se saltean los pasos 1, 2 y 3 de la técnica con espera."
+          - texto: "La CPU deja de intervenir en la transferencia de cada dato."
+            explicacion: "No. Sigue interviniendo en cada dato; la que deja de intervenir es el DMA."
+          - texto: "Mientras el periférico no está listo, la CPU puede hacer otra tarea."
+            explicacion: "Correcto. Es exactamente la ganancia de la técnica."
+          - texto: "Se elimina el problema de identificar qué dispositivo pidió atención."
+            explicacion: "Al contrario: aparece, y por eso se desarrollan polling, daisy chain y vectorizado."
+
+  # ================================== DMA ====================================
+
+  - id: INL-DMA-01
+    tema: dma
+    despues_de: "Las 3 fases de una transferencia por DMA"
+    preguntas:
+      - consigna: "Durante la fase de ejecución, ¿quién es el bus master y quién el slave?"
+        correctas: [1]
+        fuente: "Teorías/03 Arq clase3 EntradaSalida.pdf, fil. 33–43."
+        opciones:
+          - texto: "Master: la CPU. Slave: el DMAC."
+            explicacion: "La CPU justamente entregó el bus y se desconectó lógicamente."
+          - texto: "Master: DMAC + periférico. Slave: la memoria."
+            explicacion: "Correcto. Por eso la transferencia es directa entre periférico y memoria."
+          - texto: "Master: la memoria. Slave: el periférico."
+            explicacion: "La memoria es el extremo pasivo de la transferencia."
+          - texto: "No hay master: el bus queda libre."
+            explicacion: "Siempre hay un master; si no, nadie podría iniciar la transferencia."
+
+  - id: INL-DMA-02
+    tema: dma
+    despues_de: "Técnicas de transferencia por DMA"
+    preguntas:
+      - consigna: "Sobre el robo de ciclo, ¿qué es cierto?"
+        correctas: [0, 3]
+        fuente: "Teorías/03 Arq clase3 EntradaSalida.pdf, fil. 45–48."
+        opciones:
+          - texto: "Transfiere una palabra y libera el bus, pidiéndolo tantas veces como haga falta."
+            explicacion: "Correcto. El uso del bus se reparte entre la CPU y el DMAC."
+          - texto: "Es una interrupción, así que la CPU guarda su contexto."
+            explicacion: "NO es una interrupción: el procesador no guarda contexto. Es el punto que más se confunde."
+          - texto: "Es siempre más rápido que la ráfaga."
+            explicacion: "Es más lento: la ráfaga no suelta el bus hasta terminar. Lo que gana es no degradar tanto el rendimiento."
+          - texto: "Para transferencias de múltiples palabras suele ser la técnica más eficiente."
+            explicacion: "Correcto, porque permite que la CPU siga trabajando mientras se transfiere."
+
+  # ============================= SEGMENTACIÓN ================================
+
+  - id: INL-SEG-01
+    tema: segmentacion
+    despues_de: "Segmentación en el nanoMIPS"
+    preguntas:
+      - consigna: "Con 5 etapas y una instrucción entrando por ciclo, ¿en qué ciclo termina la PRIMERA?"
+        correctas: [2]
+        fuente: "Teorías/04 Arq clase4 Segmentación de cauce.pdf, fil. 45–54."
+        opciones:
+          - texto: "En el ciclo 1: por eso se llama segmentado."
+            explicacion: "En el ciclo 1 la primera instrucción recién entra a la etapa F."
+          - texto: "En el ciclo 3, a mitad del cauce."
+            explicacion: "Tiene que atravesar las 5 etapas completas."
+          - texto: "En el ciclo 5, y a partir de ahí se termina 1 por ciclo."
+            explicacion: "Correcto. En el quinto ciclo hay 5 instrucciones en vuelo, cada una en una fase distinta."
+          - texto: "En el ciclo 10, porque cada etapa lleva 2 ciclos."
+            explicacion: "Cada etapa lleva 1 ciclo de reloj en el modelo del nanoMIPS."
+
+  - id: INL-SEG-02
+    tema: segmentacion
+    despues_de: "Análisis del rendimiento"
+    preguntas:
+      - consigna: "Éste es EL punto que más se pierde en el examen. ¿Qué mejora la segmentación?"
+        correctas: [1]
+        fuente: "Teorías/04 Arq clase4 Segmentación de cauce.pdf, fil. 55."
+        opciones:
+          - texto: "La velocidad de ejecución de cada instrucción."
+            explicacion: "La teoría lo niega textualmente: «no se mejora la velocidad de ejecución de la instrucción»."
+          - texto: "La productividad: cantidad de instrucciones resueltas por unidad de tiempo."
+            explicacion: "Correcto. Es el throughput, y conviene decirlo con esas palabras en la hoja."
+          - texto: "El tiempo de acceso a memoria."
+            explicacion: "Eso es asunto de la caché, no del cauce."
+          - texto: "La cantidad de etapas del cauce."
+            explicacion: "Las etapas las fija el diseño; la segmentación las solapa."
+
+  - id: INL-SEG-03
+    tema: segmentacion
+    despues_de: "Los riesgos (conflictos)"
+    preguntas:
+      - consigna: "¿Cuál de las 3 dependencias de datos NO puede darse en el cauce simple del nanoMIPS?"
+        correctas: [2]
+        fuente: "Teorías/04 Arq clase4 Segmentación de cauce.pdf, fil. 58–66."
+        opciones:
+          - texto: "RAW"
+            explicacion: "Es la dependencia verdadera y sí ocurre: es la del ejemplo LW seguido de ADD."
+          - texto: "WAW"
+            explicacion: "Sólo ocurre si las instrucciones se adelantan unas a otras, pero no es la que la teoría descarta de plano."
+          - texto: "WAR"
+            explicacion: "Correcto. La antidependencia: la teoría dice que no se puede dar en nuestro cauce simple."
+          - texto: "Las tres se dan siempre."
+            explicacion: "WAW y WAR recién aparecen con emisión o finalización desordenada, que es tema de la clase 8."
+
+  # ==================== SOLUCIONES A LA SEGMENTACIÓN =========================
+
+  - id: INL-SOL-01
+    tema: soluciones-segmentacion
+    despues_de: "1. Solución a los conflictos estructurales"
+    preguntas:
+      - consigna: "Las 3 estrategias contra conflictos estructurales tienen algo en común. ¿Qué?"
+        correctas: [0]
+        fuente: "Teorías/05 Arq clase5 Algunas soluciones.pdf, fil. 7–11."
+        opciones:
+          - texto: "Todas consisten en agregar hardware o repartir mejor el existente."
+            explicacion: "Correcto: duplicar recursos, separar el recurso en conflicto, o subdividir su acceso."
+          - texto: "Todas las resuelve el compilador."
+            explicacion: "Las soluciones por compilador son para dependencias de datos y de control."
+          - texto: "Todas requieren predecir el comportamiento del programa."
+            explicacion: "La predicción es para los saltos, o sea los conflictos de control."
+
+  - id: INL-SOL-02
+    tema: soluciones-segmentacion
+    despues_de: "2. Soluciones a los conflictos por dependencia de datos"
+    preguntas:
+      - consigna: "En LW R1,100(R2) seguido de SW R1,0(R10), ¿de dónde sale el dato adelantado?"
+        correctas: [0]
+        fuente: "Teorías/05 Arq clase5 Algunas soluciones.pdf, fil. 12–28."
+        opciones:
+          - texto: "De la salida de M de LW hacia la entrada de M de SW."
+            explicacion: "Correcto. El dato ya está disponible en M aunque todavía no se escribió en R1 en la etapa W."
+          - texto: "De la salida de X hacia la entrada de X."
+            explicacion: "Ése es el grupo que arranca con una instrucción aritmético-lógica. Un LW trae el dato de memoria, no de la ALU."
+          - texto: "Del banco de registros, leído en el segundo semiciclo."
+            explicacion: "Ése es el truco para el conflicto estructural en el acceso al banco de registros."
+      - consigna: "¿Cuántos casos RAW identifica el nanoMIPS y en cuántos grupos se resuelven?"
+        correctas: [1]
+        fuente: "Teorías/05 Arq clase5 Algunas soluciones.pdf, fil. 12–28."
+        opciones:
+          - texto: "5 casos en 5 caminos, uno por etapa."
+            explicacion: "Los casos no se corresponden con etapas sino con pares de instrucciones."
+          - texto: "8 casos agrupados en 3 problemas de adelantamiento."
+            explicacion: "Correcto: M→M, M→X y X→X. Por eso alcanza con unos pocos multiplexores."
+          - texto: "8 casos con 8 caminos independientes."
+            explicacion: "Son 8 casos, pero lo que hace manejable la implementación es que se resuelven con 3 caminos."
+
+  - id: INL-SOL-03
+    tema: soluciones-segmentacion
+    despues_de: "Predicción de saltos por hardware"
+    preguntas:
+      - consigna: "¿Qué distingue a la predicción estática de la dinámica?"
+        correctas: [2]
+        fuente: "Teorías/05 Arq clase5 Algunas soluciones.pdf, fil. 40–52."
+        opciones:
+          - texto: "La estática se hace por software y la dinámica por hardware."
+            explicacion: "Las dos son técnicas por hardware. Lo que se resuelve por software es el delay slot."
+          - texto: "La estática se usa en RISC y la dinámica en CISC."
+            explicacion: "La teoría no hace esa división."
+          - texto: "La estática no usa información previa; la dinámica usa la historia del programa."
+            explicacion: "Correcto. El nanoMIPS usa estática: predice que no salta, y si salta pierde 1 ciclo."
+          - texto: "La estática necesita la BHT y la dinámica no."
+            explicacion: "Invertido: la BHT —tabla de historia de saltos— es una técnica dinámica."
+
+  # ============================ SUPERESCALARES ===============================
+
+  - id: INL-SUP-01
+    tema: superescalares
+    despues_de: "Procesadores superescalares"
+    preguntas:
+      - consigna: "Un procesador de GRADO 2, ¿qué hace en cada caso?"
+        correctas: [0]
+        fuente: "Teorías/08 Arq clase8 Procesadores Superescalares.pdf, fil. 10, 12."
+        opciones:
+          - texto: "Supersegmentado: 1 instrucción por semiciclo. Superescalar: 2 por ciclo."
+            explicacion: "Correcto. El supersegmentado subdivide el ciclo; el superescalar duplica unidades."
+          - texto: "Supersegmentado: 2 por ciclo. Superescalar: 1 por semiciclo."
+            explicacion: "Está invertido."
+          - texto: "Los dos hacen lo mismo con distinto nombre."
+            explicacion: "Uno gana paralelismo temporal y el otro espacial; la teoría los compara explícitamente."
+
+  - id: INL-SUP-02
+    tema: superescalares
+    despues_de: "Políticas de emisión"
+    preguntas:
+      - consigna: "En el ejemplo de las 6 instrucciones, ¿cuántos ciclos lleva cada política?"
+        correctas: [1]
+        fuente: "Teorías/08 Arq clase8 Procesadores Superescalares.pdf, fil. 31–38."
+        opciones:
+          - texto: "6, 7 y 8 respectivamente."
+            explicacion: "El orden está invertido: la más restrictiva es la que más ciclos lleva."
+          - texto: "8 (ordenada), 7 (finalización desordenada) y 6 (ambas desordenadas)."
+            explicacion: "Correcto. Cada relajación del orden gana un ciclo."
+          - texto: "Las tres llevan 6 ciclos; cambia sólo el orden de escritura."
+            explicacion: "Si fuera así no habría motivo para complicar la lógica de emisión."
+      - consigna: "La ventana de instrucciones, ¿qué es?"
+        correctas: [0]
+        fuente: "Teorías/08 Arq clase8 Procesadores Superescalares.pdf, fil. 35–36."
+        opciones:
+          - texto: "Un buffer que separa decodificación de ejecución."
+            explicacion: "Correcto, y la teoría subraya que NO es una etapa del cauce."
+          - texto: "Una etapa más del cauce, entre decodificación y ejecución."
+            explicacion: "Es justo lo que la teoría aclara que no es."
+          - texto: "El conjunto de registros físicos del renombrado."
+            explicacion: "Eso pertenece al renombrado de registros."
+
+  - id: INL-SUP-03
+    tema: superescalares
+    despues_de: "Renombrado de registros"
+    preguntas:
+      - consigna: "¿Qué dependencias elimina el renombrado y cuál queda?"
+        correctas: [2]
+        fuente: "Teorías/08 Arq clase8 Procesadores Superescalares.pdf, fil. 39–43."
+        opciones:
+          - texto: "Elimina RAW; quedan WAW y WAR."
+            explicacion: "Al revés. La RAW es la dependencia verdadera y no se puede eliminar."
+          - texto: "Las elimina las tres."
+            explicacion: "La RAW es real: una instrucción necesita un dato que otra produce."
+          - texto: "Elimina WAW y WAR; queda sólo RAW."
+            explicacion: "Correcto. Son conflictos de almacenamiento, y se resuelven duplicando el recurso."
+          - texto: "No elimina ninguna: sólo las detecta."
+            explicacion: "Las elimina asignando un registro físico nuevo en cada escritura."
+
+  # ========================= PROCESAMIENTO PARALELO ==========================
+
+  - id: INL-PAR-01
+    tema: paralelismo
+    despues_de: "Taxonomía de Flynn"
+    preguntas:
+      - consigna: "¿Qué categoría de Flynn es un modelo teórico sin máquinas registradas?"
+        correctas: [2]
+        fuente: "Teorías/09 Arq clase9 Procesamiento paralelo.pdf, fil. 6, 14."
+        opciones:
+          - texto: "SISD"
+            explicacion: "Son los monoprocesadores: existen y son los más comunes."
+          - texto: "SIMD"
+            explicacion: "Son los procesadores vectoriales y matriciales, que existen."
+          - texto: "MISD"
+            explicacion: "Correcto. No hay registros de máquinas de este tipo. Ojo: la filmina escribe «SIMD» por errata donde el contexto pide MISD."
+          - texto: "MIMD"
+            explicacion: "Es la categoría de SMP, NUMA y clusters: bien existente."
+
+  - id: INL-PAR-02
+    tema: paralelismo
+    despues_de: "Clusters"
+    preguntas:
+      - consigna: "¿Qué separa a un cluster de un NUMA?"
+        correctas: [1]
+        fuente: "Teorías/09 Arq clase9 Procesamiento paralelo.pdf, fil. 17, 26."
+        opciones:
+          - texto: "Que el cluster usa red de interconexión y el NUMA no."
+            explicacion: "Los dos usan red. La diferencia está en el espacio de direcciones."
+          - texto: "Que en el cluster los espacios de direcciones son independientes: es memoria distribuida."
+            explicacion: "Correcto. El NUMA tiene espacio de direcciones común: memoria compartida con acceso no uniforme."
+          - texto: "Que el cluster tiene un único sistema operativo y el NUMA no."
+            explicacion: "En los dos el SO está integrado."
+          - texto: "Que el NUMA admite nodos heterogéneos y el cluster no."
+            explicacion: "Invertido: el que admite nodos heterogéneos es el cluster."
+
+  # ================================= BUSES ===================================
+
+  - id: INL-BUS-01
+    tema: buses
+    despues_de: "Los 3 buses del sistema"
+    preguntas:
+      - consigna: "¿Qué determina el ancho de cada bus?"
+        correctas: [0, 2]
+        fuente: "7 anexo clase 07 sobre_buses.pdf, fil. 8–11."
+        opciones:
+          - texto: "El ancho del bus de DATOS es factor clave de las prestaciones."
+            explicacion: "Correcto: 8, 16, 32 o 64 bits."
+          - texto: "El ancho del bus de DATOS determina la capacidad de memoria."
+            explicacion: "Eso lo determina el bus de DIRECCIONES."
+          - texto: "El ancho del bus de DIRECCIONES determina la máxima capacidad de memoria."
+            explicacion: "Correcto. El MSX88 tiene 16 bits, o sea 64 K lugares."
+          - texto: "El bus de control define cuántos dispositivos se pueden conectar."
+            explicacion: "Eso lo limitan los retardos de propagación, y por eso se pasa a una jerarquía de buses."
+
+  - id: INL-BUS-02
+    tema: buses
+    despues_de: "Arbitraje del bus"
+    preguntas:
+      - consigna: "¿Por qué hace falta arbitrar el bus?"
+        correctas: [1]
+        fuente: "7 anexo clase 07 sobre_buses.pdf, fil. 17–19."
+        opciones:
+          - texto: "Porque hay que decidir si por las líneas viajan direcciones o datos."
+            explicacion: "Eso lo resuelve la línea a/d de un bus multiplexado."
+          - texto: "Porque más de un módulo puede necesitar el control y sólo uno puede transmitir por vez."
+            explicacion: "Correcto. El ejemplo de la teoría es la CPU y el controlador de DMA."
+          - texto: "Porque hay que sincronizar los eventos con el reloj."
+            explicacion: "Eso es la temporización, no el arbitraje."
+
+  # ============================== RISC vs CISC ===============================
+
+  - id: INL-RISC-01
+    tema: risc-cisc
+    despues_de: "Cómo se llegó al CISC: el GAP semántico"
+    preguntas:
+      - consigna: "¿Qué es el GAP semántico?"
+        correctas: [1]
+        fuente: "Teorías/06 Arq clase6 RISC.pdf, fil. 7."
+        opciones:
+          - texto: "La diferencia de velocidad entre procesador y memoria."
+            explicacion: "Ésa es la brecha que justifica la jerarquía de memoria."
+          - texto: "La distancia entre el lenguaje de alto nivel y el de máquina."
+            explicacion: "Correcto: la relación entre cantidad de sentencias del HLL y de instrucciones de máquina necesarias para resolverlo."
+          - texto: "La diferencia entre el repertorio RISC y el CISC."
+            explicacion: "El GAP es entre HLL y lenguaje de máquina, no entre dos arquitecturas."
+
+  - id: INL-RISC-02
+    tema: risc-cisc
+    despues_de: "Características relevantes de los procesadores RISC (resumen)"
+    preguntas:
+      - consigna: "¿Cuáles son características de RISC y no de CISC?"
+        correctas: [0, 1, 3]
+        fuente: "Teorías/06 Arq clase6 RISC.pdf, fil. 21, 42."
+        opciones:
+          - texto: "Unidad de control cableada."
+            explicacion: "Correcto. En CISC es típicamente microprogramada."
+          - texto: "Instrucciones a memoria únicamente LOAD y STORE."
+            explicacion: "Correcto. Las aritméticas y lógicas van sólo entre registros."
+          - texto: "Muchos modos de direccionamiento."
+            explicacion: "Es del CISC. El RISC los tiene mínimos."
+          - texto: "Formato de instrucción fijo."
+            explicacion: "Correcto. El CISC usa longitud variable."
+
+  # ========================= VON NEUMANN Y PILA ==============================
+
+  - id: INL-VN-01
+    tema: von-neumann-y-pila
+    despues_de: "Máquinas de N direcciones"
+    preguntas:
+      - consigna: "Al reducir el número de direcciones del formato, ¿qué pasa con la CPU?"
+        correctas: [1]
+        fuente: "1 anexo clase 01 sobre maq_de_Ndir.pdf, fil. 1–5."
+        opciones:
+          - texto: "Se simplifica: menos direcciones, menos hardware."
+            explicacion: "Es la intuición equivocada. La instrucción se achica, pero el trabajo se muda a la CPU."
+          - texto: "Hay que agregarle recursos: PC, acumulador, pila."
+            explicacion: "Correcto. Es la idea central del anexo: cada reducción del formato exige recursos nuevos en la CPU."
+          - texto: "No cambia nada: es sólo una convención de codificación."
+            explicacion: "Cambia el programa entero, y en la de 4 direcciones ni siquiera es secuencial."
+      - consigna: "¿En cuál aparece la pila?"
+        correctas: [3]
+        fuente: "1 anexo clase 01 sobre maq_de_Ndir.pdf, fil. 5."
+        opciones:
+          - texto: "En la de 3 direcciones."
+            explicacion: "Ahí aparece el PC y el programa pasa a ser secuencial."
+          - texto: "En la de 2 direcciones."
+            explicacion: "Ahí el resultado pisa uno de los operandos."
+          - texto: "En la de 1 dirección."
+            explicacion: "Ahí aparece el acumulador."
+          - texto: "En la de 0 direcciones."
+            explicacion: "Correcto. El programa se resuelve con PUSH, las operaciones sin operandos y POP."
+
+  - id: INL-VN-02
+    tema: von-neumann-y-pila
+    despues_de: "Pasaje de parámetros"
+    preguntas:
+      - consigna: "¿Cuál es la ventaja principal del pasaje por pila?"
+        correctas: [2]
+        fuente: "Finales/Resumen AC Guaymas.docx.pdf, p. 1–2 — RESUMEN DE ALUMNOS."
+        opciones:
+          - texto: "Que es más rápido que por registros."
+            explicacion: "Es más lento: los registros están en la CPU y la pila en memoria."
+          - texto: "Que permite pasar por referencia, cosa imposible por registros."
+            explicacion: "Por registros también se puede pasar una dirección."
+          - texto: "Que es independiente de la memoria y de los registros, y no obliga a modificarlos."
+            explicacion: "Correcto. Por eso es el método más usado, el «verdadero» pasaje de parámetros."
+          - texto: "Que evita tener que guardar la dirección de retorno."
+            explicacion: "Al contrario: la dirección de retorno también va a la pila."

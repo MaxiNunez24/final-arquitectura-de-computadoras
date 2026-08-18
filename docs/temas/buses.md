@@ -40,6 +40,15 @@ múltiples** son las más comunes: por ejemplo, **control/dirección/bus de dato
 | **Bus de dirección** | **Identifica la fuente o destino de un "dato"** —por ejemplo, cuando el procesador desea leer una palabra de una determinada parte en la memoria— | **El ancho del bus de direcciones determina la máxima capacidad de memoria posible en el sistema.** El **MSX88 tiene un bus de dirección de 16 bits**, lo que define un espacio de **64 K lugares** |
 | **Bus de control** | **Transmite información de señales de control y temporización:** señal de escritura/lectura en memoria, petición de interrupción, señales de reloj | — |
 
+
+<!-- practica:inicio INL-BUS-01 -->
+!!! question "Comprobación rápida"
+    Antes de seguir leyendo, contestá esto. Si fallás, releé la sección de arriba: es más barato ahora que en el examen.
+
+<div class="pract pract--inline" data-tipo="opciones" data-datos="in-INL-BUS-01"></div>
+<script type="application/json" id="in-INL-BUS-01">{"items":[{"id":"INL-BUS-01","tema":"buses","tema_nombre":"Buses","consigna":"¿Qué determina el ancho de cada bus?","opciones":[{"texto":"El ancho del bus de DATOS es factor clave de las prestaciones.","explicacion":"Correcto: 8, 16, 32 o 64 bits."},{"texto":"El ancho del bus de DATOS determina la capacidad de memoria.","explicacion":"Eso lo determina el bus de DIRECCIONES."},{"texto":"El ancho del bus de DIRECCIONES determina la máxima capacidad de memoria.","explicacion":"Correcto. El MSX88 tiene 16 bits, o sea 64 K lugares."},{"texto":"El bus de control define cuántos dispositivos se pueden conectar.","explicacion":"Eso lo limitan los retardos de propagación, y por eso se pasa a una jerarquía de buses."}],"correctas":[0,2],"fuente":"7 anexo clase 07 sobre_buses.pdf, fil. 8–11."}],"temas":[]}</script>
+<!-- practica:fin INL-BUS-01 -->
+
 ### Problemas de un único bus
 
 - **Conectar gran número de dispositivos a un bus produce retardos de
@@ -93,6 +102,15 @@ distribuidos:**
 | **Ubicación de la lógica** | **Puede estar en un módulo separado o ser parte del procesador** | **Cada módulo dispone de lógica para controlar el acceso** |
 
 [Ver la ficha de DMA](dma.md), donde el DMAC compite con la CPU por el bus.
+
+
+<!-- practica:inicio INL-BUS-02 -->
+!!! question "Comprobación rápida"
+    Antes de seguir leyendo, contestá esto. Si fallás, releé la sección de arriba: es más barato ahora que en el examen.
+
+<div class="pract pract--inline" data-tipo="opciones" data-datos="in-INL-BUS-02"></div>
+<script type="application/json" id="in-INL-BUS-02">{"items":[{"id":"INL-BUS-02","tema":"buses","tema_nombre":"Buses","consigna":"¿Por qué hace falta arbitrar el bus?","opciones":[{"texto":"Porque hay que decidir si por las líneas viajan direcciones o datos.","explicacion":"Eso lo resuelve la línea a/d de un bus multiplexado."},{"texto":"Porque más de un módulo puede necesitar el control y sólo uno puede transmitir por vez.","explicacion":"Correcto. El ejemplo de la teoría es la CPU y el controlador de DMA."},{"texto":"Porque hay que sincronizar los eventos con el reloj.","explicacion":"Eso es la temporización, no el arbitraje."}],"correctas":[1],"fuente":"7 anexo clase 07 sobre_buses.pdf, fil. 17–19."}],"temas":[]}</script>
+<!-- practica:fin INL-BUS-02 -->
 
 ### Temporización
 

@@ -41,6 +41,15 @@ hardware".** Estrategias usadas:
 | **2** | **Separación del recurso en conflicto** | **Separar memorias de instrucciones y datos** (MI y MD) |
 | **3** | **Subdividir el acceso al recurso** | En el acceso al **banco de registros**: la **escritura** de un registro se hace en el **primer semiciclo** de reloj y la **lectura en el segundo semiciclo**, con lo que en un ciclo se pueden hacer las 2 operaciones —**siempre y cuando la velocidad del recurso lo soporte**— |
 
+
+<!-- practica:inicio INL-SOL-01 -->
+!!! question "Comprobación rápida"
+    Antes de seguir leyendo, contestá esto. Si fallás, releé la sección de arriba: es más barato ahora que en el examen.
+
+<div class="pract pract--inline" data-tipo="opciones" data-datos="in-INL-SOL-01"></div>
+<script type="application/json" id="in-INL-SOL-01">{"items":[{"id":"INL-SOL-01","tema":"soluciones-segmentacion","tema_nombre":"Soluciones a los riesgos de segmentación","consigna":"Las 3 estrategias contra conflictos estructurales tienen algo en común. ¿Qué?","opciones":[{"texto":"Todas consisten en agregar hardware o repartir mejor el existente.","explicacion":"Correcto: duplicar recursos, separar el recurso en conflicto, o subdividir su acceso."},{"texto":"Todas las resuelve el compilador.","explicacion":"Las soluciones por compilador son para dependencias de datos y de control."},{"texto":"Todas requieren predecir el comportamiento del programa.","explicacion":"La predicción es para los saltos, o sea los conflictos de control."}],"correctas":[0],"fuente":"Teorías/05 Arq clase5 Algunas soluciones.pdf, fil. 7–11."}],"temas":[]}</script>
+<!-- practica:fin INL-SOL-01 -->
+
 ### 2. Soluciones a los conflictos por dependencia de datos
 
 Recordar los 3 tipos de dependencias: **RAW** (lectura después de escritura,
@@ -177,6 +186,15 @@ El compilador continúa con este proceso intentando reordenar las instrucciones
 para evitar los conflictos. **En caso de no poder resolverlos, deberá insertar
 instrucciones de NO-OPERACIÓN (NOP)** para eliminar los que persisten luego del
 reordenado.
+
+
+<!-- practica:inicio INL-SOL-02 -->
+!!! question "Comprobación rápida"
+    Antes de seguir leyendo, contestá esto. Si fallás, releé la sección de arriba: es más barato ahora que en el examen.
+
+<div class="pract pract--inline" data-tipo="opciones" data-datos="in-INL-SOL-02"></div>
+<script type="application/json" id="in-INL-SOL-02">{"items":[{"id":"INL-SOL-02","tema":"soluciones-segmentacion","tema_nombre":"Soluciones a los riesgos de segmentación","consigna":"En LW R1,100(R2) seguido de SW R1,0(R10), ¿de dónde sale el dato adelantado?","opciones":[{"texto":"De la salida de M de LW hacia la entrada de M de SW.","explicacion":"Correcto. El dato ya está disponible en M aunque todavía no se escribió en R1 en la etapa W."},{"texto":"De la salida de X hacia la entrada de X.","explicacion":"Ése es el grupo que arranca con una instrucción aritmético-lógica. Un LW trae el dato de memoria, no de la ALU."},{"texto":"Del banco de registros, leído en el segundo semiciclo.","explicacion":"Ése es el truco para el conflicto estructural en el acceso al banco de registros."}],"correctas":[0],"fuente":"Teorías/05 Arq clase5 Algunas soluciones.pdf, fil. 12–28."},{"id":"INL-SOL-02","tema":"soluciones-segmentacion","tema_nombre":"Soluciones a los riesgos de segmentación","consigna":"¿Cuántos casos RAW identifica el nanoMIPS y en cuántos grupos se resuelven?","opciones":[{"texto":"5 casos en 5 caminos, uno por etapa.","explicacion":"Los casos no se corresponden con etapas sino con pares de instrucciones."},{"texto":"8 casos agrupados en 3 problemas de adelantamiento.","explicacion":"Correcto: M→M, M→X y X→X. Por eso alcanza con unos pocos multiplexores."},{"texto":"8 casos con 8 caminos independientes.","explicacion":"Son 8 casos, pero lo que hace manejable la implementación es que se resuelven con 3 caminos."}],"correctas":[1],"fuente":"Teorías/05 Arq clase5 Algunas soluciones.pdf, fil. 12–28."}],"temas":[]}</script>
+<!-- practica:fin INL-SOL-02 -->
 
 ### 3. Soluciones a los conflictos por dependencia de control
 
@@ -321,6 +339,15 @@ salto**. Pueden ser de 2 tipos:
     buffer**. Es **muy eficaz para pequeños bucles y saltos, si el buffer es capaz
     de contener todo el bucle**. Funciona parecido a la caché, **sólo que contiene
     instrucciones consecutivas únicamente**.
+
+
+<!-- practica:inicio INL-SOL-03 -->
+!!! question "Comprobación rápida"
+    Antes de seguir leyendo, contestá esto. Si fallás, releé la sección de arriba: es más barato ahora que en el examen.
+
+<div class="pract pract--inline" data-tipo="opciones" data-datos="in-INL-SOL-03"></div>
+<script type="application/json" id="in-INL-SOL-03">{"items":[{"id":"INL-SOL-03","tema":"soluciones-segmentacion","tema_nombre":"Soluciones a los riesgos de segmentación","consigna":"¿Qué distingue a la predicción estática de la dinámica?","opciones":[{"texto":"La estática se hace por software y la dinámica por hardware.","explicacion":"Las dos son técnicas por hardware. Lo que se resuelve por software es el delay slot."},{"texto":"La estática se usa en RISC y la dinámica en CISC.","explicacion":"La teoría no hace esa división."},{"texto":"La estática no usa información previa; la dinámica usa la historia del programa.","explicacion":"Correcto. El nanoMIPS usa estática: predice que no salta, y si salta pierde 1 ciclo."},{"texto":"La estática necesita la BHT y la dinámica no.","explicacion":"Invertido: la BHT —tabla de historia de saltos— es una técnica dinámica."}],"correctas":[2],"fuente":"Teorías/05 Arq clase5 Algunas soluciones.pdf, fil. 40–52."}],"temas":[]}</script>
+<!-- practica:fin INL-SOL-03 -->
 
 ### Resolución de saltos por software — el *delay slot*
 

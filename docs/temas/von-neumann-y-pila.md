@@ -126,6 +126,15 @@ agregar recursos a la CPU**.
 
 <p class="fuentes">Fuente: <code>Teorías/1 anexo clase 01 sobre maq_de_Ndir.pdf</code>, fil. 1–5.</p>
 
+
+<!-- practica:inicio INL-VN-01 -->
+!!! question "Comprobación rápida"
+    Antes de seguir leyendo, contestá esto. Si fallás, releé la sección de arriba: es más barato ahora que en el examen.
+
+<div class="pract pract--inline" data-tipo="opciones" data-datos="in-INL-VN-01"></div>
+<script type="application/json" id="in-INL-VN-01">{"items":[{"id":"INL-VN-01","tema":"von-neumann-y-pila","tema_nombre":"Von Neumann y pila","consigna":"Al reducir el número de direcciones del formato, ¿qué pasa con la CPU?","opciones":[{"texto":"Se simplifica: menos direcciones, menos hardware.","explicacion":"Es la intuición equivocada. La instrucción se achica, pero el trabajo se muda a la CPU."},{"texto":"Hay que agregarle recursos: PC, acumulador, pila.","explicacion":"Correcto. Es la idea central del anexo: cada reducción del formato exige recursos nuevos en la CPU."},{"texto":"No cambia nada: es sólo una convención de codificación.","explicacion":"Cambia el programa entero, y en la de 4 direcciones ni siquiera es secuencial."}],"correctas":[1],"fuente":"1 anexo clase 01 sobre maq_de_Ndir.pdf, fil. 1–5."},{"id":"INL-VN-01","tema":"von-neumann-y-pila","tema_nombre":"Von Neumann y pila","consigna":"¿En cuál aparece la pila?","opciones":[{"texto":"En la de 3 direcciones.","explicacion":"Ahí aparece el PC y el programa pasa a ser secuencial."},{"texto":"En la de 2 direcciones.","explicacion":"Ahí el resultado pisa uno de los operandos."},{"texto":"En la de 1 dirección.","explicacion":"Ahí aparece el acumulador."},{"texto":"En la de 0 direcciones.","explicacion":"Correcto. El programa se resuelve con PUSH, las operaciones sin operandos y POP."}],"correctas":[3],"fuente":"1 anexo clase 01 sobre maq_de_Ndir.pdf, fil. 5."}],"temas":[]}</script>
+<!-- practica:fin INL-VN-01 -->
+
 ### Operaciones sobre la pila
 
 - **PUSH (apilar):** añade un nuevo elemento en la cabecera de la pila.
@@ -264,6 +273,15 @@ simplifican en dos:**
     - **Guardar el estado del procesador** en ese momento (flags).
 
 <p class="fuentes">Fuente: <code>Finales/Resumen AC Guaymas.docx.pdf</code>, p. 1–2; <code>Resumen Arquitectura (2).pdf</code>, p. 1 y <code>Finales/Resumen Arq oct2022.docx.pdf</code>, p. 20. <strong>Resúmenes de alumnos</strong> — la teoría de cátedra no cubre este punto.</p>
+
+
+<!-- practica:inicio INL-VN-02 -->
+!!! question "Comprobación rápida"
+    Antes de seguir leyendo, contestá esto. Si fallás, releé la sección de arriba: es más barato ahora que en el examen.
+
+<div class="pract pract--inline" data-tipo="opciones" data-datos="in-INL-VN-02"></div>
+<script type="application/json" id="in-INL-VN-02">{"items":[{"id":"INL-VN-02","tema":"von-neumann-y-pila","tema_nombre":"Von Neumann y pila","consigna":"¿Cuál es la ventaja principal del pasaje por pila?","opciones":[{"texto":"Que es más rápido que por registros.","explicacion":"Es más lento: los registros están en la CPU y la pila en memoria."},{"texto":"Que permite pasar por referencia, cosa imposible por registros.","explicacion":"Por registros también se puede pasar una dirección."},{"texto":"Que es independiente de la memoria y de los registros, y no obliga a modificarlos.","explicacion":"Correcto. Por eso es el método más usado, el «verdadero» pasaje de parámetros."},{"texto":"Que evita tener que guardar la dirección de retorno.","explicacion":"Al contrario: la dirección de retorno también va a la pila."}],"correctas":[2],"fuente":"Finales/Resumen AC Guaymas.docx.pdf, p. 1–2 — RESUMEN DE ALUMNOS."}],"temas":[]}</script>
+<!-- practica:fin INL-VN-02 -->
 
 ### La pila en el resto del programa
 

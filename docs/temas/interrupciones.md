@@ -43,6 +43,15 @@ de un evento. Por lo tanto se requieren **3 acciones**:
    interrupción. Como mínimo recupera el PC y el PSW, y así retoma la tarea
    suspendida en el punto en que fue interrumpida.
 
+
+<!-- practica:inicio INL-INT-01 -->
+!!! question "Comprobación rápida"
+    Antes de seguir leyendo, contestá esto. Si fallás, releé la sección de arriba: es más barato ahora que en el examen.
+
+<div class="pract pract--inline" data-tipo="opciones" data-datos="in-INL-INT-01"></div>
+<script type="application/json" id="in-INL-INT-01">{"items":[{"id":"INL-INT-01","tema":"interrupciones","tema_nombre":"Interrupciones","consigna":"Recién leíste los 5 pasos. ¿Qué salva la CPU como mínimo, y dónde?","opciones":[{"texto":"Todos los registros del procesador, en el área de vectores.","explicacion":"Guardar todos los registros es una de las 2 estrategias posibles, no el mínimo. Y el área de vectores guarda direcciones de servicios, no el estado."},{"texto":"El PC y el registro de estado (PSW), típicamente en la pila del sistema.","explicacion":"Correcto. La teoría dice «al menos salva el PC y el PSW». Los necesita para restaurar la tarea suspendida."},{"texto":"Sólo el PC, porque el PSW lo reconstruye el servicio.","explicacion":"El PSW también se salva: sin él no se puede restaurar el estado en que estaba la tarea."},{"texto":"El vector de la interrupción, para saber a dónde volver.","explicacion":"El vector indica a dónde IR, no a dónde volver. La dirección de retorno es el PC apilado."}],"correctas":[1],"fuente":"Teorías/02 Arq clase2 Interrupciones.pdf, fil. 6–7."}],"temas":[]}</script>
+<!-- practica:fin INL-INT-01 -->
+
 ### Origen de las interrupciones
 
 El origen de una interrupción es la ocurrencia de un evento que requiere la
@@ -99,6 +108,15 @@ tienen—:
     llamadas a funciones del BIOS y el SO la que se necesita y reemplazar en el
     código la dirección de esa función invocada —también muy complicado—.
 
+
+<!-- practica:inicio INL-INT-02 -->
+!!! question "Comprobación rápida"
+    Antes de seguir leyendo, contestá esto. Si fallás, releé la sección de arriba: es más barato ahora que en el examen.
+
+<div class="pract pract--inline" data-tipo="opciones" data-datos="in-INL-INT-02"></div>
+<script type="application/json" id="in-INL-INT-02">{"items":[{"id":"INL-INT-02","tema":"interrupciones","tema_nombre":"Interrupciones","consigna":"¿Cuáles de estas afirmaciones sobre la clasificación son correctas?","opciones":[{"texto":"Las externas por hardware son aleatorias respecto del proceso en ejecución.","explicacion":"Correcto. Por eso la teoría las llama las «verdaderas» interrupciones: son asincrónicas."},{"texto":"Las no enmascarables son siempre internas.","explicacion":"Enmascarable o no es independiente de si el origen es interno o externo."},{"texto":"Los trap no son estrictamente aleatorios porque dependen del proceso en ejecución.","explicacion":"Correcto. Son señales creadas dentro del sistema, no vinculadas a operaciones de E/S."},{"texto":"Las interrupciones por software las genera el PIC.","explicacion":"Son instrucciones explícitas del programa. El PIC administra pedidos externos de periféricos."}],"correctas":[0,2],"fuente":"Teorías/02 Arq clase2 Interrupciones.pdf, fil. 21–31."}],"temas":[]}</script>
+<!-- practica:fin INL-INT-02 -->
+
 ### Interrupciones múltiples y prioridades
 
 La necesidad de administrar eventos de distinto origen requiere, en la mayor
@@ -129,6 +147,15 @@ atendida, **incluso si hay una interrupción en curso**.
       las interrupciones previas** (de menor prioridad).
     - Terminadas todas las rutinas de gestión de interrupciones, se retoma el
       programa del usuario.
+
+
+<!-- practica:inicio INL-INT-03 -->
+!!! question "Comprobación rápida"
+    Antes de seguir leyendo, contestá esto. Si fallás, releé la sección de arriba: es más barato ahora que en el examen.
+
+<div class="pract pract--inline" data-tipo="opciones" data-datos="in-INL-INT-03"></div>
+<script type="application/json" id="in-INL-INT-03">{"items":[{"id":"INL-INT-03","tema":"interrupciones","tema_nombre":"Interrupciones","consigna":"Con IGUAL prioridad, llega un pedido mientras se atiende otro. ¿Qué pasa?","opciones":[{"texto":"Interrumpe al servicio en curso.","explicacion":"Eso pasa sólo si la que llega es de MAYOR prioridad."},{"texto":"Se descarta.","explicacion":"Se inhabilitan las de igual o menor nivel, pero el pedido no se pierde: queda pendiente."},{"texto":"Queda pendiente y se atiende al terminar el servicio en curso.","explicacion":"Correcto. Con igual prioridad se procesan en el orden en que llegan."},{"texto":"Se atiende en paralelo en otro núcleo.","explicacion":"La teoría no plantea eso: es un único procesador atendiendo de a una."}],"correctas":[2],"fuente":"Teorías/02 Arq clase2 Interrupciones.pdf, fil. 21–31."}],"temas":[]}</script>
+<!-- practica:fin INL-INT-03 -->
 
 ### Tratamiento: las 7 acciones de la gestión
 
@@ -225,6 +252,15 @@ La **opción 3** se conoce como **interrupciones vectorizadas**. El escenario es
 Además tiene los registros **INT0…INT7**, con el vector de cada interrupción.
 
 <p class="fuentes">Fuente: <code>Teorías/02 Arq clase2 Interrupciones.pdf</code>, fil. 6–7, 8–20, 21–31, 32–36, 43.</p>
+
+
+<!-- practica:inicio INL-INT-04 -->
+!!! question "Comprobación rápida"
+    Antes de seguir leyendo, contestá esto. Si fallás, releé la sección de arriba: es más barato ahora que en el examen.
+
+<div class="pract pract--inline" data-tipo="opciones" data-datos="in-INL-INT-04"></div>
+<script type="application/json" id="in-INL-INT-04">{"items":[{"id":"INL-INT-04","tema":"interrupciones","tema_nombre":"Interrupciones","consigna":"¿Cuál de los registros del PIC contiene los PEDIDOS de los periféricos?","opciones":[{"texto":"ISR","explicacion":"El ISR identifica la interrupción EN SERVICIO."},{"texto":"IRR","explicacion":"Correcto. Contiene los pedidos provenientes de los periféricos, e indica con bit en 1."},{"texto":"IMR","explicacion":"El IMR habilita o deshabilita los pedidos: enmascara con 1."},{"texto":"INT0…INT7","explicacion":"Guardan el vector de cada interrupción."}],"correctas":[1],"fuente":"Teorías/02 Arq clase2 Interrupciones.pdf, fil. 43."},{"id":"INL-INT-04","tema":"interrupciones","tema_nombre":"Interrupciones","consigna":"¿En qué orden ocurren IntR e IntA?","opciones":[{"texto":"Primero IntR (el PIC pide), después IntA (la CPU reconoce).","explicacion":"Correcto. Recién tras el IntA el PIC pone el vector en el bus de datos."},{"texto":"Primero IntA, después IntR.","explicacion":"Al revés: la CPU no reconoce algo que todavía no le pidieron."},{"texto":"Son simultáneas, viajan por la misma línea.","explicacion":"Son dos señales distintas y en sentidos opuestos."}],"correctas":[0],"fuente":"Teorías/02 Arq clase2 Interrupciones.pdf, fil. 32–36."}],"temas":[]}</script>
+<!-- practica:fin INL-INT-04 -->
 
 ## Diagrama
 

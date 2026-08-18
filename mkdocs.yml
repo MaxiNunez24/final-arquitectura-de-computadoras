@@ -5,7 +5,7 @@ docs_dir: docs
 site_dir: site
 
 # Ajustar al publicar en GitHub Pages: https://<usuario>.github.io/<repo>/
-site_url: ""
+site_url: "https://maxinunez24.github.io/final-arquitectura-de-computadoras/"
 use_directory_urls: true
 
 theme:

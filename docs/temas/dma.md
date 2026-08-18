@@ -101,6 +101,15 @@ transferencia.
     - ¿Errores? ¿Tipo de errores?
     - Estado del periférico.
 
+
+<!-- practica:inicio INL-DMA-01 -->
+!!! question "Comprobación rápida"
+    Antes de seguir leyendo, contestá esto. Si fallás, releé la sección de arriba: es más barato ahora que en el examen.
+
+<div class="pract pract--inline" data-tipo="opciones" data-datos="in-INL-DMA-01"></div>
+<script type="application/json" id="in-INL-DMA-01">{"items":[{"id":"INL-DMA-01","tema":"dma","tema_nombre":"DMA — Acceso Directo a Memoria","consigna":"Durante la fase de ejecución, ¿quién es el bus master y quién el slave?","opciones":[{"texto":"Master: la CPU. Slave: el DMAC.","explicacion":"La CPU justamente entregó el bus y se desconectó lógicamente."},{"texto":"Master: DMAC + periférico. Slave: la memoria.","explicacion":"Correcto. Por eso la transferencia es directa entre periférico y memoria."},{"texto":"Master: la memoria. Slave: el periférico.","explicacion":"La memoria es el extremo pasivo de la transferencia."},{"texto":"No hay master: el bus queda libre.","explicacion":"Siempre hay un master; si no, nadie podría iniciar la transferencia."}],"correctas":[1],"fuente":"Teorías/03 Arq clase3 EntradaSalida.pdf, fil. 33–43."}],"temas":[]}</script>
+<!-- practica:fin INL-DMA-01 -->
+
 ### Técnicas de transferencia por DMA
 
 Hay varias formas distintas de implementar las transferencias por DMA. La teoría
@@ -140,6 +149,15 @@ la CPU y el DMAC**.
     **múltiples palabras, la técnica por robo de ciclo es la más eficiente**, ya
     que permite implementar la transferencia por DMA **al mismo tiempo que la CPU
     continúa trabajando** en su tarea.
+
+
+<!-- practica:inicio INL-DMA-02 -->
+!!! question "Comprobación rápida"
+    Antes de seguir leyendo, contestá esto. Si fallás, releé la sección de arriba: es más barato ahora que en el examen.
+
+<div class="pract pract--inline" data-tipo="opciones" data-datos="in-INL-DMA-02"></div>
+<script type="application/json" id="in-INL-DMA-02">{"items":[{"id":"INL-DMA-02","tema":"dma","tema_nombre":"DMA — Acceso Directo a Memoria","consigna":"Sobre el robo de ciclo, ¿qué es cierto?","opciones":[{"texto":"Transfiere una palabra y libera el bus, pidiéndolo tantas veces como haga falta.","explicacion":"Correcto. El uso del bus se reparte entre la CPU y el DMAC."},{"texto":"Es una interrupción, así que la CPU guarda su contexto.","explicacion":"NO es una interrupción: el procesador no guarda contexto. Es el punto que más se confunde."},{"texto":"Es siempre más rápido que la ráfaga.","explicacion":"Es más lento: la ráfaga no suelta el bus hasta terminar. Lo que gana es no degradar tanto el rendimiento."},{"texto":"Para transferencias de múltiples palabras suele ser la técnica más eficiente.","explicacion":"Correcto, porque permite que la CPU siga trabajando mientras se transfiere."}],"correctas":[0,3],"fuente":"Teorías/03 Arq clase3 EntradaSalida.pdf, fil. 45–48."}],"temas":[]}</script>
+<!-- practica:fin INL-DMA-02 -->
 
 ### Canales de E/S — la extensión del concepto de DMA
 

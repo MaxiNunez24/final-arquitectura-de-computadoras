@@ -223,6 +223,15 @@ La política de emisión desordenada **requiere separar, mediante un buffer llam
 
 > **Ahora se requieren 6 ciclos para ejecutar las 6 instrucciones.**
 
+
+<!-- practica:inicio INL-SUP-02 -->
+!!! question "Comprobación rápida"
+    Antes de seguir leyendo, contestá esto. Si fallás, releé la sección de arriba: es más barato ahora que en el examen.
+
+<div class="pract pract--inline" data-tipo="opciones" data-datos="in-INL-SUP-02"></div>
+<script type="application/json" id="in-INL-SUP-02">{"items":[{"id":"INL-SUP-02","tema":"superescalares","tema_nombre":"Procesadores superescalares","consigna":"En el ejemplo de las 6 instrucciones, ¿cuántos ciclos lleva cada política?","opciones":[{"texto":"6, 7 y 8 respectivamente.","explicacion":"El orden está invertido: la más restrictiva es la que más ciclos lleva."},{"texto":"8 (ordenada), 7 (finalización desordenada) y 6 (ambas desordenadas).","explicacion":"Correcto. Cada relajación del orden gana un ciclo."},{"texto":"Las tres llevan 6 ciclos; cambia sólo el orden de escritura.","explicacion":"Si fuera así no habría motivo para complicar la lógica de emisión."}],"correctas":[1],"fuente":"Teorías/08 Arq clase8 Procesadores Superescalares.pdf, fil. 31–38."},{"id":"INL-SUP-02","tema":"superescalares","tema_nombre":"Procesadores superescalares","consigna":"La ventana de instrucciones, ¿qué es?","opciones":[{"texto":"Un buffer que separa decodificación de ejecución.","explicacion":"Correcto, y la teoría subraya que NO es una etapa del cauce."},{"texto":"Una etapa más del cauce, entre decodificación y ejecución.","explicacion":"Es justo lo que la teoría aclara que no es."},{"texto":"El conjunto de registros físicos del renombrado.","explicacion":"Eso pertenece al renombrado de registros."}],"correctas":[0],"fuente":"Teorías/08 Arq clase8 Procesadores Superescalares.pdf, fil. 35–36."}],"temas":[]}</script>
+<!-- practica:fin INL-SUP-02 -->
+
 ### Renombrado de registros
 
 **Al permitir finalización y/o emisión desordenada surgen los nuevos problemas de
@@ -280,6 +289,15 @@ R7a := R3c op R4a    (I4)
 
 > **De esta manera se eliminan las dependencias WAW y WAR (antidependencia y
 > dependencia de salida), quedando únicamente la dependencia verdadera RAW.**
+
+
+<!-- practica:inicio INL-SUP-03 -->
+!!! question "Comprobación rápida"
+    Antes de seguir leyendo, contestá esto. Si fallás, releé la sección de arriba: es más barato ahora que en el examen.
+
+<div class="pract pract--inline" data-tipo="opciones" data-datos="in-INL-SUP-03"></div>
+<script type="application/json" id="in-INL-SUP-03">{"items":[{"id":"INL-SUP-03","tema":"superescalares","tema_nombre":"Procesadores superescalares","consigna":"¿Qué dependencias elimina el renombrado y cuál queda?","opciones":[{"texto":"Elimina RAW; quedan WAW y WAR.","explicacion":"Al revés. La RAW es la dependencia verdadera y no se puede eliminar."},{"texto":"Las elimina las tres.","explicacion":"La RAW es real: una instrucción necesita un dato que otra produce."},{"texto":"Elimina WAW y WAR; queda sólo RAW.","explicacion":"Correcto. Son conflictos de almacenamiento, y se resuelven duplicando el recurso."},{"texto":"No elimina ninguna: sólo las detecta.","explicacion":"Las elimina asignando un registro físico nuevo en cada escritura."}],"correctas":[2],"fuente":"Teorías/08 Arq clase8 Procesadores Superescalares.pdf, fil. 39–43."}],"temas":[]}</script>
+<!-- practica:fin INL-SUP-03 -->
 
 ### El modelo de ejecución superescalar
 
@@ -549,3 +567,12 @@ Terminaste de leer. Ahora **producí**, que es lo que se evalúa:
 **Referencias que da la propia cátedra** (fil. 60): *Organización y Arquitectura de
 Computadoras*, William Stallings, capítulo 13 de la 5.ª edición o capítulo 14 de la
 7.ª edición.
+
+
+<!-- practica:inicio INL-SUP-01 -->
+!!! question "Comprobación rápida"
+    Antes de seguir leyendo, contestá esto. Si fallás, releé la sección de arriba: es más barato ahora que en el examen.
+
+<div class="pract pract--inline" data-tipo="opciones" data-datos="in-INL-SUP-01"></div>
+<script type="application/json" id="in-INL-SUP-01">{"items":[{"id":"INL-SUP-01","tema":"superescalares","tema_nombre":"Procesadores superescalares","consigna":"Un procesador de GRADO 2, ¿qué hace en cada caso?","opciones":[{"texto":"Supersegmentado: 1 instrucción por semiciclo. Superescalar: 2 por ciclo.","explicacion":"Correcto. El supersegmentado subdivide el ciclo; el superescalar duplica unidades."},{"texto":"Supersegmentado: 2 por ciclo. Superescalar: 1 por semiciclo.","explicacion":"Está invertido."},{"texto":"Los dos hacen lo mismo con distinto nombre.","explicacion":"Uno gana paralelismo temporal y el otro espacial; la teoría los compara explícitamente."}],"correctas":[0],"fuente":"Teorías/08 Arq clase8 Procesadores Superescalares.pdf, fil. 10, 12."}],"temas":[]}</script>
+<!-- practica:fin INL-SUP-01 -->

@@ -263,6 +263,15 @@ cauce de datos, usando registros sincrónicos entre cada etapa**.
 - Notar que en el quinto ciclo el procesador está **ejecutando 5 instrucciones
   simultáneamente, pero en distintas fases**.
 
+
+<!-- practica:inicio INL-SEG-01 -->
+!!! question "Comprobación rápida"
+    Antes de seguir leyendo, contestá esto. Si fallás, releé la sección de arriba: es más barato ahora que en el examen.
+
+<div class="pract pract--inline" data-tipo="opciones" data-datos="in-INL-SEG-01"></div>
+<script type="application/json" id="in-INL-SEG-01">{"items":[{"id":"INL-SEG-01","tema":"segmentacion","tema_nombre":"Segmentación de cauce","consigna":"Con 5 etapas y una instrucción entrando por ciclo, ¿en qué ciclo termina la PRIMERA?","opciones":[{"texto":"En el ciclo 1: por eso se llama segmentado.","explicacion":"En el ciclo 1 la primera instrucción recién entra a la etapa F."},{"texto":"En el ciclo 3, a mitad del cauce.","explicacion":"Tiene que atravesar las 5 etapas completas."},{"texto":"En el ciclo 5, y a partir de ahí se termina 1 por ciclo.","explicacion":"Correcto. En el quinto ciclo hay 5 instrucciones en vuelo, cada una en una fase distinta."},{"texto":"En el ciclo 10, porque cada etapa lleva 2 ciclos.","explicacion":"Cada etapa lleva 1 ciclo de reloj en el modelo del nanoMIPS."}],"correctas":[2],"fuente":"Teorías/04 Arq clase4 Segmentación de cauce.pdf, fil. 45–54."}],"temas":[]}</script>
+<!-- practica:fin INL-SEG-01 -->
+
 ### Análisis del rendimiento
 
 **El máximo rendimiento teórico se obtiene cuando se completa una instrucción en
@@ -298,6 +307,15 @@ de etapas del cauce.**
    estuviera dividida y fuera una sola, los segmentos F (búsqueda de la
    instrucción) y M (acceso a memoria) accederían ambos a la misma memoria.
 3. **Los programas tienen instrucciones de salto.**
+
+
+<!-- practica:inicio INL-SEG-02 -->
+!!! question "Comprobación rápida"
+    Antes de seguir leyendo, contestá esto. Si fallás, releé la sección de arriba: es más barato ahora que en el examen.
+
+<div class="pract pract--inline" data-tipo="opciones" data-datos="in-INL-SEG-02"></div>
+<script type="application/json" id="in-INL-SEG-02">{"items":[{"id":"INL-SEG-02","tema":"segmentacion","tema_nombre":"Segmentación de cauce","consigna":"Éste es EL punto que más se pierde en el examen. ¿Qué mejora la segmentación?","opciones":[{"texto":"La velocidad de ejecución de cada instrucción.","explicacion":"La teoría lo niega textualmente: «no se mejora la velocidad de ejecución de la instrucción»."},{"texto":"La productividad: cantidad de instrucciones resueltas por unidad de tiempo.","explicacion":"Correcto. Es el throughput, y conviene decirlo con esas palabras en la hoja."},{"texto":"El tiempo de acceso a memoria.","explicacion":"Eso es asunto de la caché, no del cauce."},{"texto":"La cantidad de etapas del cauce.","explicacion":"Las etapas las fija el diseño; la segmentación las solapa."}],"correctas":[1],"fuente":"Teorías/04 Arq clase4 Segmentación de cauce.pdf, fil. 55."}],"temas":[]}</script>
+<!-- practica:fin INL-SEG-02 -->
 
 ### Los riesgos (conflictos)
 
@@ -344,6 +362,15 @@ cómo se ejecute otra** —por ejemplo, un salto y los 2 posibles caminos—. Pu
 ocurrir cuando se va a ejecutar una **instrucción de salto condicional**: una
 instrucción tiene que **calcular el nuevo valor que modifica el PC**, y **la
 próxima instrucción no puede comenzar hasta que no se resuelva el salto**.
+
+
+<!-- practica:inicio INL-SEG-03 -->
+!!! question "Comprobación rápida"
+    Antes de seguir leyendo, contestá esto. Si fallás, releé la sección de arriba: es más barato ahora que en el examen.
+
+<div class="pract pract--inline" data-tipo="opciones" data-datos="in-INL-SEG-03"></div>
+<script type="application/json" id="in-INL-SEG-03">{"items":[{"id":"INL-SEG-03","tema":"segmentacion","tema_nombre":"Segmentación de cauce","consigna":"¿Cuál de las 3 dependencias de datos NO puede darse en el cauce simple del nanoMIPS?","opciones":[{"texto":"RAW","explicacion":"Es la dependencia verdadera y sí ocurre: es la del ejemplo LW seguido de ADD."},{"texto":"WAW","explicacion":"Sólo ocurre si las instrucciones se adelantan unas a otras, pero no es la que la teoría descarta de plano."},{"texto":"WAR","explicacion":"Correcto. La antidependencia: la teoría dice que no se puede dar en nuestro cauce simple."},{"texto":"Las tres se dan siempre.","explicacion":"WAW y WAR recién aparecen con emisión o finalización desordenada, que es tema de la clase 8."}],"correctas":[2],"fuente":"Teorías/04 Arq clase4 Segmentación de cauce.pdf, fil. 58–66."}],"temas":[]}</script>
+<!-- practica:fin INL-SEG-03 -->
 
 ### Soluciones básicas por retardo
 

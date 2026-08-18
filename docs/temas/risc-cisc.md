@@ -73,6 +73,15 @@ también el trabajo de elaboración de compiladores—, sobre todo considerando 
 **El mayor soporte tiende a reducir el GAP semántico, agregando instrucciones de
 máquina más complejas que resuelvan las sentencias del HLL más directamente.**
 
+
+<!-- practica:inicio INL-RISC-01 -->
+!!! question "Comprobación rápida"
+    Antes de seguir leyendo, contestá esto. Si fallás, releé la sección de arriba: es más barato ahora que en el examen.
+
+<div class="pract pract--inline" data-tipo="opciones" data-datos="in-INL-RISC-01"></div>
+<script type="application/json" id="in-INL-RISC-01">{"items":[{"id":"INL-RISC-01","tema":"risc-cisc","tema_nombre":"RISC vs CISC","consigna":"¿Qué es el GAP semántico?","opciones":[{"texto":"La diferencia de velocidad entre procesador y memoria.","explicacion":"Ésa es la brecha que justifica la jerarquía de memoria."},{"texto":"La distancia entre el lenguaje de alto nivel y el de máquina.","explicacion":"Correcto: la relación entre cantidad de sentencias del HLL y de instrucciones de máquina necesarias para resolverlo."},{"texto":"La diferencia entre el repertorio RISC y el CISC.","explicacion":"El GAP es entre HLL y lenguaje de máquina, no entre dos arquitecturas."}],"correctas":[1],"fuente":"Teorías/06 Arq clase6 RISC.pdf, fil. 7."}],"temas":[]}</script>
+<!-- practica:fin INL-RISC-01 -->
+
 ### Los estudios sobre el comportamiento de los programas
 
 Con el uso masivo de la tecnología VHSI y el desarrollo de procesadores CISC, se
@@ -311,6 +320,15 @@ variables más usadas o las que más tiempo permanecerán en el registro**.
 - **Mayor tiempo/esfuerzo de compilación.**
 
 <p class="fuentes">Fuente: <code>Teorías/06 Arq clase6 RISC.pdf</code>, fil. 3–5, 6–8, 9–11, 12–19, 24–25, 26–38, 40–41, 42.</p>
+
+
+<!-- practica:inicio INL-RISC-02 -->
+!!! question "Comprobación rápida"
+    Antes de seguir leyendo, contestá esto. Si fallás, releé la sección de arriba: es más barato ahora que en el examen.
+
+<div class="pract pract--inline" data-tipo="opciones" data-datos="in-INL-RISC-02"></div>
+<script type="application/json" id="in-INL-RISC-02">{"items":[{"id":"INL-RISC-02","tema":"risc-cisc","tema_nombre":"RISC vs CISC","consigna":"¿Cuáles son características de RISC y no de CISC?","opciones":[{"texto":"Unidad de control cableada.","explicacion":"Correcto. En CISC es típicamente microprogramada."},{"texto":"Instrucciones a memoria únicamente LOAD y STORE.","explicacion":"Correcto. Las aritméticas y lógicas van sólo entre registros."},{"texto":"Muchos modos de direccionamiento.","explicacion":"Es del CISC. El RISC los tiene mínimos."},{"texto":"Formato de instrucción fijo.","explicacion":"Correcto. El CISC usa longitud variable."}],"correctas":[0,1,3],"fuente":"Teorías/06 Arq clase6 RISC.pdf, fil. 21, 42."}],"temas":[]}</script>
+<!-- practica:fin INL-RISC-02 -->
 
 ## Diagrama
 

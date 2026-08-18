@@ -757,3 +757,31 @@
   border-left: 4px solid #ef9a00;
   border-radius: 0 4px 4px 0;
 }
+
+/* ---------- Checkpoint dentro de una ficha ---------- */
+
+/* Más compacto que un widget de página completa: interrumpe la lectura lo
+   justo y no compite con el texto de la ficha. */
+.pract--inline {
+  margin: 0.4rem 0 1.4rem;
+  padding-left: 0.75rem;
+  border-left: 3px solid var(--md-accent-fg-color);
+}
+
+.pract--inline .pract-card {
+  padding: 0.7rem 0.8rem;
+}
+
+.pract--inline .pract-barra,
+.pract--inline > .pract-meta:first-of-type {
+  display: none;  /* sin selector de tema: el checkpoint ya es de este tema */
+}
+
+.pract--inline .pract-tema {
+  display: none;  /* redundante: estás leyendo la ficha de ese tema */
+}
+
+.pract--inline .pract-enunciado {
+  font-size: 0.8rem;
+  font-weight: 600;
+}

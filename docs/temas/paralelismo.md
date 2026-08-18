@@ -104,6 +104,15 @@ de comunicarse—:
 - **MIMD de memoria distribuida**, comúnmente llamados **clusters**. Los nodos se
   vinculan por una **red de interconexión**.
 
+
+<!-- practica:inicio INL-PAR-01 -->
+!!! question "Comprobación rápida"
+    Antes de seguir leyendo, contestá esto. Si fallás, releé la sección de arriba: es más barato ahora que en el examen.
+
+<div class="pract pract--inline" data-tipo="opciones" data-datos="in-INL-PAR-01"></div>
+<script type="application/json" id="in-INL-PAR-01">{"items":[{"id":"INL-PAR-01","tema":"paralelismo","tema_nombre":"Procesamiento paralelo","consigna":"¿Qué categoría de Flynn es un modelo teórico sin máquinas registradas?","opciones":[{"texto":"SISD","explicacion":"Son los monoprocesadores: existen y son los más comunes."},{"texto":"SIMD","explicacion":"Son los procesadores vectoriales y matriciales, que existen."},{"texto":"MISD","explicacion":"Correcto. No hay registros de máquinas de este tipo. Ojo: la filmina escribe «SIMD» por errata donde el contexto pide MISD."},{"texto":"MIMD","explicacion":"Es la categoría de SMP, NUMA y clusters: bien existente."}],"correctas":[2],"fuente":"Teorías/09 Arq clase9 Procesamiento paralelo.pdf, fil. 6, 14."}],"temas":[]}</script>
+<!-- practica:fin INL-PAR-01 -->
+
 ### Multiprocesadores simétricos (SMP)
 
 **Características principales:**
@@ -162,6 +171,15 @@ ejecución se comportan como si fueran una única máquina**. Cada computadora s
 denomina **"nodo"**. En general presentan **prestaciones y disponibilidad
 elevadas**. **Las aplicaciones son propias de un servidor, y constituyen una
 alternativa a los SMP.**
+
+
+<!-- practica:inicio INL-PAR-02 -->
+!!! question "Comprobación rápida"
+    Antes de seguir leyendo, contestá esto. Si fallás, releé la sección de arriba: es más barato ahora que en el examen.
+
+<div class="pract pract--inline" data-tipo="opciones" data-datos="in-INL-PAR-02"></div>
+<script type="application/json" id="in-INL-PAR-02">{"items":[{"id":"INL-PAR-02","tema":"paralelismo","tema_nombre":"Procesamiento paralelo","consigna":"¿Qué separa a un cluster de un NUMA?","opciones":[{"texto":"Que el cluster usa red de interconexión y el NUMA no.","explicacion":"Los dos usan red. La diferencia está en el espacio de direcciones."},{"texto":"Que en el cluster los espacios de direcciones son independientes: es memoria distribuida.","explicacion":"Correcto. El NUMA tiene espacio de direcciones común: memoria compartida con acceso no uniforme."},{"texto":"Que el cluster tiene un único sistema operativo y el NUMA no.","explicacion":"En los dos el SO está integrado."},{"texto":"Que el NUMA admite nodos heterogéneos y el cluster no.","explicacion":"Invertido: el que admite nodos heterogéneos es el cluster."}],"correctas":[1],"fuente":"Teorías/09 Arq clase9 Procesamiento paralelo.pdf, fil. 17, 26."}],"temas":[]}</script>
+<!-- practica:fin INL-PAR-02 -->
 
 ### Tipos de acceso a memoria: UMA, NUMA, CC-NUMA
 

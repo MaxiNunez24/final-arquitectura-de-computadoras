@@ -130,6 +130,15 @@ principal:
     varios ciclos extra.**
     [Ver segmentación de cauce](segmentacion.md).
 
+
+<!-- practica:inicio INL-CAC-01 -->
+!!! question "Comprobación rápida"
+    Antes de seguir leyendo, contestá esto. Si fallás, releé la sección de arriba: es más barato ahora que en el examen.
+
+<div class="pract pract--inline" data-tipo="opciones" data-datos="in-INL-CAC-01"></div>
+<script type="application/json" id="in-INL-CAC-01">{"items":[{"id":"INL-CAC-01","tema":"memoria-cache","tema_nombre":"Memoria caché","consigna":"Ante un FALLO, ¿qué se trae desde la memoria principal?","opciones":[{"texto":"Sólo la palabra pedida, para no desperdiciar espacio.","explicacion":"Se trae el BLOQUE completo. Traer sólo la palabra desaprovecharía la localidad espacial."},{"texto":"El bloque completo que contiene esa dirección.","explicacion":"Correcto, y después la caché entrega el dato requerido a la CPU."},{"texto":"Todo el grupo de la memoria principal.","explicacion":"El grupo es una noción de la correspondencia directa para armar el tag, no la unidad de transferencia."},{"texto":"Nada: el dato se lee directo de la MP sin pasar por la caché.","explicacion":"Eso ocurre en escritura con no-write allocate, no en una lectura con fallo."}],"correctas":[1],"fuente":"Teorías/07 Arq clase7 Memoria.pdf, fil. 17–27."}],"temas":[]}</script>
+<!-- practica:fin INL-CAC-01 -->
+
 ### Los 2 principios en que se basa la caché
 
 La eficiencia del uso de la caché depende de la **cantidad de veces que
@@ -144,6 +153,15 @@ que se apoya en 2 principios **de carácter empírico**:
 - **Principio de localidad espacial de las referencias:** *es altamente probable
   que los próximos elementos de memoria referenciados estén en las proximidades
   de los últimos referenciados.*
+
+
+<!-- practica:inicio INL-CAC-02 -->
+!!! question "Comprobación rápida"
+    Antes de seguir leyendo, contestá esto. Si fallás, releé la sección de arriba: es más barato ahora que en el examen.
+
+<div class="pract pract--inline" data-tipo="opciones" data-datos="in-INL-CAC-02"></div>
+<script type="application/json" id="in-INL-CAC-02">{"items":[{"id":"INL-CAC-02","tema":"memoria-cache","tema_nombre":"Memoria caché","consigna":"¿Cuál de los 2 principios justifica traer un bloque entero y no sólo la palabra?","opciones":[{"texto":"Localidad temporal.","explicacion":"La temporal dice que lo referenciado recientemente vuelve a referenciarse pronto: justifica RETENER, no traer vecinos."},{"texto":"Localidad espacial.","explicacion":"Correcto: es altamente probable que los próximos elementos estén en las proximidades de los últimos referenciados."},{"texto":"Ninguno: es por el ancho del bus.","explicacion":"El ancho de banda influye en la penalización por fallo, pero el fundamento del bloque es la localidad espacial."},{"texto":"Los dos por igual, son intercambiables.","explicacion":"Son distintos, y la teoría los enuncia por separado como principios empíricos."}],"correctas":[1],"fuente":"Teorías/07 Arq clase7 Memoria.pdf, fil. 28–32."}],"temas":[]}</script>
+<!-- practica:fin INL-CAC-02 -->
 
 ### Tiempo de acceso promedio
 
@@ -261,6 +279,15 @@ más empleadas:
     - **En general, la función asociativa por conjuntos combina lo mejor de las
       otras dos correspondencias** (asociativa y directa).
 
+
+<!-- practica:inicio INL-CAC-03 -->
+!!! question "Comprobación rápida"
+    Antes de seguir leyendo, contestá esto. Si fallás, releé la sección de arriba: es más barato ahora que en el examen.
+
+<div class="pract pract--inline" data-tipo="opciones" data-datos="in-INL-CAC-03"></div>
+<script type="application/json" id="in-INL-CAC-03">{"items":[{"id":"INL-CAC-03","tema":"memoria-cache","tema_nombre":"Memoria caché","consigna":"¿Cuántos campos tiene la dirección en cada correspondencia?","opciones":[{"texto":"Asociativa 3, directa 2, por conjuntos 3.","explicacion":"Invertido: la asociativa es la que tiene 2 (tag y word)."},{"texto":"Las tres tienen 3 campos.","explicacion":"La totalmente asociativa tiene 2: como el bloque va a cualquier lado, no hace falta un campo que fije la posición."},{"texto":"Asociativa 2, directa 3, por conjuntos 3.","explicacion":"Correcto. Asociativa: tag + word. Directa: tag + line + word. Conjuntos: tag + conjunto + palabra."},{"texto":"Asociativa 2, directa 2, por conjuntos 3.","explicacion":"La directa tiene 3: necesita el campo line para saber en qué línea fija va el bloque."}],"correctas":[2],"fuente":"Teorías/07 Arq clase7 Memoria.pdf, fil. 42–55."},{"id":"INL-CAC-03","tema":"memoria-cache","tema_nombre":"Memoria caché","consigna":"¿Por qué la correspondencia directa NO necesita política de reemplazo?","opciones":[{"texto":"Porque hay una sola línea posible para cada bloque: no hay elección que hacer.","explicacion":"Correcto. La asignación es fija, así que indefectiblemente se reemplaza el que está en esa ranura."},{"texto":"Porque en la directa no se producen fallos.","explicacion":"Sí se producen, y pueden ser muchísimos si dos bloques caen en la misma línea."},{"texto":"Porque usa LRU por defecto.","explicacion":"LRU es para la asociativa y la de conjuntos, donde sí hay varias líneas candidatas."}],"correctas":[0],"fuente":"Teorías/07 Arq clase7 Memoria.pdf, fil. 56–60."}],"temas":[]}</script>
+<!-- practica:fin INL-CAC-03 -->
+
 ### Políticas de reemplazo
 
 Cuando hay un fallo de acceso a la caché **se debe traer un bloque desde la
@@ -317,6 +344,15 @@ Las políticas son **distintas en aciertos que en fallos**.
     | **Se combina habitualmente con** | **write-through** | **write-back** |
 
 <p class="fuentes">Fuente: <code>Teorías/07 Arq clase7 Memoria.pdf</code>, fil. 3–15, 17–27, 28–32, 41, 42–55, 56–60, 61–64.</p>
+
+
+<!-- practica:inicio INL-CAC-04 -->
+!!! question "Comprobación rápida"
+    Antes de seguir leyendo, contestá esto. Si fallás, releé la sección de arriba: es más barato ahora que en el examen.
+
+<div class="pract pract--inline" data-tipo="opciones" data-datos="in-INL-CAC-04"></div>
+<script type="application/json" id="in-INL-CAC-04">{"items":[{"id":"INL-CAC-04","tema":"memoria-cache","tema_nombre":"Memoria caché","consigna":"¿Cuál es el inconveniente de write-back, y con qué política de fallo se combina?","opciones":[{"texto":"Aumenta el tráfico con la MP; se combina con no-write allocate.","explicacion":"Las dos mitades son de write-through."},{"texto":"Aumenta el tráfico con la MP; se combina con write allocate.","explicacion":"El aumento de tráfico es de write-through, no de write-back."},{"texto":"La MP puede quedar desactualizada; se combina con no-write allocate.","explicacion":"El inconveniente está bien, pero no-write allocate se combina con write-through."},{"texto":"La MP puede quedar desactualizada; se combina con write allocate.","explicacion":"Correcto. Como la MP se actualiza recién al reemplazar el bloque, puede contener información errónea en algún momento."}],"correctas":[3],"fuente":"Teorías/07 Arq clase7 Memoria.pdf, fil. 61–64."}],"temas":[]}</script>
+<!-- practica:fin INL-CAC-04 -->
 
 ## Diagrama
 
