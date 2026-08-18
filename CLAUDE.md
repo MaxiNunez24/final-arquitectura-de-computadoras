@@ -8,16 +8,18 @@ Sitio MkDocs Material para estudiar el **final de Arquitectura de Computadoras**
 (UNLP). El material fuente vive en `./fuentes/` y **no está versionado**
 (está en `.gitignore`: son PDFs pesados y material de cátedra).
 
-**Fecha del final: miércoles 19/8/2026, 10:00, aula 5.** Se lee principalmente
+**Fecha del final: mesa de septiembre, PROVISORIA (ver aviso).** Se lee principalmente
 desde el celular → el diseño es mobile-first y eso no es negociable.
 
-!!! danger "La mesa se adelantó del 26/8 al 19/8"
-    Actualizado el **14/8/2026**: quedan **5 días**. Cualquier trabajo nuevo
-    sobre el sitio compite directamente con el tiempo de estudio, así que la
-    vara para agregar cosas sube: **si no se usa esta semana, no va**.
-    Lo que ya está cubierto (fichas, banco, diagramas, práctica, plan) alcanza
-    para rendir; lo que falta está en `docs/todos.md` y son huecos reales de las
-    fuentes, no del sitio.
+!!! danger "No se presentó al 19/8: la mesa pasa a septiembre"
+    Actualizado el **18/8/2026**. La fecha nueva está **sin confirmar**:
+    `data/plan.yml` tiene `meta.final: 2026-09-16` y
+    `meta.fecha_confirmada: false`, lo que hace que el sitio muestre un aviso
+    rojo. **En cuanto se sepa la fecha real, cambiar esa línea y correr
+    `python3 scripts/gen_plan.py`**: el calendario entero se recalcula.
+
+    Con un mes por delante la vara para agregar cosas vuelve a ser normal, y
+    se completó lo que había quedado afuera por tiempo (checkpoints inline).
 
 !!! warning "Mirá el reloj, no las notas viejas"
     El plan de estudio se armó una vez sobre una fecha **supuesta**, sacada de
@@ -184,10 +186,13 @@ No volver a investigar esto, ya está confirmado con `sha256sum` y análisis de 
 data/banco-finales.yml     Fuente de verdad del banco de finales
 data/rubricas.yml          Checklists de autocorrección ("qué tiene que aparecer")
 data/ejercicios.yml        Quiz, afirmaciones falsas y elección de diagrama
-data/plan.yml              Plan de estudio día por día (tiene FECHAS: ver aviso)
+data/plan.yml              Plan de estudio en bloques semanales RELATIVOS
+data/conceptos.yml         Chips de "¿qué no puede faltar?" y secuencias a ordenar
+data/inline.yml            Checkpoints que se inyectan DENTRO de docs/temas/*.md
 scripts/gen_banco.py       Genera docs/finales/ desde el YAML
 scripts/gen_practica.py    Genera docs/practica/ desde los 3 YAML
 scripts/gen_plan.py        Genera docs/plan.md desde plan.yml + banco-finales.yml
+scripts/gen_inline.py      Inyecta checkpoints en las fichas (idempotente, --quitar)
 scripts/render_puml.sh     Pre-renderiza docs/diagramas/*.puml a SVG
 docs/temas/                Las 11 fichas por tema
 docs/finales/              Generado — NO editar a mano
@@ -205,6 +210,8 @@ mkdocs.yml
 python3 scripts/gen_banco.py     # tras editar data/banco-finales.yml
 python3 scripts/gen_practica.py  # tras editar cualquiera de los 3 YAML de data/
 python3 scripts/gen_plan.py      # tras editar data/plan.yml
+python3 scripts/gen_inline.py    # tras editar data/inline.yml
+python3 scripts/gen_inline.py --quitar   # saca los checkpoints de las fichas
 bash scripts/render_puml.sh      # tras editar cualquier .puml
 mkdocs build --strict            # tiene que pasar limpio
 mkdocs serve                     # previsualizar
@@ -334,7 +341,27 @@ orden, aunque alguna quede vacía con TODO:
   no las fichas. Se verificó primero que **la página del PDF sea el número de
   filmina** —está impreso en cada diapositiva— así que las citas del sitio son
   correctas.
+- **Tarea 7 — Libro interactivo y plan mensual.** Hecha (18/8/2026).
+  **30 checkpoints con 35 preguntas** inyectados dentro de las 11 fichas con
+  `gen_inline.py`, que es **idempotente** y tiene `--quitar` como inverso exacto.
+  El plan pasó a **4 bloques semanales con fechas relativas** a `meta.final`.
+  `site_url` dejó de estar vacío.
 - **TODOs.** `docs/todos.md` lista los 4 huecos reales, agrupados por tema.
+
+### Backlog que sigue abierto
+
+1. **Los 4 TODOs de contenido** (SCSI, temporización asíncrona de bus, Core i7,
+   ejemplo numérico de DMA). **No se pueden cerrar desde `fuentes/`**: la cátedra
+   no los desarrolla. Requieren Stallings, que no está en el repo.
+2. **`2015 - AC Final - 01.pdf`** sigue sin transcribir. `tesseract` **no está
+   instalado** en esta máquina, así que ni siquiera hay OCR dudoso disponible:
+   es transcripción manual.
+3. **`modulo-es.svg` mide 1004 px de ancho**, por encima del objetivo de ≤900 px.
+   Se ve, pero con el texto más chico que el resto en el celular.
+4. **Más ítems donde la cobertura es fina**: buses, RISC, DMA y von Neumann
+   tienen 3 preguntas de quiz cada uno.
+5. **Java 8** impide renderizar PlantUML en local (hace falta 11+). En CI corre
+   Temurin 17, así que el sitio publicado está bien.
 
 ### Verificación de los ejercicios
 
