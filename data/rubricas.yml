@@ -576,7 +576,7 @@ rubricas:
     titulo: "Qué es una pila y cómo se comporta con anidamiento de procedimientos"
     aplica_a: [VN-03]
     extension: "~media carilla. Conviene dibujar la pila con dos llamadas anidadas: se explica sola."
-    fuente: "Resumen Arquitectura (2).pdf, p. 1 y Finales/Resumen AC Guaymas.docx.pdf, p. 1 — RESÚMENES DE ALUMNOS."
+    fuente: "Teorías/Arq Clase1 Repaso OC.pdf, fil. 77–86 (pila), 87–96 (subrutinas), 122–127 (anidamiento)."
     claves:
       - "Definir: conjunto ordenado de elementos del que sólo uno es accesible en un instante dado. El punto de acceso es la cabecera, y la longitud es variable."
       - "Que sólo se pueden añadir o eliminar elementos en la cabecera, y que por eso es una lista LIFO (last in, first out)."
@@ -594,7 +594,7 @@ rubricas:
     titulo: "Métodos de pasaje de argumentos a procedimientos"
     aplica_a: [VN-02]
     extension: "~media carilla. Son 3 métodos más la distinción valor/referencia: no mezcles las dos clasificaciones."
-    fuente: "Finales/Resumen AC Guaymas.docx.pdf, p. 1–2 y Resumen Arquitectura (2).pdf, p. 1 — RESÚMENES DE ALUMNOS."
+    fuente: "Teorías/Arq Clase1 Repaso OC.pdf, fil. 97–99 (los 3 métodos) y 100–121 (ejemplo desarrollado)."
     claves:
       - "Separar primero las 2 clasificaciones, que es donde se cae la mayoría: por un lado POR VALOR vs. POR REFERENCIA, por otro los 3 MÉTODOS (registros, memoria, pila)."
       - "Por VALOR: se pasa el valor de la variable. Son parámetros de entrada y el procedimiento no puede modificar el original."

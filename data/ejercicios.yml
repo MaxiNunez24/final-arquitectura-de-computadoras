@@ -954,7 +954,7 @@ opciones:
     tipo: multiple
     consigna: "¿Cuál es la principal ventaja de pasar parámetros por pila frente a hacerlo por registros?"
     correctas: [2]
-    fuente: "Finales/Resumen AC Guaymas.docx.pdf, p. 1–2 — RESUMEN DE ALUMNOS, no teoría de cátedra."
+    fuente: "Teorías/Arq Clase1 Repaso OC.pdf, fil. 97–99."
     opciones:
       - texto: "Que es más rápido, porque la pila está en la CPU y los registros en memoria."
         explicacion: "Es al revés: los registros están en la CPU y la pila en memoria principal. Por eso el pasaje por registros es el más rápido."
@@ -970,7 +970,7 @@ opciones:
     tipo: falsa
     consigna: "Sobre la pila y las subrutinas, ¿cuál de estas afirmaciones es FALSA?"
     correctas: [0]
-    fuente: "Resumen Arquitectura (2).pdf, p. 1 — RESUMEN DE ALUMNOS, no teoría de cátedra."
+    fuente: "Teorías/Arq Clase1 Repaso OC.pdf, fil. 77–82."
     opciones:
       - texto: "La pila crece desde direcciones más bajas hacia direcciones más altas, y por eso apilar incrementa el puntero."
         explicacion: "FALSA. Es al revés: la base coincide con la dirección más alta del bloque reservado y el límite con la más baja, así que la pila crece de direcciones MÁS ALTAS hacia MÁS BAJAS."

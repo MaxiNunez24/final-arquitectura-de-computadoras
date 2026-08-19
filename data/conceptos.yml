@@ -390,7 +390,7 @@ armar:
   - id: AR-VN-PILA
     tema: von-neumann-y-pila
     pregunta: "¿Qué es una pila y cómo se comporta con anidamiento de procedimientos?"
-    fuente: "Resumen Arquitectura (2).pdf, p. 1 — RESUMEN DE ALUMNOS, no teoría de cátedra."
+    fuente: "Teorías/Arq Clase1 Repaso OC.pdf, fil. 77–86 y 87–96."
     van:
       - chip: "Estructura LIFO"
         detalle: "Último en entrar, primero en salir. Sólo la cabecera es accesible."

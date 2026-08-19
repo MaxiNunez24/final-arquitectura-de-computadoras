@@ -34,7 +34,16 @@ first out*)**.
 Se usa **normalmente para la gestión de llamadas y retornos a/de procedimientos**.
 **La pila crece desde direcciones más altas hacia más bajas.**
 
-<p class="fuentes">Fuente: <code>Resumen Arquitectura (2).pdf</code>, p. 1 y <code>Finales/Resumen AC Guaymas.docx.pdf</code>, p. 1. <strong>Resúmenes de alumnos</strong> — la teoría de cátedra no cubre este punto.</p>
+**El acceso se hace mediante un registro específico, el puntero de pila (SP,
+*stack pointer*).**
+
+**Sobre la pila se pueden realizar 2 operaciones básicas, inversas entre sí:**
+**apilar (PUSH)** y **desapilar (POP)**.
+
+<p class="fuentes">Fuente: <code>Teorías/Arq Clase1 Repaso OC.pdf</code>, fil. 77. La
+noción de <em>cabecera</em>, la longitud variable y el par base/límite salen de
+<code>Resumen Arquitectura (2).pdf</code>, p. 1 (<strong>resumen de alumno</strong>):
+la cátedra habla de <em>tope</em> y sólo nombra el SP.</p>
 
 ## Desarrollo
 
@@ -184,7 +193,46 @@ corresponde con la posición más baja. Por lo tanto la pila crece desde direcci
 más altas hacia direcciones más bajas.** Para **acelerar las operaciones**, también
 **los dos elementos de la cabecera se almacenan a menudo en registros**.
 
-<p class="fuentes">Fuente: <code>Resumen Arquitectura (2).pdf</code>, p. 1 y <code>Finales/Resumen AC Guaymas.docx.pdf</code>, p. 1. <strong>Resúmenes de alumnos</strong> — la teoría de cátedra no cubre este punto.</p>
+<p class="fuentes">Fuente: <code>Teorías/Arq Clase1 Repaso OC.pdf</code>, fil. 77–78 (operaciones y movimiento de datos). El bloque reservado y los registros de <strong>base</strong> y <strong>límite</strong> salen de <code>Resumen Arquitectura (2).pdf</code>, p. 1 (<strong>resumen de alumno</strong>): la cátedra no los desarrolla.</p>
+
+### Cómo actualiza el SP cada familia de procesadores
+
+**No todos los procesadores manejan la pila igual.** La cátedra compara dos
+familias, y la diferencia está en **el orden de las 2 acciones** y en **a dónde
+queda apuntando el SP**.
+
+=== "Intel i80x86"
+
+    **PUSH:** 1.º **decrementar** el SP · 2.º **guardar** el dato en el tope.
+
+    **POP:** 1.º **extraer** el dato del tope · 2.º **incrementar** el SP.
+
+    **El SP queda apuntando a la dirección del último dato guardado** (el tope
+    de la pila). Tras un POP, el dato extraído **permanece en memoria pero ya no
+    forma parte de la pila**: es una copia no válida.
+
+=== "Motorola M68xxx"
+
+    **PUSH:** 1.º **guardar** el dato · 2.º **decrementar** el SP.
+
+    **POP:** 1.º **incrementar** el SP · 2.º **extraer** el dato.
+
+    **El SP apunta siempre a la primera posición libre**, por encima del tope de
+    la pila.
+
+**Lo que NO cambia entre las dos familias:**
+
+- Los datos **se almacenan en posiciones decrecientes de memoria**: la pila
+  **crece hacia direcciones inferiores**.
+- **PUSH y POP son exactamente inversas entre sí.**
+
+!!! tip "Por qué conviene saber esta diferencia"
+    Todos los ejemplos del curso usan **MSX88**, que es i80x86: ahí el SP apunta
+    al último dato entrado. Si en el examen te piden dibujar la pila, ése es el
+    convenio a usar —pero saber que existe el otro muestra que entendiste que es
+    una **decisión de diseño**, no una ley.
+
+<p class="fuentes">Fuente: <code>Teorías/Arq Clase1 Repaso OC.pdf</code>, fil. 79–82.</p>
 
 ### Subrutinas
 
@@ -272,7 +320,7 @@ simplifican en dos:**
       ejecutar.
     - **Guardar el estado del procesador** en ese momento (flags).
 
-<p class="fuentes">Fuente: <code>Finales/Resumen AC Guaymas.docx.pdf</code>, p. 1–2; <code>Resumen Arquitectura (2).pdf</code>, p. 1 y <code>Finales/Resumen Arq oct2022.docx.pdf</code>, p. 20. <strong>Resúmenes de alumnos</strong> — la teoría de cátedra no cubre este punto.</p>
+<p class="fuentes">Fuente: <code>Teorías/Arq Clase1 Repaso OC.pdf</code>, fil. 87–96 (subrutinas), fil. 97–99 (los 3 métodos de pasaje), fil. 100–121 (el ejemplo desarrollado) y fil. 122–127 (anidamiento).</p>
 
 
 <!-- practica:inicio INL-VN-02 -->
@@ -280,7 +328,7 @@ simplifican en dos:**
     Antes de seguir leyendo, contestá esto. Si fallás, releé la sección de arriba: es más barato ahora que en el examen.
 
 <div class="pract pract--inline" data-tipo="opciones" data-datos="in-INL-VN-02"></div>
-<script type="application/json" id="in-INL-VN-02">{"items":[{"id":"INL-VN-02","tema":"von-neumann-y-pila","tema_nombre":"Von Neumann y pila","consigna":"¿Cuál es la ventaja principal del pasaje por pila?","opciones":[{"texto":"Que es más rápido que por registros.","explicacion":"Es más lento: los registros están en la CPU y la pila en memoria."},{"texto":"Que permite pasar por referencia, cosa imposible por registros.","explicacion":"Por registros también se puede pasar una dirección."},{"texto":"Que es independiente de la memoria y de los registros, y no obliga a modificarlos.","explicacion":"Correcto. Por eso es el método más usado, el «verdadero» pasaje de parámetros."},{"texto":"Que evita tener que guardar la dirección de retorno.","explicacion":"Al contrario: la dirección de retorno también va a la pila."}],"correctas":[2],"fuente":"Finales/Resumen AC Guaymas.docx.pdf, p. 1–2 — RESUMEN DE ALUMNOS."}],"temas":[]}</script>
+<script type="application/json" id="in-INL-VN-02">{"items":[{"id":"INL-VN-02","tema":"von-neumann-y-pila","tema_nombre":"Von Neumann y pila","consigna":"¿Cuál es la ventaja principal del pasaje por pila?","opciones":[{"texto":"Que es más rápido que por registros.","explicacion":"Es más lento: los registros están en la CPU y la pila en memoria."},{"texto":"Que permite pasar por referencia, cosa imposible por registros.","explicacion":"Por registros también se puede pasar una dirección."},{"texto":"Que es independiente de la memoria y de los registros, y no obliga a modificarlos.","explicacion":"Correcto. Por eso es el método más usado, el «verdadero» pasaje de parámetros."},{"texto":"Que evita tener que guardar la dirección de retorno.","explicacion":"Al contrario: la dirección de retorno también va a la pila."}],"correctas":[2],"fuente":"Teorías/Arq Clase1 Repaso OC.pdf, fil. 97–99."}],"temas":[]}</script>
 <!-- practica:fin INL-VN-02 -->
 
 ### La pila en el resto del programa

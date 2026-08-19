@@ -99,21 +99,68 @@ Las 12 teorías cubren los 11 temas de las fichas así:
 | `superescalares` | `08 Arq clase8 Procesadores Superescalares.pdf` |
 | `paralelismo` | `09 Arq clase9 Procesamiento paralelo.pdf` |
 | `buses` | `7 anexo clase 07 sobre_buses.pdf` |
-| `von-neumann-y-pila` | `1 anexo clase 01 sobre maq_de_Ndir.pdf` |
+| `von-neumann-y-pila` | **`Arq Clase1 Repaso OC.pdf`** (+ `1 anexo clase 01 sobre maq_de_Ndir.pdf`) |
 
-!!! warning "No existe la clase 1"
-    `fuentes/Teorías/` va de la **clase 02 a la 09**. No hay `01 Arq clase1`.
-    Para `von-neumann-y-pila` la única fuente de cátedra específica es el anexo de
-    la clase 01, que son 5 filminas (212 palabras) y sólo cubre **máquinas de N
-    direcciones**. **Resuelto en la Tarea 3** apoyándose en:
+!!! danger "HAY DOS SETS DE TEORÍAS CON NUMERACIÓN DISTINTA"
+    El **18/8/2026** se subieron 12 archivos nuevos bajados del sitio oficial.
+    Se comparó el vocabulario extraído de cada par: **11 de los 12 son los
+    mismos mazos renumerados** (Jaccard 0,973–1,000 y mismo conteo de
+    filminas). **Pero la numeración de clase NO coincide entre los dos sets**,
+    y por eso citar «clase 4» a secas es ambiguo:
 
-    - `Prácticas/Practica 4 - Resolución - AC2025.pdf` — *"Pila, Subrutina y
-      Convención"*, para el ejemplo del curso.
-    - Resúmenes de alumnos (`Resumen Arquitectura (2).pdf`, Guaymas, oct2022) para
-      pila / subrutinas / pasaje de parámetros, **marcados como tales en cada
-      sección**.
+    | Tema | Set viejo (el que citan las fichas) | Set nuevo |
+    |---|---|---|
+    | Repaso / von Neumann / pila | *(no existía)* | **`Arq Clase1 Repaso OC.pdf`** |
+    | Entrada/Salida | `03 Arq clase3` | `Arq Clase2` |
+    | Interrupciones | `02 Arq clase2` | `Arq Clase3` |
+    | Memoria caché | `07 Arq clase7` | `Arq clase4` |
+    | Segmentación | `04 Arq clase4` | `Arq clase5` |
+    | Soluciones a atascos | `05 Arq clase5` | `Arq Clase6` |
+    | RISC | `06 Arq clase6` | `Arq Clase7` |
+    | Superescalares | `08 Arq clase8` | `Arq Clase8` |
+    | Paralelismo | `09 Arq clase9` | `Arq Clase9` |
+    | Buses (anexo) | `7 anexo clase 07` | `Anexo Clase4` |
+    | WinMIPS (anexo) | `6 anexo clase 06` | `Anexo Clase5` |
+    | Máq. de N direcciones (anexo) | `1 anexo clase 01` | `Anexo Clase1` |
 
-    Es el tema más flojo del sitio: **verificar contra Stallings caps. 3, 10 y 11**.
+    **Las citas del sitio usan los nombres del set VIEJO** y siguen siendo
+    correctas: el contenido y los números de filmina coinciden. **No hay que
+    renumerar nada.** Pero si alguien dice «clase 4», preguntar de cuál set.
+
+    **`2 anexo clase 02 ejer_int_en _MSX88.pdf` sólo existe en el set viejo**:
+    no lo borres pensando que está duplicado.
+
+!!! success "La clase 1 apareció — 131 filminas"
+    `Teorías/Arq Clase1 Repaso OC.pdf` es el **único archivo genuinamente
+    nuevo**, y cierra el hueco más grande que tenía el proyecto. Cubre:
+
+    | Filminas | Contenido |
+    |---|---|
+    | 3–9 | Concepto de programa |
+    | 10–17 | Modelo de von Neumann — IAS, y modelos de 5 y de 3 |
+    | 22–26 | Elementos de una instrucción |
+    | 32–40 | Decisiones de diseño del repertorio |
+    | 41–48 | Técnicas de almacenamiento |
+    | 49–62 | Repertorio, formato fijo y modos de direccionamiento |
+    | 63–67 | **Ciclo de instrucción básico y detallado** |
+    | 68–71 | Simulador MSX88 |
+    | **77–86** | **PILA**: definición, PUSH/POP, y el SP en i80x86 vs. M68xxx |
+    | **87–96** | **Subrutinas**: definición, ventajas, CALL/RET |
+    | **97–121** | **Pasaje de parámetros**: los 3 métodos y el ejemplo completo |
+    | **122–127** | **Anidamiento de subrutinas** |
+
+    **Ya aplicado:** la ficha `von-neumann-y-pila` dejó de apoyarse en
+    resúmenes de alumnos para pila, subrutinas y pasaje de parámetros, y se
+    agregó la comparación **i80x86 vs. M68xxx** (fil. 79–82), que es contenido
+    nuevo. Lo mismo en `rubricas.yml`, `conceptos.yml`, `ejercicios.yml` e
+    `inline.yml`.
+
+    **Lo único que sigue viniendo de resúmenes** en esa ficha son la noción de
+    *cabecera*, la longitud variable y los registros de **base y límite**: la
+    cátedra habla de *tope* y sólo nombra el SP. Está marcado en la propia ficha.
+
+    **Queda por explotar** de esta clase: ciclo de instrucción (fil. 63–67),
+    modos de direccionamiento (58–62) y el ejemplo MSX88 (128–129).
 
 ### Prácticas → temas
 

@@ -575,7 +575,7 @@ checkpoints:
     preguntas:
       - consigna: "¿Cuál es la ventaja principal del pasaje por pila?"
         correctas: [2]
-        fuente: "Finales/Resumen AC Guaymas.docx.pdf, p. 1–2 — RESUMEN DE ALUMNOS."
+        fuente: "Teorías/Arq Clase1 Repaso OC.pdf, fil. 97–99."
         opciones:
           - texto: "Que es más rápido que por registros."
             explicacion: "Es más lento: los registros están en la CPU y la pila en memoria."

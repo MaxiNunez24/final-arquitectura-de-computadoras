@@ -40,26 +40,26 @@ clase teórica numerada de buses.
 
 ## Von Neumann y pila
 
-**Es el tema peor cubierto del programa.** No existe la clase 1 en
-`fuentes/Teorías/`: los archivos van de la clase 02 a la 09.
+!!! success "Resuelto el 18/8/2026: apareció la clase 1"
+    Este tema era **el peor cubierto del sitio** porque `fuentes/Teorías/` iba
+    de la clase 02 a la 09 y la única fuente específica era un anexo de 5
+    filminas. Con la subida del material del sitio oficial apareció
+    **`Arq Clase1 Repaso OC.pdf`, 131 filminas**, que cubre pila (fil. 77–86),
+    subrutinas (87–96), pasaje de parámetros (97–121) y anidamiento (122–127).
+
+    La ficha **ya no se apoya en resúmenes de alumnos** para esos puntos, y se
+    le agregó la comparación del manejo del SP en **i80x86 vs. M68xxx**
+    (fil. 79–82), que antes no estaba en ningún lado.
 
 | Qué falta | Estado en las fuentes |
 |---|---|
-| **Diagrama de la estructura de la pila** (puntero de pila, base, límite) | **No hay diagrama en las teorías.** Sólo aparece **descrita en texto**, y en **resúmenes de alumnos**, no en material de cátedra. No se dibujó para no inventar un esquema que la cátedra nunca dio |
+| **Diagrama de la estructura de la pila con base y límite** | La clase 1 **sí trae esquemas de PUSH y POP** para las dos familias de procesadores (fil. 79–82), y con eso se podría dibujar. Pero los registros de **base** y **límite** siguen sin aparecer en cátedra: sólo se nombra el **SP**. Un diagrama con los tres campos seguiría siendo mitad inventado |
+| **Noción de «cabecera» y longitud variable** | La cátedra habla de **tope**, no de cabecera, y no discute la longitud como propiedad. Viene de `Resumen Arquitectura (2).pdf`, p. 1, y está marcado como tal en la ficha |
 
-**Además, tener presente sobre este tema:**
-
-- La **única fuente de cátedra específica** es
-  `1 anexo clase 01 sobre maq_de_Ndir.pdf`: **5 filminas, 212 palabras**, y sólo
-  cubre **máquinas de N direcciones**.
-- **Pila, subrutinas y pasaje de parámetros** —que sí se toman en los finales—
-  están apoyados en **resúmenes de alumnos**, señalados como tales sección por
-  sección. Están un escalón por debajo en la
-  [jerarquía de fuentes](index.md).
-- El **ejemplo del curso** sí es material de cátedra:
-  `Prácticas/Practica 4 - Resolución - AC2025.pdf`, *"Pila, Subrutina y
-  Convención"*.
-- **Conviene verificar todo el tema contra Stallings, capítulos 3, 10 y 11.**
+**Sin explotar todavía de la clase 1**, por si hace falta más adelante:
+ciclo de instrucción básico y detallado (fil. 63–67), modos de direccionamiento
+(58–62), decisiones de diseño del repertorio (32–40) y el ejemplo para MSX88
+(128–129).
 
 [:material-arrow-right: Ir a la ficha de von Neumann y pila](temas/von-neumann-y-pila.md)
 
