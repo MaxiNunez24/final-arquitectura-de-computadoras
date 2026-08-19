@@ -20,6 +20,10 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # Sin esto un paso colgado se queda horas y el deploy nunca falla ni
+    # publica: quedás mirando un run "in_progress" que no avanza. Ya pasó
+    # con apt-get, que se colgó 55 min instalando graphviz.
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -41,9 +45,16 @@ jobs:
       # mensaje "Cannot find Graphviz" dibujado adentro, que se publica como
       # si fuera el diagrama. Ya pasó una vez con 12 de los 13.
       - name: Instalar Graphviz
+        # apt-get puede colgarse esperando un lock o un mirror que no responde.
+        # Con timeout falla rápido, y un reintento cubre el caso transitorio.
+        timeout-minutes: 5
         run: |
-          sudo apt-get update
-          sudo apt-get install -y graphviz
+          for intento in 1 2 3; do
+            echo "== intento $intento =="
+            sudo apt-get update -qq && sudo apt-get install -y -qq graphviz && break
+            echo "falló, reintentando en 10 s"
+            sleep 10
+          done
           dot -V
 
       - name: Cachear el jar de PlantUML
